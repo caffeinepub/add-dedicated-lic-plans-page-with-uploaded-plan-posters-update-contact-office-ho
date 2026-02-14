@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Build a Plans page feature that lets the admin upload plan images, creates separate plan entries per image (e.g., Jeevan Utsav, Jeevan Umang), stores the images persistently in the backend, and extracts text from images into structured plan data.",
+  "architectural_notes": [
+    "Plan images should be stored persistently in the backend (not client-only).",
+    "Plan creation flow: 1 image => 1 plan entry; name derived from image order/name (1st: Jeevan Utsav, 2nd: Jivan Umang).",
+    "Include an OCR/text-extraction step to convert plan images into structured plan data."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-implement-an-admin-only-upload-flow-on-the-dedicated-plans-page-lic-plans-component-frontend-src-pages-licplans-tsx-that-lets-an-admin-upload-the-2-provided-images-and-creates-two-separate-plan-entries-named-exactly-jeevan-utsav-for-the-first-image-jivan-utsav-plan-1-jpg-and-jivan-umang-for-the-second-image-jivan-umang-1-jpg",
+      "title": "Implement an admin-only upload flow on the dedicated Plans page (#lic-plans, component: frontend/src/pages/LICPlans.tsx) that lets an admin upload the 2 provided images and creates two separate plan entries named exactly \"Jeevan Utsav\" (for the first image: jivan utsav plan-1.jpg) and \"Jivan Umang\" (for the second image: Jivan Umang-1.jpg).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-extract-text-from-each-uploaded-plan-poster-image-on-the-client-and-store-the-extracted-result-in-the-backend-as-structured-plan-data-that-can-be-displayed-in-english-on-the-plans-page",
+      "title": "Extract text from each uploaded plan poster image on the client and store the extracted result in the backend as structured plan data that can be displayed in English on the Plans page.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-dedicated-plans-page-lic-plans-to-render-plan-sections-dynamically-from-backend-plan-entries-including-jeevan-utsav-and-jivan-umang-showing-each-plan-s-poster-image-and-the-persisted-structured-plan-details-with-a-cta-that-scrolls-to-the-existing-contact-section-on-the-home-page",
+      "title": "Update the dedicated Plans page (#lic-plans) to render plan sections dynamically from backend plan entries (including \"Jeevan Utsav\" and \"Jivan Umang\"), showing each plan’s poster image and the persisted structured plan details, with a CTA that scrolls to the existing Contact section on the home page.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Admin can upload plan images to the Plans page and persist them in the backend",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Create separate plan entries for each uploaded image (e.g., Jeevan Utsav, Jivan Umang) and display them on the Plans page",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Extract text/data from uploaded plan images and store it as structured plan information",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Add persistent backend storage for LIC plan entries, including (a) plan metadata, (b) extracted structured plan content, and (c) the uploaded plan poster image bytes, so that plans remain available after refresh/redeploy.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Admin upload of plan images with OCR extraction and persistent plan entries (Jeevan Utsav, Jivan Umang)",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

@@ -1,0 +1,67 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-an-admin-only-upload-flow-on-the-dedicated-plans-page-lic-plans-component-frontend-src-pages-licplans-tsx-that-lets-an-admin-upload-the-2-provided-images-and-creates-two-separate-plan-entries-named-exactly-jeevan-utsav-for-the-first-image-jivan-utsav-plan-1-jpg-and-jivan-umang-for-the-second-image-jivan-umang-1-jpg",
+      "featureTitle": "Implement an admin-only upload flow on the dedicated Plans page (#lic-plans, component: frontend/src/pages/LICPlans.tsx) that lets an admin upload the 2 provided images and creates two separate plan entries named exactly \"Jeevan Utsav\" (for the first image: jivan utsav plan-1.jpg) and \"Jivan Umang\" (for the second image: Jivan Umang-1.jpg).",
+      "files": [
+        "frontend/src/hooks/usePlans.ts",
+        "frontend/src/pages/LICPlans.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-extract-text-from-each-uploaded-plan-poster-image-on-the-client-and-store-the-extracted-result-in-the-backend-as-structured-plan-data-that-can-be-displayed-in-english-on-the-plans-page",
+      "featureTitle": "Extract text from each uploaded plan poster image on the client and store the extracted result in the backend as structured plan data that can be displayed in English on the Plans page.",
+      "files": [
+        "frontend/src/pages/LICPlans.tsx",
+        "frontend/src/utils/ocr.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-dedicated-plans-page-lic-plans-to-render-plan-sections-dynamically-from-backend-plan-entries-including-jeevan-utsav-and-jivan-umang-showing-each-plan-s-poster-image-and-the-persisted-structured-plan-details-with-a-cta-that-scrolls-to-the-existing-contact-section-on-the-home-page",
+      "featureTitle": "Update the dedicated Plans page (#lic-plans) to render plan sections dynamically from backend plan entries (including \"Jeevan Utsav\" and \"Jivan Umang\"), showing each plan’s poster image and the persisted structured plan details, with a CTA that scrolls to the existing Contact section on the home page.",
+      "files": [
+        "frontend/src/pages/LICPlans.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

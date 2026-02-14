@@ -1,0 +1,71 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-14T13:43:13.721Z",
+  "summary": "Core scaffolding for plan storage, React Query hooks, and a Plans page upload UI was added, but several acceptance criteria are not met: backend plan creation is not admin-only, plan listing appears to include poster blobs (not excluded), there is no dedicated image-bytes fetch method, and OCR is implemented as a placeholder/template rather than real client-side extraction.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Backend admin-only method to create a plan entry and deny/trap non-admin callers using existing access control patterns.",
+      "reason": "The new backend createPlan checks for a generic \"#user\" permission, not admin-only access, and the error message indicates any user can save plans.",
+      "evidence": [
+        "backend/main.mo (createPlan: `if (not AccessControl.hasPermission(accessControlState, caller, #user)) Runtime.trap(\"Unauthorized: Only users can save plans\")`)"
+      ]
+    },
+    {
+      "id": "REQ-1",
+      "requirement": "Public query to list available plans with enough data to render the Plans page, excluding large image bytes.",
+      "reason": "getPlans returns `[PlanEntry]` where `PlanEntry` includes `poster : Storage.ExternalBlob`, so the list response appears to include the poster blob rather than excluding image bytes.",
+      "evidence": [
+        "backend/main.mo (types: `PlanEntry` includes `poster : Storage.ExternalBlob`)",
+        "backend/main.mo (`public query func getPlans(limit : Nat) : async [PlanEntry]`)"
+      ]
+    },
+    {
+      "id": "REQ-1",
+      "requirement": "Backend method to fetch a plan’s image bytes by plan id (or equivalent).",
+      "reason": "The diff shows getPlanById returning an optional PlanEntry, but no dedicated method that returns just the image bytes/blob by id.",
+      "evidence": [
+        "backend/main.mo (`public query func getPlanById(id : Text) : async ?PlanEntry`)",
+        "backend/main.mo (no `getPlanImage...`-style method shown in diff summary)"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Frontend performs OCR/text extraction locally on upload (not a placeholder) and produces structured results from the image content.",
+      "reason": "The OCR utility explicitly states it is a placeholder and returns hardcoded template text based on filename rather than extracting text from image pixels.",
+      "evidence": [
+        "frontend/src/utils/ocr.ts (`Placeholder OCR function... For now, it returns a structured template based on the plan name`)",
+        "frontend/src/utils/ocr.ts (returns canned text when filename includes 'jivan utsav'/'jivan umang')"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Backend update/edit capability for plans (`updatePlan`) and corresponding frontend mutation hook (`useUpdatePlan`).",
+      "reason": "The BuildRequest/requirements focus on admin upload/creation, listing, and image retrieval/display; update functionality was not requested.",
+      "evidence": [
+        "backend/main.mo (`public shared ({ caller }) func updatePlan...`)",
+        "frontend/src/hooks/usePlans.ts (`export function useUpdatePlan() { ... actor.updatePlan(...) }`)"
+      ]
+    },
+    {
+      "description": "Removal of the Testimonials section from the home view / navbar links excluding Testimonials.",
+      "reason": "Not mentioned in the BuildRequest; appears as an unrelated UI change per the summaries file.",
+      "evidence": [
+        "frontend-file-summaries.txt (`frontend/src/App.tsx`: Testimonials section removed from the home view)",
+        "frontend-file-summaries.txt (`frontend/src/components/marketing/Navbar.tsx`: section links excluding Testimonials)"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/hooks/usePlans.ts",
+    "frontend/src/pages/LICPlans.tsx",
+    "frontend/src/utils/ocr.ts",
+    "project_state.json"
+  ]
+}

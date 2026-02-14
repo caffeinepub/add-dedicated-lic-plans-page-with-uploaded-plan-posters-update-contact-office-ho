@@ -1,0 +1,78 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Dynamic LIC Plans page with admin-only image upload, client-side OCR, and persisted plan rendering",
+  "requirements": [
+    {
+      "id": "REQ-2",
+      "summary": "Add admin-only upload UI on LIC Plans page to create two separate plan entries for the provided poster images.",
+      "acceptanceCriteria": [
+        "When logged in as an admin, the Plans page shows a clearly labeled upload UI for plan posters.",
+        "Uploading jivan utsav plan-1.jpg creates a plan entry named \"Jeevan Utsav\"; uploading Jivan Umang-1.jpg creates a plan entry named \"Jivan Umang\".",
+        "When not logged in as an admin, the upload UI is not shown and cannot be used.",
+        "After successful upload, the newly created plans appear in the plans list without a full page reload (React Query invalidation/refetch)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/usePlans.ts",
+          "operation": "create",
+          "description": "Create React Query hooks for plans (list/query + create mutation) using the backend actor methods (getPlans, createPlan, isCallerAdmin) and invalidate/refetch the plans query on successful create. Use the authorization component capability (role-based access via isCallerAdmin/getCallerUserRole) to gate admin actions. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LICPlans.tsx",
+          "operation": "modify",
+          "description": "Add an admin-only upload section to the top of the Plans page that accepts the 2 JPEG poster files and maps them to exact plan names (\"Jeevan Utsav\" for \"jivan utsav plan-1.jpg\" and \"Jivan Umang\" for \"Jivan Umang-1.jpg\"). Wire it to the create-plan mutation and trigger React Query invalidation so the list updates without a full reload. Use the blob-storage component capability (ExternalBlob.fromBytes + getDirectURL) for uploading and later rendering images; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Perform client-side OCR on uploaded plan posters, persist structured results with each plan, and render structured plan details in English.",
+      "acceptanceCriteria": [
+        "On upload, the frontend performs OCR/text extraction on the image and produces a structured result (at minimum: raw extracted text plus a parsed structure such as highlights and/or a table where applicable).",
+        "The extracted result is sent to the backend and persisted with the associated plan entry.",
+        "The Plans page renders the saved structured plan data in a readable, well-formatted layout (headings + bullet points and/or tables) alongside the plan image.",
+        "All user-facing labels and UI text added for this feature are in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/package.json",
+          "operation": "modify",
+          "description": "Add a local OCR dependency (e.g., tesseract.js) and any minimal supporting packages needed for in-browser text extraction (no external OCR/AI services)."
+        },
+        {
+          "path": "frontend/src/utils/ocr.ts",
+          "operation": "create",
+          "description": "Implement client-side OCR helper(s) that accept an uploaded JPEG file, extract raw text locally in the browser, and produce a StructuredPlan-compatible object containing raw extracted text plus parsed/structured fields for readable display (English labels)."
+        },
+        {
+          "path": "frontend/src/pages/LICPlans.tsx",
+          "operation": "modify",
+          "description": "Integrate OCR on upload: after file selection, run local OCR, build StructuredPlan (raw text + parsed sections), and submit it along with metadata and poster bytes via the create-plan mutation. Ensure all new user-facing UI text is English. Use the blob-storage component capability (ExternalBlob.fromBytes) to package poster bytes for upload; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Render LIC Plans dynamically from backend plan entries, including poster image + structured details, with CTA scrolling to the home Contact section and graceful loading/error states.",
+      "acceptanceCriteria": [
+        "The Plans page loads plan entries from the backend and renders one section/card per plan.",
+        "Each rendered plan shows: plan name, structured details, and the plan poster image loaded from the backend.",
+        "Each plan section includes a working CTA button that scrolls to the existing Contact section on the home page (consistent with current page behavior).",
+        "Loading and error states are handled gracefully (e.g., skeleton/spinner + error message)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LICPlans.tsx",
+          "operation": "modify",
+          "description": "Replace the current hardcoded plan sections with dynamic rendering from the plans query. For each plan: show title/metadata, render structured plan fields with headings/bullets/tables as available, and display the poster using the blob-storage component capability (ExternalBlob.getDirectURL for efficient image rendering); verify the component's usage instructions before implementing. Keep the existing CTA behavior to scroll to the home page Contact section and add clear loading + error UI states."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Ensure routing/wiring remains correct for the hash route #lic-plans and that the updated LICPlans page continues to render within the existing layout (Navbar/Footer/Toaster). (No new routes/pages.)"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "kind": "build_request",
+  "title": "Admin upload of plan images with OCR extraction and persistent plan entries (Jeevan Utsav, Jivan Umang)",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Add persistent backend storage for LIC plan entries, including (a) plan metadata, (b) extracted structured plan content, and (c) the uploaded plan poster image bytes, so that plans remain available after refresh/redeploy.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "please upload images i give you for plans",
+          "1. yes    2.  each image became separate  3. yes",
+          "1st image jeevan utsav     2nd is jivan umang"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes an admin-only method to create a plan entry that includes plan name, extracted/structured content, and image bytes (JPEG).",
+        "Backend exposes a public query to list available plans with enough data to render the Plans page (excluding large image bytes).",
+        "Backend exposes a method to fetch a plan’s image bytes by plan id (or equivalent), and the frontend can render the returned bytes as an image.",
+        "All admin-only backend methods trap/deny access for non-admin callers using existing access control patterns already present in backend/main.mo."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement an admin-only upload flow on the dedicated Plans page (#lic-plans, component: frontend/src/pages/LICPlans.tsx) that lets an admin upload the 2 provided images and creates two separate plan entries named exactly \"Jeevan Utsav\" (for the first image: jivan utsav plan-1.jpg) and \"Jivan Umang\" (for the second image: Jivan Umang-1.jpg).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "1st image jeevan utsav     2nd is jivan umang",
+          "yes start it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When logged in as an admin, the Plans page shows a clearly labeled upload UI for plan posters.",
+        "Uploading jivan utsav plan-1.jpg creates a plan entry named \"Jeevan Utsav\"; uploading Jivan Umang-1.jpg creates a plan entry named \"Jivan Umang\".",
+        "When not logged in as an admin, the upload UI is not shown and cannot be used.",
+        "After successful upload, the newly created plans appear in the plans list without a full page reload (React Query invalidation/refetch)."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Extract text from each uploaded plan poster image on the client and store the extracted result in the backend as structured plan data that can be displayed in English on the Plans page.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "3. yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On upload, the frontend performs OCR/text extraction on the image and produces a structured result (at minimum: raw extracted text plus a parsed structure such as highlights and/or a table where applicable).",
+        "The extracted result is sent to the backend and persisted with the associated plan entry.",
+        "The Plans page renders the saved structured plan data in a readable, well-formatted layout (headings + bullet points and/or tables) alongside the plan image.",
+        "All user-facing labels and UI text added for this feature are in English."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Update the dedicated Plans page (#lic-plans) to render plan sections dynamically from backend plan entries (including \"Jeevan Utsav\" and \"Jivan Umang\"), showing each plan’s poster image and the persisted structured plan details, with a CTA that scrolls to the existing Contact section on the home page.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Should these images be uploaded and saved in the Plans page of your app?",
+          "each image became separate"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The Plans page loads plan entries from the backend and renders one section/card per plan.",
+        "Each rendered plan shows: plan name, structured details, and the plan poster image loaded from the backend.",
+        "Each plan section includes a working CTA button that scrolls to the existing Contact section on the home page (consistent with current page behavior).",
+        "Loading and error states are handled gracefully (e.g., skeleton/spinner + error message)."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor in backend/main.mo; add new logic there rather than creating additional backend services.",
+    "Do not edit files under frontend/src/components/ui (read-only); compose existing UI components instead.",
+    "Do not modify immutable frontend hook files (frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx).",
+    "Use English for any user-facing text."
+  ],
+  "nonGoals": [
+    "Adding third-party authentication providers (only Internet Identity is supported).",
+    "Real-time updates via websockets/push notifications.",
+    "Integrating external OCR/AI APIs (any extraction must run locally in the frontend)."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Deep Forest Green & Gold Premium Palette */
+    --background: oklch(98% 0.01 120);
+    --foreground: oklch(20% 0.02 140);
+
+    --card: oklch(100% 0 0);
+    --card-foreground: oklch(20% 0.02 140);
+
+    --popover: oklch(100% 0 0);
+    --popover-foreground: oklch(20% 0.02 140);
+
+    /* Primary: Deep Forest Green */
+    --primary: oklch(35% 0.08 150);
+    --primary-foreground: oklch(98% 0.01 120);
+
+    /* Secondary: Warm Neutral */
+    --secondary: oklch(92% 0.01 80);
+    --secondary-foreground: oklch(20% 0.02 140);
+
+    /* Muted: Soft Gray-Green */
+    --muted: oklch(94% 0.01 140);
+    --muted-foreground: oklch(45% 0.02 140);
+
+    /* Accent: Rich Gold */
+    --accent: oklch(65% 0.12 85);
+    --accent-foreground: oklch(20% 0.02 140);
+
+    /* Destructive: Warm Red */
+    --destructive: oklch(55% 0.18 25);
+    --destructive-foreground: oklch(98% 0.01 120);
+
+    /* Success: Forest Green */
+    --success: oklch(50% 0.10 145);
+    --success-foreground: oklch(98% 0.01 120);
+
+    /* Warning: Amber */
+    --warning: oklch(70% 0.14 75);
+    --warning-foreground: oklch(20% 0.02 140);
+
+    /* Border & Input */
+    --border: oklch(88% 0.01 140);
+    --input: oklch(88% 0.01 140);
+    --ring: oklch(35% 0.08 150);
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark Mode: Deep Forest Night */
+    --background: oklch(15% 0.02 140);
+    --foreground: oklch(95% 0.01 120);
+
+    --card: oklch(18% 0.02 140);
+    --card-foreground: oklch(95% 0.01 120);
+
+    --popover: oklch(18% 0.02 140);
+    --popover-foreground: oklch(95% 0.01 120);
+
+    /* Primary: Bright Forest Green */
+    --primary: oklch(55% 0.12 150);
+    --primary-foreground: oklch(15% 0.02 140);
+
+    /* Secondary: Dark Neutral */
+    --secondary: oklch(25% 0.02 140);
+    --secondary-foreground: oklch(95% 0.01 120);
+
+    /* Muted: Dark Gray-Green */
+    --muted: oklch(22% 0.02 140);
+    --muted-foreground: oklch(65% 0.02 140);
+
+    /* Accent: Bright Gold */
+    --accent: oklch(75% 0.14 85);
+    --accent-foreground: oklch(15% 0.02 140);
+
+    /* Destructive: Bright Red */
+    --destructive: oklch(60% 0.20 25);
+    --destructive-foreground: oklch(95% 0.01 120);
+
+    /* Success: Bright Green */
+    --success: oklch(60% 0.12 145);
+    --success-foreground: oklch(15% 0.02 140);
+
+    /* Warning: Bright Amber */
+    --warning: oklch(75% 0.16 75);
+    --warning-foreground: oklch(15% 0.02 140);
+
+    /* Border & Input */
+    --border: oklch(28% 0.02 140);
+    --input: oklch(28% 0.02 140);
+    --ring: oklch(55% 0.12 150);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  /* Premium table styling for plan details */
+  .premium-table-wrapper {
+    @apply w-full overflow-x-auto rounded-lg border border-border;
+  }
+
+  .premium-table {
+    @apply w-full border-collapse text-sm;
+    min-width: 600px;
+  }
+
+  .premium-table thead {
+    @apply bg-primary/10;
+  }
+
+  .premium-table th {
+    @apply px-4 py-3 text-left font-semibold text-foreground border-b-2 border-primary/30;
+  }
+
+  .premium-table tbody tr {
+    @apply border-b border-border transition-colors hover:bg-muted/50;
+  }
+
+  .premium-table tbody tr:nth-child(even) {
+    @apply bg-muted/20;
+  }
+
+  .premium-table td {
+    @apply px-4 py-3 text-muted-foreground;
+  }
+
+  .premium-table td strong,
+  .premium-table th {
+    @apply text-foreground;
+  }
+
+  /* Mobile-friendly stacked layout for very small screens */
+  @media (max-width: 640px) {
+    .premium-table {
+      min-width: 100%;
+    }
+    
+    .premium-table thead {
+      @apply hidden;
+    }
+    
+    .premium-table tbody tr {
+      @apply block mb-4 border-2 border-border rounded-lg;
+    }
+    
+    .premium-table td {
+      @apply block text-right px-4 py-2 border-b border-border;
+      position: relative;
+      padding-left: 50%;
+    }
+    
+    .premium-table td:last-child {
+      @apply border-b-0;
+    }
+    
+    .premium-table td::before {
+      content: attr(data-label);
+      @apply absolute left-4 font-semibold text-foreground;
+    }
+  }
+}
