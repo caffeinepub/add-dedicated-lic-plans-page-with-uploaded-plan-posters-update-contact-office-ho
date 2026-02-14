@@ -15,10 +15,12 @@
   "frontend/src/index.css": "Global styles with OKLCH color system featuring deep forest green and gold palette for premium insurance brand aesthetic, supporting both light and dark modes, with added premium table utilities for responsive plan detail tables with zebra striping and mobile-friendly stacked layout.",
   "frontend/tailwind.config.js": "Tailwind configuration extended with custom color tokens, Inter font family, premium shadow utilities, and consistent border radius values.",
   "frontend/index.html": "HTML entry point with updated title and meta description for SEO optimization.",
-  "frontend/src/pages/LICPlans.tsx": "Dynamic LIC Plans page with admin-only upload UI for creating plans, loading plans from backend with structured content rendering, poster images via ExternalBlob, and CTAs to contact form with proper loading/error states.",
+  "frontend/src/pages/LICPlans.tsx": "Dynamic LIC Plans page with multi-file upload UI showing pending uploads grouped by plan title, displaying the best-selected candidate for each plan, supporting create-or-update logic to avoid duplicates, and providing actionable error messages for all failure scenarios.",
   "frontend/public/assets/generated/jivan-lakshya.dim_750x1030.jpg": "Static asset image for Jivan Lakshya LIC insurance plan poster.",
   "frontend/public/assets/generated/lic-jivan-utsav.dim_668x1086.jpg": "Static asset image for LIC Jivan Utsav insurance plan poster.",
-  "frontend/src/hooks/usePlans.ts": "React Query hooks for managing LIC plans including queries for listing/fetching plans, mutations for creating/updating plans, and admin role checking with proper invalidation.",
+  "frontend/src/hooks/usePlans.ts": "React Query hooks for managing LIC plans with improved error handling, using createOrUpdatePlan for create-or-update flow, updatePlan for explicit updates, and mapping backend errors to user-friendly messages.",
   "frontend/src/utils/ocr.ts": "Placeholder OCR utilities that simulate text extraction from plan poster images and parse content into structured plan data with categorized sections, designed to work without external OCR dependencies until tesseract.js is properly installed.",
-  "frontend/package.json": "Frontend package configuration with all dependencies including newly added tesseract.js for client-side OCR functionality."
+  "frontend/package.json": "Frontend package configuration with all dependencies including newly added tesseract.js for client-side OCR functionality.",
+  "frontend/src/config.ts": "Configuration utility that creates and initializes the backend actor with proper error handling for missing canister IDs and connection failures.",
+  "frontend/src/utils/planFilenameMatching.ts": "Utilities for deriving plan titles from filenames with explicit mappings (Jeevan Utsav, Jeevan Umang, etc.), grouping files by plan, and deterministically selecting the best candidate image when multiple files map to the same plan using scoring rules (LIC branding, exact name match, numeric suffix)."
 }

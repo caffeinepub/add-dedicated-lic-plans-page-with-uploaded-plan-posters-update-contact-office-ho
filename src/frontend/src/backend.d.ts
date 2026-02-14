@@ -62,7 +62,7 @@ export enum UserRole {
 }
 export interface backendInterface {
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
-    createPlan(id: string, metadata: PlanMetadata, poster: ExternalBlob, structuredContent: StructuredPlan): Promise<void>;
+    createOrUpdatePlan(id: string, metadata: PlanMetadata, poster: ExternalBlob, structuredContent: StructuredPlan): Promise<void>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getEnquiries(_limit: bigint): Promise<Array<Enquiry>>;

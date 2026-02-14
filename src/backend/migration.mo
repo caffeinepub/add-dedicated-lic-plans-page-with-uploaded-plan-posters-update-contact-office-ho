@@ -1,12 +1,35 @@
 import Map "mo:core/Map";
-import Array "mo:core/Array";
-import Nat "mo:core/Nat";
 import Principal "mo:core/Principal";
 import Storage "blob-storage/Storage";
+import Text "mo:core/Text";
 import Time "mo:core/Time";
 
 module {
-  type ProductInterest = {
+  public type PlanMetadata = {
+    title : Text;
+    description : Text;
+    creator : Principal;
+    createdAt : Time.Time;
+    updatedAt : Time.Time;
+  };
+
+  public type StructuredPlan = {
+    title : Text;
+    analysis : Text;
+    goals : Text;
+    hypothesis : Text;
+    experiment : Text;
+    result : Text;
+  };
+
+  public type PlanEntry = {
+    id : Text;
+    metadata : PlanMetadata;
+    poster : Storage.ExternalBlob;
+    content : StructuredPlan;
+  };
+
+  public type ProductInterest = {
     #groundworks;
     #tailorMadeModules;
     #moduleSelector;
@@ -14,7 +37,7 @@ module {
     #other;
   };
 
-  type Enquiry = {
+  public type Enquiry = {
     name : Text;
     phone : ?Text;
     email : Text;
@@ -24,39 +47,22 @@ module {
     timestamp : Time.Time;
   };
 
-  type PlanMetadata = {
-    title : Text;
-    description : Text;
-    creator : Principal;
-    createdAt : Time.Time;
-    updatedAt : Time.Time;
-  };
-
-  type StructuredPlan = {
-    title : Text;
-    analysis : Text;
-    goals : Text;
-    hypothesis : Text;
-    experiment : Text;
-    result : Text;
-  };
-
-  type PlanEntry = {
-    id : Text;
-    metadata : PlanMetadata;
-    poster : Storage.ExternalBlob;
-    content : StructuredPlan;
+  public type UserProfile = {
+    name : Text;
   };
 
   type OldActor = {
-    enquiries : [Enquiry];
-  };
-
-  type NewActor = {
+    userProfiles : Map.Map<Principal, UserProfile>;
     plans : Map.Map<Text, PlanEntry>;
   };
 
-  public func run(_old : OldActor) : NewActor {
-    { plans = Map.empty<Text, PlanEntry>() };
+  type NewActor = {
+    userProfiles : Map.Map<Principal, UserProfile>;
+    plans : Map.Map<Text, PlanEntry>;
+  };
+
+  public func run(old : OldActor) : NewActor {
+    // No structural changes, just carry old state to new
+    old;
   };
 };

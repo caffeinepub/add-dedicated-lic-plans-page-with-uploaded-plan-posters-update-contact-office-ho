@@ -94,7 +94,7 @@ export const idlService = IDL.Service({
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-  'createPlan' : IDL.Func(
+  'createOrUpdatePlan' : IDL.Func(
       [IDL.Text, PlanMetadata, ExternalBlob, StructuredPlan],
       [],
       [],
@@ -219,7 +219,7 @@ export const idlFactory = ({ IDL }) => {
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-    'createPlan' : IDL.Func(
+    'createOrUpdatePlan' : IDL.Func(
         [IDL.Text, PlanMetadata, ExternalBlob, StructuredPlan],
         [],
         [],

@@ -80,7 +80,7 @@ export interface _SERVICE {
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
-  'createPlan' : ActorMethod<
+  'createOrUpdatePlan' : ActorMethod<
     [string, PlanMetadata, ExternalBlob, StructuredPlan],
     undefined
   >,

@@ -1,76 +1,100 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Dynamic LIC Plans page with admin-only image upload, client-side OCR, and persisted plan rendering",
+  "title": "Multi-image LIC plan admin upload with best-match mapping, dedupe updates, and clearer configuration error handling",
   "requirements": [
     {
-      "id": "REQ-2",
-      "summary": "Add admin-only upload UI on LIC Plans page to create two separate plan entries for the provided poster images.",
+      "id": "REQ-1",
+      "summary": "Allow multi-image selection/queue in LIC Plans admin upload and derive plan titles from filenames with specific Utsav/Umang mappings.",
       "acceptanceCriteria": [
-        "When logged in as an admin, the Plans page shows a clearly labeled upload UI for plan posters.",
-        "Uploading jivan utsav plan-1.jpg creates a plan entry named \"Jeevan Utsav\"; uploading Jivan Umang-1.jpg creates a plan entry named \"Jivan Umang\".",
-        "When not logged in as an admin, the upload UI is not shown and cannot be used.",
-        "After successful upload, the newly created plans appear in the plans list without a full page reload (React Query invalidation/refetch)."
+        "The file input on the LIC Plans page allows selecting multiple image files (or supports repeated selection while preserving a pending upload queue).",
+        "For each selected file, the UI shows the derived plan title before upload.",
+        "Files with names containing \"jivan utsav\" or \"jeevan utsav\" derive the title \"Jeevan Utsav\".",
+        "Files with names containing \"jivan umang\" or \"jeevan umang\" derive the title \"Jeevan Umang\".",
+        "Other filenames still derive a readable default title using the existing capitalization behavior."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/hooks/usePlans.ts",
+          "path": "frontend/src/utils/planFilenameMatching.ts",
           "operation": "create",
-          "description": "Create React Query hooks for plans (list/query + create mutation) using the backend actor methods (getPlans, createPlan, isCallerAdmin) and invalidate/refetch the plans query on successful create. Use the authorization component capability (role-based access via isCallerAdmin/getCallerUserRole) to gate admin actions. Verify the component's usage instructions before implementing."
+          "description": "Create filename-to-title derivation utilities that implement explicit mappings (Jeevan Utsav/Umang) plus readable default title capitalization; also expose normalization helpers for later matching."
         },
         {
           "path": "frontend/src/pages/LICPlans.tsx",
           "operation": "modify",
-          "description": "Add an admin-only upload section to the top of the Plans page that accepts the 2 JPEG poster files and maps them to exact plan names (\"Jeevan Utsav\" for \"jivan utsav plan-1.jpg\" and \"Jivan Umang\" for \"Jivan Umang-1.jpg\"). Wire it to the create-plan mutation and trigger React Query invalidation so the list updates without a full reload. Use the blob-storage component capability (ExternalBlob.fromBytes + getDirectURL) for uploading and later rendering images; verify the component's usage instructions before implementing."
+          "description": "Update admin upload UI to support multi-file selection and/or an additive pending queue; render a list/table of selected files showing each file name and derived plan title before upload; use English-only UI text and keep changes outside frontend/src/components/ui. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "When a derived title matches an existing plan, update that plan instead of creating a duplicate; otherwise create a new plan.",
+      "acceptanceCriteria": [
+        "If a plan already exists with metadata.title equal to the derived title (e.g., \"Jeevan Utsav\"), uploading another \"Jivan Utsav\" image updates the existing plan rather than adding a second plan with the same title.",
+        "After update, the plan displays the newly assigned poster image on the LIC Plans page.",
+        "If no existing plan matches the derived title, a new plan entry is created and appears in the list."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/usePlans.ts",
+          "operation": "modify",
+          "description": "Align plan mutations with the available backend interface by switching the create flow to use the backend capability that supports create-or-update (and keep update using the existing update capability); ensure react-query invalidations keep the LIC Plans list refreshed after mutations."
+        },
+        {
+          "path": "frontend/src/pages/LICPlans.tsx",
+          "operation": "modify",
+          "description": "On submit/apply, for each derived plan title, check currently loaded plans for an existing entry with matching metadata.title; if found, call the update mutation with that plan id and updated metadata/content/poster; if not found, call the create-or-update mutation with a newly generated id; ensure the list refreshes and the new poster is visible."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Perform client-side OCR on uploaded plan posters, persist structured results with each plan, and render structured plan details in English.",
+      "summary": "Deterministically choose the best poster per plan title when multiple uploaded files map to the same title, and show the chosen file to the admin before submission.",
       "acceptanceCriteria": [
-        "On upload, the frontend performs OCR/text extraction on the image and produces a structured result (at minimum: raw extracted text plus a parsed structure such as highlights and/or a table where applicable).",
-        "The extracted result is sent to the backend and persisted with the associated plan entry.",
-        "The Plans page renders the saved structured plan data in a readable, well-formatted layout (headings + bullet points and/or tables) alongside the plan image.",
-        "All user-facing labels and UI text added for this feature are in English."
+        "If multiple uploaded files map to \"Jeevan Utsav\", the app deterministically picks one as the preferred poster candidate using the prioritization rules and uses that file when auto-applying the mapping.",
+        "If multiple uploaded files map to \"Jeevan Umang\", the app deterministically picks one as the preferred poster candidate using the prioritization rules and uses that file when auto-applying the mapping.",
+        "The chosen file for each plan title is visible to the admin in the UI before final submission (preview name at minimum)."
       ],
       "file_operations": [
         {
-          "path": "frontend/package.json",
+          "path": "frontend/src/utils/planFilenameMatching.ts",
           "operation": "modify",
-          "description": "Add a local OCR dependency (e.g., tesseract.js) and any minimal supporting packages needed for in-browser text extraction (no external OCR/AI services)."
-        },
-        {
-          "path": "frontend/src/utils/ocr.ts",
-          "operation": "create",
-          "description": "Implement client-side OCR helper(s) that accept an uploaded JPEG file, extract raw text locally in the browser, and produce a StructuredPlan-compatible object containing raw extracted text plus parsed/structured fields for readable display (English labels)."
+          "description": "Add best-candidate selection logic for files grouped by derived title: prioritize filenames that include \"LIC\" and the exact plan name; if ties remain, prefer the highest numeric suffix; expose a deterministic sorter/selector used by the LIC Plans admin page."
         },
         {
           "path": "frontend/src/pages/LICPlans.tsx",
           "operation": "modify",
-          "description": "Integrate OCR on upload: after file selection, run local OCR, build StructuredPlan (raw text + parsed sections), and submit it along with metadata and poster bytes via the create-plan mutation. Ensure all new user-facing UI text is English. Use the blob-storage component capability (ExternalBlob.fromBytes) to package poster bytes for upload; verify the component's usage instructions before implementing."
+          "description": "Group pending uploads by derived title, compute the preferred file per title using the shared utility, and display which file is selected for each plan title prior to submission (at minimum, show the winning filename); ensure submission uses the preferred file for each title."
         }
       ]
     },
     {
-      "id": "REQ-4",
-      "summary": "Render LIC Plans dynamically from backend plan entries, including poster image + structured details, with CTA scrolling to the home Contact section and graceful loading/error states.",
+      "id": "REQ-5",
+      "summary": "Fix the frontend-side build/configuration integration causing \"Configuration error detected\" and show actionable upload/apply failure messages in the UI.",
       "acceptanceCriteria": [
-        "The Plans page loads plan entries from the backend and renders one section/card per plan.",
-        "Each rendered plan shows: plan name, structured details, and the plan poster image loaded from the backend.",
-        "Each plan section includes a working CTA button that scrolls to the existing Contact section on the home page (consistent with current page behavior).",
-        "Loading and error states are handled gracefully (e.g., skeleton/spinner + error message)."
+        "The project builds successfully without triggering the \"Configuration error detected\" failure.",
+        "If any configuration-related failure still occurs at runtime, the UI displays a user-facing English error that indicates which step failed (e.g., actor unavailable, permission denied, upload conversion failed) rather than a generic failure."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/LICPlans.tsx",
-          "operation": "modify",
-          "description": "Replace the current hardcoded plan sections with dynamic rendering from the plans query. For each plan: show title/metadata, render structured plan fields with headings/bullets/tables as available, and display the poster using the blob-storage component capability (ExternalBlob.getDirectURL for efficient image rendering); verify the component's usage instructions before implementing. Keep the existing CTA behavior to scroll to the home page Contact section and add clear loading + error UI states."
+          "path": "frontend/src/config.ts",
+          "operation": "create",
+          "description": "Add the missing core configuration helper used by useActor (createActorWithConfig) so the frontend can build and create an actor reliably using the core-infrastructure wiring; keep errors surfaced as standard JavaScript Error messages suitable for UI mapping."
         },
         {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/hooks/useActor.ts",
           "operation": "modify",
-          "description": "Ensure routing/wiring remains correct for the hash route #lic-plans and that the updated LICPlans page continues to render within the existing layout (Navbar/Footer/Toaster). (No new routes/pages.)"
+          "description": "Harden actor creation/initialization error handling: wrap actor creation and access-control initialization so configuration/availability failures produce clear Error messages (e.g., actor unavailable, initialization failed) that upstream UI can display; keep existing authorization initialization behavior."
+        },
+        {
+          "path": "frontend/src/hooks/usePlans.ts",
+          "operation": "modify",
+          "description": "Improve mutation error propagation by mapping common failures (actor not available, permission/unauthorized traps, upload conversion issues) into meaningful thrown errors; ensure the LIC Plans UI can display step-specific messages."
+        },
+        {
+          "path": "frontend/src/pages/LICPlans.tsx",
+          "operation": "modify",
+          "description": "Replace generic upload failure handling with actionable English errors that identify the failing step (file validation, OCR processing, byte conversion, actor availability, permission denied, backend update/create failure); if a configuration-related failure occurs, display guidance tailored to the failing step rather than a generic message."
         }
       ]
     }

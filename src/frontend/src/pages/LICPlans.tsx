@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Upload, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Upload, Loader2, CheckCircle2, AlertCircle, X, FileImage } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -7,21 +7,30 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useGetPlans, useCreatePlan, useIsCallerAdmin } from '../hooks/usePlans';
+import { Badge } from '@/components/ui/badge';
+import { useGetPlans, useCreateOrUpdatePlan, useIsCallerAdmin } from '../hooks/usePlans';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { processImageForPlan, OCRProgress } from '../utils/ocr';
-import { ExternalBlob, PlanMetadata } from '../backend';
+import { ExternalBlob, PlanMetadata, PlanEntry } from '../backend';
+import { buildBestCandidateMapping, derivePlanTitle } from '../utils/planFilenameMatching';
+
+interface PendingUpload {
+  file: File;
+  derivedTitle: string;
+  isSelected: boolean;
+}
 
 export default function LICPlans() {
   const { identity } = useInternetIdentity();
   const { data: isAdmin, isLoading: isAdminLoading } = useIsCallerAdmin();
   const { data: plans, isLoading: plansLoading, error: plansError } = useGetPlans();
-  const createPlan = useCreatePlan();
+  const createOrUpdatePlan = useCreateOrUpdatePlan();
 
-  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [pendingUploads, setPendingUploads] = useState<PendingUpload[]>([]);
   const [uploadProgress, setUploadProgress] = useState<OCRProgress | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const scrollToContact = () => {
     window.location.hash = '';
@@ -45,98 +54,155 @@ export default function LICPlans() {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
+    const files = Array.from(e.target.files || []);
+    
+    if (files.length === 0) return;
+
+    // Validate files
+    const validFiles: PendingUpload[] = [];
+    let hasError = false;
+
+    for (const file of files) {
       if (!file.type.startsWith('image/')) {
-        setUploadError('Please select a valid image file');
-        return;
+        setUploadError(`Invalid file: ${file.name}. Please select only image files.`);
+        hasError = true;
+        break;
       }
       if (file.size > 10 * 1024 * 1024) {
-        setUploadError('Image size must be less than 10MB');
-        return;
+        setUploadError(`File too large: ${file.name}. Maximum size is 10MB.`);
+        hasError = true;
+        break;
       }
-      setUploadFile(file);
+
+      const derivedTitle = derivePlanTitle(file.name);
+      validFiles.push({
+        file,
+        derivedTitle,
+        isSelected: true,
+      });
+    }
+
+    if (!hasError) {
+      setPendingUploads(prev => [...prev, ...validFiles]);
       setUploadError(null);
       setUploadSuccess(null);
     }
+
+    // Reset file input
+    e.target.value = '';
   };
 
-  const getPlanNameFromFile = (fileName: string): string => {
-    const lowerName = fileName.toLowerCase();
-    if (lowerName.includes('jivan utsav') || lowerName.includes('jeevan utsav')) {
-      return 'Jeevan Utsav';
-    }
-    if (lowerName.includes('jivan umang') || lowerName.includes('jeevan umang')) {
-      return 'Jeevan Umang';
-    }
-    // Default: capitalize first letters
-    return fileName
-      .replace(/\.[^/.]+$/, '')
-      .split(/[-_\s]+/)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+  const removeUpload = (index: number) => {
+    setPendingUploads(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleUpload = async () => {
-    if (!uploadFile || !identity) return;
-
+  const clearAllUploads = () => {
+    setPendingUploads([]);
     setUploadError(null);
     setUploadSuccess(null);
-    setUploadProgress({ status: 'Starting processing...', progress: 0 });
+  };
+
+  const findExistingPlanByTitle = (title: string): PlanEntry | undefined => {
+    return plans?.find(p => p.metadata.title === title);
+  };
+
+  const handleUploadAll = async () => {
+    if (pendingUploads.length === 0 || !identity) return;
+
+    setIsProcessing(true);
+    setUploadError(null);
+    setUploadSuccess(null);
+    setUploadProgress({ status: 'Preparing uploads...', progress: 0 });
 
     try {
-      const planTitle = getPlanNameFromFile(uploadFile.name);
+      // Build best-candidate mapping
+      const allFiles = pendingUploads.map(u => u.file);
+      const bestMapping = buildBestCandidateMapping(allFiles);
 
-      // Process image and extract structured content
-      const structuredContent = await processImageForPlan(
-        uploadFile,
-        planTitle,
-        (progress) => setUploadProgress(progress)
-      );
+      const planTitles = Array.from(bestMapping.keys());
+      let completed = 0;
 
-      setUploadProgress({ status: 'Uploading to backend...', progress: 95 });
+      for (const planTitle of planTitles) {
+        const file = bestMapping.get(planTitle)!;
+        
+        setUploadProgress({
+          status: `Processing ${planTitle} (${completed + 1}/${planTitles.length})...`,
+          progress: Math.floor((completed / planTitles.length) * 90),
+        });
 
-      // Convert image to bytes
-      const arrayBuffer = await uploadFile.arrayBuffer();
-      const bytes = new Uint8Array(arrayBuffer);
-      const posterBlob = ExternalBlob.fromBytes(bytes);
+        // Process image and extract structured content
+        const structuredContent = await processImageForPlan(
+          file,
+          planTitle,
+          (progress) => {
+            const baseProgress = Math.floor((completed / planTitles.length) * 90);
+            const stepProgress = Math.floor(progress.progress * 0.9 / planTitles.length);
+            setUploadProgress({
+              status: `${planTitle}: ${progress.status}`,
+              progress: baseProgress + stepProgress,
+            });
+          }
+        );
 
-      // Create metadata
-      const now = BigInt(Date.now() * 1000000); // Convert to nanoseconds
-      const metadata: PlanMetadata = {
-        title: planTitle,
-        description: `${planTitle} - LIC Insurance Plan`,
-        creator: identity.getPrincipal(),
-        createdAt: now,
-        updatedAt: now,
-      };
+        // Convert image to bytes
+        const arrayBuffer = await file.arrayBuffer();
+        const bytes = new Uint8Array(arrayBuffer);
+        const posterBlob = ExternalBlob.fromBytes(bytes);
 
-      // Generate unique ID
-      const planId = `plan-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        // Check if plan exists
+        const existingPlan = findExistingPlanByTitle(planTitle);
+        const now = BigInt(Date.now() * 1000000);
 
-      // Create plan
-      await createPlan.mutateAsync({
-        id: planId,
-        metadata,
-        poster: posterBlob,
-        structuredContent,
-      });
+        const metadata: PlanMetadata = {
+          title: planTitle,
+          description: `${planTitle} - LIC Insurance Plan`,
+          creator: existingPlan?.metadata.creator || identity.getPrincipal(),
+          createdAt: existingPlan?.metadata.createdAt || now,
+          updatedAt: now,
+        };
+
+        const planId = existingPlan?.id || `plan-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+        // Create or update plan
+        await createOrUpdatePlan.mutateAsync({
+          id: planId,
+          metadata,
+          poster: posterBlob,
+          structuredContent,
+        });
+
+        completed++;
+      }
 
       setUploadProgress(null);
-      setUploadSuccess(`Successfully created plan: ${planTitle}`);
-      setUploadFile(null);
-
-      // Reset file input
-      const fileInput = document.getElementById('plan-upload') as HTMLInputElement;
-      if (fileInput) fileInput.value = '';
+      setUploadSuccess(
+        `Successfully processed ${planTitles.length} plan${planTitles.length > 1 ? 's' : ''}: ${planTitles.join(', ')}`
+      );
+      setPendingUploads([]);
     } catch (error: any) {
       console.error('Upload error:', error);
       setUploadProgress(null);
-      setUploadError(error.message || 'Failed to upload plan. Please try again.');
+      
+      // Provide actionable error messages
+      let errorMessage = 'Failed to upload plans. ';
+      
+      if (error.message?.includes('Actor not available')) {
+        errorMessage += 'Backend connection failed. Please refresh the page and try again.';
+      } else if (error.message?.includes('Permission denied')) {
+        errorMessage += 'You do not have permission to create plans. Please contact an administrator.';
+      } else if (error.message?.includes('conversion')) {
+        errorMessage += 'Image processing failed. Please ensure the file is a valid image.';
+      } else {
+        errorMessage += error.message || 'Please try again.';
+      }
+      
+      setUploadError(errorMessage);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
-  const renderPlanContent = (plan: any) => {
+  const renderPlanContent = (plan: PlanEntry) => {
     const content = plan.content;
     
     return (
@@ -179,6 +245,19 @@ export default function LICPlans() {
     );
   };
 
+  // Group pending uploads by derived title and show best candidate
+  const uploadGroups = new Map<string, PendingUpload[]>();
+  for (const upload of pendingUploads) {
+    if (!uploadGroups.has(upload.derivedTitle)) {
+      uploadGroups.set(upload.derivedTitle, []);
+    }
+    uploadGroups.get(upload.derivedTitle)!.push(upload);
+  }
+
+  const bestCandidates = pendingUploads.length > 0 
+    ? buildBestCandidateMapping(pendingUploads.map(u => u.file))
+    : new Map<string, File>();
+
   return (
     <div className="min-h-screen pt-20">
       {/* Header */}
@@ -208,37 +287,82 @@ export default function LICPlans() {
       {!isAdminLoading && isAdmin && identity && (
         <section className="py-8 bg-muted/30">
           <div className="container mx-auto px-4">
-            <Card className="max-w-2xl mx-auto border-2 border-primary/20">
+            <Card className="max-w-4xl mx-auto border-2 border-primary/20">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Upload className="h-5 w-5" />
-                  Upload New Plan (Admin Only)
+                  Upload Plan Images (Admin Only)
                 </CardTitle>
                 <CardDescription>
-                  Upload a plan poster image. The system will automatically extract information and create a structured plan entry.
+                  Select multiple plan poster images. The system will automatically match them to plans and use the best image for each.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="plan-upload">Plan Poster Image</Label>
+                  <Label htmlFor="plan-upload">Plan Poster Images</Label>
                   <Input
                     id="plan-upload"
                     type="file"
                     accept="image/*"
+                    multiple
                     onChange={handleFileChange}
-                    disabled={createPlan.isPending || !!uploadProgress}
+                    disabled={isProcessing || !!uploadProgress}
                   />
                   <p className="text-sm text-muted-foreground">
-                    Supported: JPG, PNG, WebP (max 10MB)
+                    Supported: JPG, PNG, WebP (max 10MB each). Select multiple files at once.
                   </p>
                 </div>
 
-                {uploadFile && (
-                  <div className="p-4 bg-muted rounded-lg">
-                    <p className="text-sm font-medium">Selected: {uploadFile.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      Plan will be named: {getPlanNameFromFile(uploadFile.name)}
-                    </p>
+                {pendingUploads.length > 0 && (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-sm font-semibold">
+                        Pending Uploads ({pendingUploads.length} file{pendingUploads.length > 1 ? 's' : ''})
+                      </h4>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={clearAllUploads}
+                        disabled={isProcessing}
+                      >
+                        Clear All
+                      </Button>
+                    </div>
+
+                    <div className="space-y-2 max-h-64 overflow-y-auto border rounded-lg p-3 bg-muted/50">
+                      {Array.from(uploadGroups.entries()).map(([planTitle, uploads]) => {
+                        const bestFile = bestCandidates.get(planTitle);
+                        const existingPlan = findExistingPlanByTitle(planTitle);
+                        
+                        return (
+                          <div key={planTitle} className="p-3 bg-background rounded border">
+                            <div className="flex items-start justify-between gap-2 mb-2">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <FileImage className="h-4 w-4 text-primary" />
+                                  <span className="font-medium text-sm">{planTitle}</span>
+                                  {existingPlan && (
+                                    <Badge variant="outline" className="text-xs">
+                                      Will Update
+                                    </Badge>
+                                  )}
+                                </div>
+                                {uploads.length > 1 && (
+                                  <p className="text-xs text-muted-foreground">
+                                    {uploads.length} files → Using: {bestFile?.name}
+                                  </p>
+                                )}
+                                {uploads.length === 1 && (
+                                  <p className="text-xs text-muted-foreground">
+                                    {uploads[0].file.name}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
 
@@ -269,11 +393,11 @@ export default function LICPlans() {
                 )}
 
                 <Button
-                  onClick={handleUpload}
-                  disabled={!uploadFile || createPlan.isPending || !!uploadProgress}
+                  onClick={handleUploadAll}
+                  disabled={pendingUploads.length === 0 || isProcessing || !!uploadProgress}
                   className="w-full"
                 >
-                  {createPlan.isPending || uploadProgress ? (
+                  {isProcessing || uploadProgress ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Processing...
@@ -281,7 +405,7 @@ export default function LICPlans() {
                   ) : (
                     <>
                       <Upload className="mr-2 h-4 w-4" />
-                      Upload & Create Plan
+                      Upload & Process {uploadGroups.size} Plan{uploadGroups.size > 1 ? 's' : ''}
                     </>
                   )}
                 </Button>

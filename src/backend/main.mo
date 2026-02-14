@@ -65,10 +65,10 @@ actor {
   };
 
   let userProfiles = Map.empty<Principal, UserProfile>();
-
   let plans = Map.empty<Text, PlanEntry>();
 
-  public shared ({ caller }) func createPlan(id : Text, metadata : PlanMetadata, poster : Storage.ExternalBlob, structuredContent : StructuredPlan) : async () {
+  // --------- Core Functionality ---------
+  public shared ({ caller }) func createOrUpdatePlan(id : Text, metadata : PlanMetadata, poster : Storage.ExternalBlob, structuredContent : StructuredPlan) : async () {
     if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
       Runtime.trap("Unauthorized: Only users can save plans");
     };
@@ -148,9 +148,13 @@ actor {
   };
 
   public query ({ caller }) func getEnquiries(_limit : Nat) : async [Enquiry] {
+    if (not AccessControl.hasPermission(accessControlState, caller, #admin)) {
+      Runtime.trap("Unauthorized: Only admins can view enquiries");
+    };
     ([] : [Enquiry]);
   };
 
+  // --------- User Profiles -----------
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can access profiles");

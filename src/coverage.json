@@ -1,25 +1,31 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-14T13:43:13.723Z",
+  "generatedAt": "2026-02-14T15:40:42.339Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 3,
+    "total": 5,
+    "implemented": 4,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Add persistent backend storage for LIC plan entries, including (a) plan metadata, (b) extracted structured plan content, and (c) the uploaded plan poster image bytes, so that plans remain available after refresh/redeploy.",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
+        "summary": "Update the LIC Plans admin workflow to support uploading multiple images in one session and automatically assign each uploaded image to the best-matching plan title based on the filename (e.g., any filename containing \"jivan utsav\"/\"jeevan utsav\" maps to title \"Jeevan Utsav\", and any filename containing \"jivan umang\"/\"jeevan umang\" maps to title \"Jeevan Umang\").",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/utils/planFilenameMatching.ts",
+          "frontend/src/pages/LICPlans.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/utils/planFilenameMatching.ts",
+          "frontend/src/pages/LICPlans.tsx"
+        ]
       },
       {
         "id": "REQ-2",
-        "summary": "Implement an admin-only upload flow on the dedicated Plans page (#lic-plans, component: frontend/src/pages/LICPlans.tsx) that lets an admin upload the 2 provided images and creates two separate plan entries named exactly \"Jeevan Utsav\" (for the first image: jivan utsav plan-1.jpg) and \"Jivan Umang\" (for the second image: Jivan Umang-1.jpg).",
+        "summary": "When uploading an image whose derived title matches an existing plan entry, update that existing plan’s poster and structured content instead of creating a new duplicate plan entry; otherwise, create a new plan entry.",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/hooks/usePlans.ts",
@@ -32,39 +38,45 @@
       },
       {
         "id": "REQ-3",
-        "summary": "Extract text from each uploaded plan poster image on the client and store the extracted result in the backend as structured plan data that can be displayed in English on the Plans page.",
+        "summary": "Apply the \"best-matched\" poster selection for the user’s uploaded set by prioritizing the most specific filename variants when multiple files map to the same plan title (e.g., prefer files whose names include \"LIC\" and the exact plan name over more generic variants; if ties remain, prefer the highest numeric suffix).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/package.json",
-          "frontend/src/utils/ocr.ts",
+          "frontend/src/utils/planFilenameMatching.ts",
           "frontend/src/pages/LICPlans.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/utils/ocr.ts",
+          "frontend/src/utils/planFilenameMatching.ts",
           "frontend/src/pages/LICPlans.tsx"
         ]
       },
       {
         "id": "REQ-4",
-        "summary": "Update the dedicated Plans page (#lic-plans) to render plan sections dynamically from backend plan entries (including \"Jeevan Utsav\" and \"Jivan Umang\"), showing each plan’s poster image and the persisted structured plan details, with a CTA that scrolls to the existing Contact section on the home page.",
+        "summary": "Ensure the backend persists plan entries (including poster image reference/blob and structured content) across canister upgrades/redeploys, and add/adjust upgrade-safe state handling if the current in-memory map is not stable.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-5",
+        "summary": "Resolve the build/deploy failure that surfaces as \"Configuration error detected\" when running the build to apply plan images, and add a clear, actionable error message in the UI when an upload/apply operation fails due to configuration problems.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/LICPlans.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/config.ts",
+          "frontend/src/hooks/useActor.ts",
+          "frontend/src/hooks/usePlans.ts",
+          "frontend/src/pages/LICPlans.tsx"
         ],
         "matchedFiles": [
+          "frontend/src/hooks/usePlans.ts",
           "frontend/src/pages/LICPlans.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
-    "backend/blob-storage/Mixin.mo",
-    "backend/blob-storage/Storage.mo",
     "backend/main.mo",
     "backend/migration.mo",
     "build-request.json",
-    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
@@ -74,7 +86,7 @@
     "frontend/src/declarations/backend.did.js",
     "frontend/src/hooks/usePlans.ts",
     "frontend/src/pages/LICPlans.tsx",
-    "frontend/src/utils/ocr.ts",
+    "frontend/src/utils/planFilenameMatching.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

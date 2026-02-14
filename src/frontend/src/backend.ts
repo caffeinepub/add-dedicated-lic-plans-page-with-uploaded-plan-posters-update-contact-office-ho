@@ -155,7 +155,7 @@ export interface backendInterface {
     _caffeineStorageUpdateGatewayPrincipals(): Promise<void>;
     _initializeAccessControlWithSecret(userSecret: string): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
-    createPlan(id: string, metadata: PlanMetadata, poster: ExternalBlob, structuredContent: StructuredPlan): Promise<void>;
+    createOrUpdatePlan(id: string, metadata: PlanMetadata, poster: ExternalBlob, structuredContent: StructuredPlan): Promise<void>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getEnquiries(_limit: bigint): Promise<Array<Enquiry>>;
@@ -282,17 +282,17 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async createPlan(arg0: string, arg1: PlanMetadata, arg2: ExternalBlob, arg3: StructuredPlan): Promise<void> {
+    async createOrUpdatePlan(arg0: string, arg1: PlanMetadata, arg2: ExternalBlob, arg3: StructuredPlan): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.createPlan(arg0, arg1, await to_candid_ExternalBlob_n10(this._uploadFile, this._downloadFile, arg2), arg3);
+                const result = await this.actor.createOrUpdatePlan(arg0, arg1, await to_candid_ExternalBlob_n10(this._uploadFile, this._downloadFile, arg2), arg3);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.createPlan(arg0, arg1, await to_candid_ExternalBlob_n10(this._uploadFile, this._downloadFile, arg2), arg3);
+            const result = await this.actor.createOrUpdatePlan(arg0, arg1, await to_candid_ExternalBlob_n10(this._uploadFile, this._downloadFile, arg2), arg3);
             return result;
         }
     }

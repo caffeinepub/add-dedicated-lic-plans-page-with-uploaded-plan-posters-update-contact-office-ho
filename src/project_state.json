@@ -1,36 +1,42 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Build a Plans page feature that lets the admin upload plan images, creates separate plan entries per image (e.g., Jeevan Utsav, Jeevan Umang), stores the images persistently in the backend, and extracts text from images into structured plan data.",
-  "architectural_notes": [
-    "Plan images should be stored persistently in the backend (not client-only).",
-    "Plan creation flow: 1 image => 1 plan entry; name derived from image order/name (1st: Jeevan Utsav, 2nd: Jivan Umang).",
-    "Include an OCR/text-extraction step to convert plan images into structured plan data."
+  "summary": "Website/app with an LIC Plan section where each plan can display a single assigned image; user uploads plan images and requests applying them to the corresponding plans and building/deploying.",
+  "architectural_notes": [],
+  "known_issues": [
+    "Build/deploy failing with a 'Configuration error detected' during build when applying plan images."
   ],
-  "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-implement-an-admin-only-upload-flow-on-the-dedicated-plans-page-lic-plans-component-frontend-src-pages-licplans-tsx-that-lets-an-admin-upload-the-2-provided-images-and-creates-two-separate-plan-entries-named-exactly-jeevan-utsav-for-the-first-image-jivan-utsav-plan-1-jpg-and-jivan-umang-for-the-second-image-jivan-umang-1-jpg",
-      "title": "Implement an admin-only upload flow on the dedicated Plans page (#lic-plans, component: frontend/src/pages/LICPlans.tsx) that lets an admin upload the 2 provided images and creates two separate plan entries named exactly \"Jeevan Utsav\" (for the first image: jivan utsav plan-1.jpg) and \"Jivan Umang\" (for the second image: Jivan Umang-1.jpg).",
+      "id": "feature-update-the-lic-plans-admin-workflow-to-support-uploading-multiple-images-in-one-session-and-automatically-assign-each-uploaded-image-to-the-best-matching-plan-title-based-on-the-filename-e-g-any-filename-containing-jivan-utsav-jeevan-utsav-maps-to-title-jeevan-utsav-and-any-filename-containing-jivan-umang-jeevan-umang-maps-to-title-jeevan-umang",
+      "title": "Update the LIC Plans admin workflow to support uploading multiple images in one session and automatically assign each uploaded image to the best-matching plan title based on the filename (e.g., any filename containing \"jivan utsav\"/\"jeevan utsav\" maps to title \"Jeevan Utsav\", and any filename containing \"jivan umang\"/\"jeevan umang\" maps to title \"Jeevan Umang\").",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-when-uploading-an-image-whose-derived-title-matches-an-existing-plan-entry-update-that-existing-plan-s-poster-and-structured-content-instead-of-creating-a-new-duplicate-plan-entry-otherwise-create-a-new-plan-entry",
+      "title": "When uploading an image whose derived title matches an existing plan entry, update that existing plan’s poster and structured content instead of creating a new duplicate plan entry; otherwise, create a new plan entry.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-extract-text-from-each-uploaded-plan-poster-image-on-the-client-and-store-the-extracted-result-in-the-backend-as-structured-plan-data-that-can-be-displayed-in-english-on-the-plans-page",
-      "title": "Extract text from each uploaded plan poster image on the client and store the extracted result in the backend as structured plan data that can be displayed in English on the Plans page.",
+      "id": "feature-apply-the-best-matched-poster-selection-for-the-user-s-uploaded-set-by-prioritizing-the-most-specific-filename-variants-when-multiple-files-map-to-the-same-plan-title-e-g-prefer-files-whose-names-include-lic-and-the-exact-plan-name-over-more-generic-variants-if-ties-remain-prefer-the-highest-numeric-suffix",
+      "title": "Apply the \"best-matched\" poster selection for the user’s uploaded set by prioritizing the most specific filename variants when multiple files map to the same plan title (e.g., prefer files whose names include \"LIC\" and the exact plan name over more generic variants; if ties remain, prefer the highest numeric suffix).",
       "reqIds": [
         "REQ-3"
       ],
       "version": 1
     },
     {
-      "id": "feature-update-the-dedicated-plans-page-lic-plans-to-render-plan-sections-dynamically-from-backend-plan-entries-including-jeevan-utsav-and-jivan-umang-showing-each-plan-s-poster-image-and-the-persisted-structured-plan-details-with-a-cta-that-scrolls-to-the-existing-contact-section-on-the-home-page",
-      "title": "Update the dedicated Plans page (#lic-plans) to render plan sections dynamically from backend plan entries (including \"Jeevan Utsav\" and \"Jivan Umang\"), showing each plan’s poster image and the persisted structured plan details, with a CTA that scrolls to the existing Contact section on the home page.",
+      "id": "feature-resolve-the-build-deploy-failure-that-surfaces-as-configuration-error-detected-when-running-the-build-to-apply-plan-images-and-add-a-clear-actionable-error-message-in-the-ui-when-an-upload-apply-operation-fails-due-to-configuration-problems",
+      "title": "Resolve the build/deploy failure that surfaces as \"Configuration error detected\" when running the build to apply plan images, and add a clear, actionable error message in the UI when an upload/apply operation fails due to configuration problems.",
       "reqIds": [
-        "REQ-4"
+        "REQ-5"
       ],
       "version": 1
     }
@@ -38,33 +44,26 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Admin can upload plan images to the Plans page and persist them in the backend",
+      "summary": "Update LIC Plan section to support one image per plan (replace/assign uploaded images to each plan and display with plan details).",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "Create separate plan entries for each uploaded image (e.g., Jeevan Utsav, Jivan Umang) and display them on the Plans page",
+      "summary": "Allow selecting/auto-matching uploaded images to specific LIC plans (e.g., Jeevan/Jivan Umang and Jeevan/Jivan Utsav) and apply mappings during build.",
       "reqIds": [],
       "status": "pending"
     },
     {
-      "id": "AR-3",
-      "summary": "Extract text/data from uploaded plan images and store it as structured plan information",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Add persistent backend storage for LIC plan entries, including (a) plan metadata, (b) extracted structured plan content, and (c) the uploaded plan poster image bytes, so that plans remain available after refresh/redeploy.",
+      "id": "AR-6",
+      "summary": "Ensure the backend persists plan entries (including poster image reference/blob and structured content) across canister upgrades/redeploys, and add/adjust upgrade-safe state handling if the current in-memory map is not stable.",
       "reqIds": [
-        "REQ-1"
+        "REQ-4"
       ],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
-  "projectName": "Admin upload of plan images with OCR extraction and persistent plan entries (Jeevan Utsav, Jivan Umang)",
+  "projectName": "Apply best-matched uploaded images to LIC plans and fix build configuration error",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

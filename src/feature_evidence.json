@@ -2,8 +2,29 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-implement-an-admin-only-upload-flow-on-the-dedicated-plans-page-lic-plans-component-frontend-src-pages-licplans-tsx-that-lets-an-admin-upload-the-2-provided-images-and-creates-two-separate-plan-entries-named-exactly-jeevan-utsav-for-the-first-image-jivan-utsav-plan-1-jpg-and-jivan-umang-for-the-second-image-jivan-umang-1-jpg",
-      "featureTitle": "Implement an admin-only upload flow on the dedicated Plans page (#lic-plans, component: frontend/src/pages/LICPlans.tsx) that lets an admin upload the 2 provided images and creates two separate plan entries named exactly \"Jeevan Utsav\" (for the first image: jivan utsav plan-1.jpg) and \"Jivan Umang\" (for the second image: Jivan Umang-1.jpg).",
+      "featureId": "feature-update-the-lic-plans-admin-workflow-to-support-uploading-multiple-images-in-one-session-and-automatically-assign-each-uploaded-image-to-the-best-matching-plan-title-based-on-the-filename-e-g-any-filename-containing-jivan-utsav-jeevan-utsav-maps-to-title-jeevan-utsav-and-any-filename-containing-jivan-umang-jeevan-umang-maps-to-title-jeevan-umang",
+      "featureTitle": "Update the LIC Plans admin workflow to support uploading multiple images in one session and automatically assign each uploaded image to the best-matching plan title based on the filename (e.g., any filename containing \"jivan utsav\"/\"jeevan utsav\" maps to title \"Jeevan Utsav\", and any filename containing \"jivan umang\"/\"jeevan umang\" maps to title \"Jeevan Umang\").",
+      "files": [
+        "frontend/src/pages/LICPlans.tsx",
+        "frontend/src/utils/planFilenameMatching.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-when-uploading-an-image-whose-derived-title-matches-an-existing-plan-entry-update-that-existing-plan-s-poster-and-structured-content-instead-of-creating-a-new-duplicate-plan-entry-otherwise-create-a-new-plan-entry",
+      "featureTitle": "When uploading an image whose derived title matches an existing plan entry, update that existing plan’s poster and structured content instead of creating a new duplicate plan entry; otherwise, create a new plan entry.",
       "files": [
         "frontend/src/hooks/usePlans.ts",
         "frontend/src/pages/LICPlans.tsx"
@@ -23,11 +44,11 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-extract-text-from-each-uploaded-plan-poster-image-on-the-client-and-store-the-extracted-result-in-the-backend-as-structured-plan-data-that-can-be-displayed-in-english-on-the-plans-page",
-      "featureTitle": "Extract text from each uploaded plan poster image on the client and store the extracted result in the backend as structured plan data that can be displayed in English on the Plans page.",
+      "featureId": "feature-apply-the-best-matched-poster-selection-for-the-user-s-uploaded-set-by-prioritizing-the-most-specific-filename-variants-when-multiple-files-map-to-the-same-plan-title-e-g-prefer-files-whose-names-include-lic-and-the-exact-plan-name-over-more-generic-variants-if-ties-remain-prefer-the-highest-numeric-suffix",
+      "featureTitle": "Apply the \"best-matched\" poster selection for the user’s uploaded set by prioritizing the most specific filename variants when multiple files map to the same plan title (e.g., prefer files whose names include \"LIC\" and the exact plan name over more generic variants; if ties remain, prefer the highest numeric suffix).",
       "files": [
         "frontend/src/pages/LICPlans.tsx",
-        "frontend/src/utils/ocr.ts"
+        "frontend/src/utils/planFilenameMatching.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -44,9 +65,10 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-update-the-dedicated-plans-page-lic-plans-to-render-plan-sections-dynamically-from-backend-plan-entries-including-jeevan-utsav-and-jivan-umang-showing-each-plan-s-poster-image-and-the-persisted-structured-plan-details-with-a-cta-that-scrolls-to-the-existing-contact-section-on-the-home-page",
-      "featureTitle": "Update the dedicated Plans page (#lic-plans) to render plan sections dynamically from backend plan entries (including \"Jeevan Utsav\" and \"Jivan Umang\"), showing each plan’s poster image and the persisted structured plan details, with a CTA that scrolls to the existing Contact section on the home page.",
+      "featureId": "feature-resolve-the-build-deploy-failure-that-surfaces-as-configuration-error-detected-when-running-the-build-to-apply-plan-images-and-add-a-clear-actionable-error-message-in-the-ui-when-an-upload-apply-operation-fails-due-to-configuration-problems",
+      "featureTitle": "Resolve the build/deploy failure that surfaces as \"Configuration error detected\" when running the build to apply plan images, and add a clear, actionable error message in the UI when an upload/apply operation fails due to configuration problems.",
       "files": [
+        "frontend/src/hooks/usePlans.ts",
         "frontend/src/pages/LICPlans.tsx"
       ],
       "components": [
@@ -59,7 +81,7 @@
         "blob-storage@4.0.0"
       ],
       "testIds": [
-        "REQ-4"
+        "REQ-5"
       ],
       "confidence": "high"
     }
