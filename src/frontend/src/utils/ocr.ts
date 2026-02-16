@@ -31,15 +31,20 @@ export async function extractTextFromImage(
   // Return placeholder text based on filename
   const fileName = imageFile.name.toLowerCase();
   
-  if (fileName.includes('jivan utsav') || fileName.includes('jeevan utsav')) {
-    return `LIC's Jeevan Utsav
-Guaranteed Regular Annual Income Plan
-Payment Period: 5 years
-Guaranteed Annual Income with 500% guarantee
-Multiple investment options available
-Family fund benefits included`;
+  // Jeevan Utsav (handle both Jivan and Jeevan spellings, plus typo "utasav")
+  if (fileName.includes('jivan utsav') || fileName.includes('jeevan utsav') ||
+      fileName.includes('jivan utasav') || fileName.includes('jeevan utasav')) {
+    return `LIC's Jeevan Utsav (Plan No. 771)
+10-Year Limited Premium Payment Plan
+Guaranteed Annual Income Starting Year 13
+Monthly Premium Options: ₹5,000 to ₹20,400
+Guaranteed Annual Income: ₹50,000 to ₹2,00,000
+Guaranteed Sum Assured: 5 lakh to 20 lakh
+100% Guaranteed Returns
+24/7 Service Available`;
   }
   
+  // Jeevan Umang
   if (fileName.includes('jivan umang') || fileName.includes('jeevan umang')) {
     return `LIC's Jeevan Umang
 Guaranteed Bonus with Lifelong Benefits
@@ -50,12 +55,43 @@ Natural risk cover up to ₹5.5 lakh
 Accidental risk cover up to ₹11 lakh`;
   }
 
+  // Bima Laxmi
+  if (fileName.includes('bima laxmi') || fileName.includes('bima lakshmi')) {
+    return `LIC's Bima Laxmi
+Child Education and Marriage Plan
+Guaranteed Maturity Benefits
+Regular Survival Benefits
+Risk Coverage for Parents
+Tax Benefits under Section 80C`;
+  }
+
+  // Jeevan Labh
+  if (fileName.includes('jivan labh') || fileName.includes('jeevan labh')) {
+    return `LIC's Jeevan Labh
+Limited Premium Payment Term
+Guaranteed Additions
+Death Benefit Coverage
+Maturity Benefit with Bonuses
+Flexible Premium Payment Options`;
+  }
+
+  // Jeevan Lakshya
+  if (fileName.includes('jivan lakshya') || fileName.includes('jeevan lakshya')) {
+    return `LIC's Jeevan Lakshya
+Goal-Based Savings Plan
+Limited Premium Payment
+Guaranteed Maturity Benefits
+Life Insurance Coverage
+Tax Benefits Available`;
+  }
+
   // Generic template for other plans
   return `LIC Insurance Plan
 Comprehensive coverage and guaranteed benefits
 Flexible payment terms
 Risk coverage included
-Maturity benefits available`;
+Maturity benefits available
+Tax benefits under Section 80C`;
 }
 
 export function parseExtractedText(rawText: string, planTitle: string): StructuredPlan {
@@ -72,11 +108,11 @@ export function parseExtractedText(rawText: string, planTitle: string): Structur
 
   // Categorize lines based on keywords
   const keywordMap: Record<string, string[]> = {
-    analysis: ['guaranteed', 'annual income', 'payment period', 'investment', 'premium', 'plan'],
-    goals: ['benefit', 'maturity', 'family fund', 'income benefit', 'total income', 'pension'],
-    hypothesis: ['risk cover', 'natural risk', 'accidental risk', 'insurance', 'protection', 'coverage'],
-    experiment: ['yearly investment', 'total investment', 'payment', 'deposit', 'premium', 'pay'],
-    result: ['bonus', 'lifetime', 'pension', 'returns', 'profit', 'lakh'],
+    analysis: ['plan', 'guaranteed', 'annual income', 'payment period', 'investment', 'premium', 'limited premium', 'year', 'service'],
+    goals: ['benefit', 'maturity', 'family fund', 'income benefit', 'total income', 'pension', 'survival', 'education', 'marriage'],
+    hypothesis: ['risk cover', 'natural risk', 'accidental risk', 'insurance', 'protection', 'coverage', 'death benefit', 'life insurance'],
+    experiment: ['yearly investment', 'total investment', 'payment', 'deposit', 'premium', 'pay', 'monthly premium', 'options', 'flexible'],
+    result: ['bonus', 'lifetime', 'pension', 'returns', 'profit', 'lakh', 'sum assured', 'guaranteed sum', 'tax benefit'],
   };
 
   const categorizedLines: Record<string, string[]> = {
@@ -105,26 +141,26 @@ export function parseExtractedText(rawText: string, planTitle: string): Structur
     }
   });
 
-  // Build structured sections with fallbacks
+  // Build structured sections with enhanced fallbacks
   analysis = categorizedLines.analysis.length > 0
     ? categorizedLines.analysis.join('\n')
-    : `${planTitle} is a comprehensive LIC insurance plan offering guaranteed benefits and financial security for your family's future.`;
+    : `${planTitle} is a comprehensive LIC insurance plan offering guaranteed benefits and financial security for your family's future. This plan combines life insurance protection with attractive returns, making it an ideal choice for long-term financial planning.`;
 
   goals = categorizedLines.goals.length > 0
     ? categorizedLines.goals.join('\n')
-    : 'Provides financial security, guaranteed returns, and comprehensive benefits for your family. Designed to help you achieve your long-term financial goals.';
+    : `This plan provides financial security, guaranteed returns, and comprehensive benefits for your family. It is designed to help you achieve your long-term financial goals such as children's education, marriage expenses, retirement planning, and wealth creation. The plan ensures regular income and lump sum benefits at maturity.`;
 
   hypothesis = categorizedLines.hypothesis.length > 0
     ? categorizedLines.hypothesis.join('\n')
-    : 'Comprehensive risk coverage including life insurance protection. Safeguards your family against unforeseen circumstances.';
+    : `Comprehensive risk coverage including life insurance protection throughout the policy term. The plan safeguards your family against unforeseen circumstances by providing death benefits and ensuring financial stability. In case of unfortunate events, your family receives the sum assured along with accrued bonuses.`;
 
   experiment = categorizedLines.experiment.length > 0
     ? categorizedLines.experiment.join('\n')
-    : 'Flexible payment terms with various investment options to suit your financial planning needs. Multiple premium payment frequencies available.';
+    : `Flexible payment terms with various investment options to suit your financial planning needs. Multiple premium payment frequencies are available including monthly, quarterly, half-yearly, and yearly modes. The plan offers limited premium payment terms, allowing you to pay for a shorter duration while enjoying benefits for a longer period.`;
 
   result = categorizedLines.result.length > 0
     ? categorizedLines.result.join('\n')
-    : 'Guaranteed returns with attractive bonus benefits. Provides regular income and lump sum maturity benefits to secure your family\'s financial future.';
+    : `Guaranteed returns with attractive bonus benefits throughout the policy term. The plan provides regular income during the policy period and a substantial lump sum maturity benefit to secure your family's financial future. Tax benefits are available under Section 80C and Section 10(10D) of the Income Tax Act, making it a tax-efficient investment option.`;
 
   return {
     title: planTitle,

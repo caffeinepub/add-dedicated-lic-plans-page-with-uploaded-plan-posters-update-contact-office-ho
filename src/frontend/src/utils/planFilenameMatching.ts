@@ -22,25 +22,54 @@ export function normalizeFilename(filename: string): string {
 }
 
 /**
+ * Normalize a plan title for comparison (handles spelling variants)
+ */
+export function normalizePlanTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/jivan/g, 'jeevan') // Normalize Jivan -> Jeevan
+    .replace(/laxmi/g, 'lakshmi') // Normalize Laxmi -> Lakshmi
+    .replace(/utasav/g, 'utsav') // Fix common typo
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
  * Derive a plan title from a filename using explicit mappings and fallback capitalization
+ * Enhanced to handle common spelling variants (Jivan/Jeevan, Utasav/Utsav)
  */
 export function derivePlanTitle(filename: string): string {
   const normalized = normalizeFilename(filename);
 
-  // Explicit mappings for known plan names
-  if (normalized.includes('jivan utsav') || normalized.includes('jeevan utsav')) {
+  // Explicit mappings for known plan names with spelling variants
+  // Jivan Utsav / Jeevan Utsav (including typo "utasav")
+  if (normalized.includes('jivan utsav') || normalized.includes('jeevan utsav') || 
+      normalized.includes('jivan utasav') || normalized.includes('jeevan utasav') ||
+      normalized.includes('lic jivan utsav') || normalized.includes('lic jeevan utsav') ||
+      normalized.includes('lic jivan utasav') || normalized.includes('lic jeevan utasav')) {
     return 'Jeevan Utsav';
   }
-  if (normalized.includes('jivan umang') || normalized.includes('jeevan umang')) {
+  
+  // Jivan Umang / Jeevan Umang
+  if (normalized.includes('jivan umang') || normalized.includes('jeevan umang') ||
+      normalized.includes('lic jivan umang') || normalized.includes('lic jeevan umang')) {
     return 'Jeevan Umang';
   }
+  
+  // Bima Laxmi / Bima Lakshmi
   if (normalized.includes('bima laxmi') || normalized.includes('bima lakshmi')) {
     return 'Bima Laxmi';
   }
-  if (normalized.includes('jivan labh') || normalized.includes('jeevan labh')) {
+  
+  // Jivan Labh / Jeevan Labh
+  if (normalized.includes('jivan labh') || normalized.includes('jeevan labh') ||
+      normalized.includes('lic jivan labh') || normalized.includes('lic jeevan labh')) {
     return 'Jeevan Labh';
   }
-  if (normalized.includes('jivan lakshya') || normalized.includes('jeevan lakshya')) {
+  
+  // Jivan Lakshya / Jeevan Lakshya
+  if (normalized.includes('jivan lakshya') || normalized.includes('jeevan lakshya') ||
+      normalized.includes('lic jivan lakshya') || normalized.includes('lic jeevan lakshya')) {
     return 'Jeevan Lakshya';
   }
 
@@ -48,6 +77,7 @@ export function derivePlanTitle(filename: string): string {
   return filename
     .replace(/\.[^/.]+$/, '')
     .split(/[-_\s]+/)
+    .filter(word => word.length > 0)
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 }
@@ -58,7 +88,7 @@ export function derivePlanTitle(filename: string): string {
  */
 function scoreFilenameForPlan(filename: string, planTitle: string): number {
   const normalized = normalizeFilename(filename);
-  const normalizedTitle = planTitle.toLowerCase();
+  const normalizedTitle = normalizePlanTitle(planTitle);
   
   let score = 0;
 
@@ -67,8 +97,8 @@ function scoreFilenameForPlan(filename: string, planTitle: string): number {
     score += 100;
   }
 
-  // Bonus for exact plan name match
-  if (normalized.includes(normalizedTitle)) {
+  // Bonus for exact plan name match (using normalized comparison)
+  if (normalizePlanTitle(normalized).includes(normalizedTitle)) {
     score += 50;
   }
 

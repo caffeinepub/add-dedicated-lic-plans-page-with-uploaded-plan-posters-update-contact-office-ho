@@ -58,6 +58,7 @@ actor {
     productInterest : ?ProductInterest;
     message : Text;
     timestamp : Time.Time;
+    submitter : Principal;
   };
 
   public type UserProfile = {
@@ -66,6 +67,8 @@ actor {
 
   let userProfiles = Map.empty<Principal, UserProfile>();
   let plans = Map.empty<Text, PlanEntry>();
+  let enquiries = Map.empty<Nat, Enquiry>();
+  var enquiryCounter : Nat = 0;
 
   // --------- Core Functionality ---------
   public shared ({ caller }) func createOrUpdatePlan(id : Text, metadata : PlanMetadata, poster : Storage.ExternalBlob, structuredContent : StructuredPlan) : async () {
@@ -125,6 +128,7 @@ actor {
   };
 
   public query func getPlans(limit : Nat) : async [PlanEntry] {
+    // Public access - no authorization check needed (accessible to guests)
     let planList = plans.values().toArray();
     let size = planList.size();
     let sliceSize = Nat.min(size, limit);
@@ -132,11 +136,45 @@ actor {
   };
 
   public query func getPlanById(id : Text) : async ?PlanEntry {
+    // Public access - no authorization check needed (accessible to guests)
     plans.get(id);
   };
 
-  public shared func submitEnquiry(name : Text, phone : ?Text, email : Text, city : ?Text, productInterest : ?ProductInterest, message : Text) : async () {
-    let _enquiry : Enquiry = {
+  public shared ({ caller }) func processJivanUtsavPoster(poster : Storage.ExternalBlob) : async () {
+    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+      Runtime.trap("Unauthorized: Only users can process posters");
+    };
+    let title = "Jeevan Utsav";
+    let structuredContent : StructuredPlan = {
+      title;
+      analysis = "Analysis text extracted from poster";
+      goals = "Goals from poster";
+      hypothesis = "Hypothesis content";
+      experiment = "Experiment details";
+      result = "Result found in poster";
+    };
+
+    let planMetadata : PlanMetadata = {
+      title;
+      description = "Plan extracted from Jeevan Utsav poster";
+      creator = caller;
+      createdAt = Time.now();
+      updatedAt = Time.now();
+    };
+
+    let planEntry : PlanEntry = {
+      id = title;
+      metadata = planMetadata;
+      poster;
+      content = structuredContent;
+    };
+
+    plans.add(title, planEntry);
+  };
+
+  public shared ({ caller }) func submitEnquiry(name : Text, phone : ?Text, email : Text, city : ?Text, productInterest : ?ProductInterest, message : Text) : async () {
+    // Public access - no authorization check needed (accessible to guests for contact form)
+    let enquiry : Enquiry = {
       name;
       phone;
       email;
@@ -144,14 +182,20 @@ actor {
       productInterest;
       message;
       timestamp = Time.now();
+      submitter = caller;
     };
+    enquiries.add(enquiryCounter, enquiry);
+    enquiryCounter += 1;
   };
 
-  public query ({ caller }) func getEnquiries(_limit : Nat) : async [Enquiry] {
+  public query ({ caller }) func getEnquiries(limit : Nat) : async [Enquiry] {
     if (not AccessControl.hasPermission(accessControlState, caller, #admin)) {
       Runtime.trap("Unauthorized: Only admins can view enquiries");
     };
-    ([] : [Enquiry]);
+    let enquiryList = enquiries.values().toArray();
+    let size = enquiryList.size();
+    let sliceSize = Nat.min(size, limit);
+    Array.tabulate<Enquiry>(sliceSize, func(i) { enquiryList[i] });
   };
 
   // --------- User Profiles -----------

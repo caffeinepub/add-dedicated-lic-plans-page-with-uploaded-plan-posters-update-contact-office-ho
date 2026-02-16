@@ -11,6 +11,7 @@ import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
 export interface Enquiry {
+  'submitter' : Principal,
   'city' : [] | [string],
   'name' : string,
   'email' : string,
@@ -91,6 +92,7 @@ export interface _SERVICE {
   'getPlans' : ActorMethod<[bigint], Array<PlanEntry>>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
+  'processJivanUtsavPoster' : ActorMethod<[ExternalBlob], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'submitEnquiry' : ActorMethod<
     [

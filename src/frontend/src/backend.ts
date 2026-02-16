@@ -119,6 +119,7 @@ export interface _CaffeineStorageCreateCertificateResult {
     blob_hash: string;
 }
 export interface Enquiry {
+    submitter: Principal;
     city?: string;
     name: string;
     email: string;
@@ -158,11 +159,12 @@ export interface backendInterface {
     createOrUpdatePlan(id: string, metadata: PlanMetadata, poster: ExternalBlob, structuredContent: StructuredPlan): Promise<void>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
-    getEnquiries(_limit: bigint): Promise<Array<Enquiry>>;
+    getEnquiries(limit: bigint): Promise<Array<Enquiry>>;
     getPlanById(id: string): Promise<PlanEntry | null>;
     getPlans(limit: bigint): Promise<Array<PlanEntry>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
+    processJivanUtsavPoster(poster: ExternalBlob): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     submitEnquiry(name: string, phone: string | null, email: string, city: string | null, productInterest: ProductInterest | null, message: string): Promise<void>;
     updatePlan(id: string, metadata: PlanMetadata, poster: ExternalBlob, structuredContent: StructuredPlan): Promise<void>;
@@ -394,6 +396,20 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async processJivanUtsavPoster(arg0: ExternalBlob): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.processJivanUtsavPoster(await to_candid_ExternalBlob_n10(this._uploadFile, this._downloadFile, arg0));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.processJivanUtsavPoster(await to_candid_ExternalBlob_n10(this._uploadFile, this._downloadFile, arg0));
+            return result;
+        }
+    }
     async saveCallerUserProfile(arg0: UserProfile): Promise<void> {
         if (this.processError) {
             try {
@@ -474,6 +490,7 @@ function from_candid_opt_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Ar
     return value.length === 0 ? null : value[0];
 }
 function from_candid_record_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    submitter: Principal;
     city: [] | [string];
     name: string;
     email: string;
@@ -482,6 +499,7 @@ function from_candid_record_n16(_uploadFile: (file: ExternalBlob) => Promise<Uin
     productInterest: [] | [_ProductInterest];
     phone: [] | [string];
 }): {
+    submitter: Principal;
     city?: string;
     name: string;
     email: string;
@@ -491,6 +509,7 @@ function from_candid_record_n16(_uploadFile: (file: ExternalBlob) => Promise<Uin
     phone?: string;
 } {
     return {
+        submitter: value.submitter,
         city: record_opt_to_undefined(from_candid_opt_n17(_uploadFile, _downloadFile, value.city)),
         name: value.name,
         email: value.email,

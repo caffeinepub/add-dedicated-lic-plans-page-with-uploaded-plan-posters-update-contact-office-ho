@@ -1,18 +1,18 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-14T15:40:42.339Z",
+  "generatedAt": "2026-02-16T14:53:52.945Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 5,
-    "implemented": 4,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Update the LIC Plans admin workflow to support uploading multiple images in one session and automatically assign each uploaded image to the best-matching plan title based on the filename (e.g., any filename containing \"jivan utsav\"/\"jeevan utsav\" maps to title \"Jeevan Utsav\", and any filename containing \"jivan umang\"/\"jeevan umang\" maps to title \"Jeevan Umang\").",
+        "summary": "Ensure the LIC Plans admin upload workflow accepts the user-provided image file named \"jivan utsav-6.jpg\" and automatically maps it to the plan title \"Jeevan Utsav\" (Jivan/Jeevan spelling variant) when processing uploads.",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/utils/planFilenameMatching.ts",
@@ -25,49 +25,27 @@
       },
       {
         "id": "REQ-2",
-        "summary": "When uploading an image whose derived title matches an existing plan entry, update that existing plan’s poster and structured content instead of creating a new duplicate plan entry; otherwise, create a new plan entry.",
+        "summary": "After processing \"jivan utsav-6.jpg\", create a new plan entry (or update the existing one if present) for \"Jeevan Utsav\" with the uploaded image stored as the plan poster and structured plan content extracted/filled by the existing OCR simulation.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/hooks/usePlans.ts",
-          "frontend/src/pages/LICPlans.tsx"
+          "frontend/src/pages/LICPlans.tsx",
+          "frontend/src/utils/planFilenameMatching.ts"
         ],
         "matchedFiles": [
-          "frontend/src/hooks/usePlans.ts",
-          "frontend/src/pages/LICPlans.tsx"
+          "frontend/src/pages/LICPlans.tsx",
+          "frontend/src/utils/planFilenameMatching.ts"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "Apply the \"best-matched\" poster selection for the user’s uploaded set by prioritizing the most specific filename variants when multiple files map to the same plan title (e.g., prefer files whose names include \"LIC\" and the exact plan name over more generic variants; if ties remain, prefer the highest numeric suffix).",
+        "summary": "Display each plan’s poster image in the LIC Plans UI (plan list cards and the expanded/detail section), rendering the stored poster blob as an actual image preview (with sensible sizing, aspect handling, and a fallback placeholder when unavailable).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/utils/planFilenameMatching.ts",
+          "frontend/src/components/plans/PlanPosterImage.tsx",
           "frontend/src/pages/LICPlans.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/utils/planFilenameMatching.ts",
-          "frontend/src/pages/LICPlans.tsx"
-        ]
-      },
-      {
-        "id": "REQ-4",
-        "summary": "Ensure the backend persists plan entries (including poster image reference/blob and structured content) across canister upgrades/redeploys, and add/adjust upgrade-safe state handling if the current in-memory map is not stable.",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-5",
-        "summary": "Resolve the build/deploy failure that surfaces as \"Configuration error detected\" when running the build to apply plan images, and add a clear, actionable error message in the UI when an upload/apply operation fails due to configuration problems.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/config.ts",
-          "frontend/src/hooks/useActor.ts",
-          "frontend/src/hooks/usePlans.ts",
-          "frontend/src/pages/LICPlans.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/usePlans.ts",
+          "frontend/src/components/plans/PlanPosterImage.tsx",
           "frontend/src/pages/LICPlans.tsx"
         ]
       }
@@ -77,15 +55,17 @@
     "backend/main.mo",
     "backend/migration.mo",
     "build-request.json",
+    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
     "frontend/src/backend.d.ts",
     "frontend/src/backend.ts",
+    "frontend/src/components/plans/PlanPosterImage.tsx",
     "frontend/src/declarations/backend.did.d.ts",
     "frontend/src/declarations/backend.did.js",
-    "frontend/src/hooks/usePlans.ts",
     "frontend/src/pages/LICPlans.tsx",
+    "frontend/src/utils/ocr.ts",
     "frontend/src/utils/planFilenameMatching.ts",
     "project_state.json",
     "scratch/component-selection.json",

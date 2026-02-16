@@ -1,100 +1,67 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Multi-image LIC plan admin upload with best-match mapping, dedupe updates, and clearer configuration error handling",
+  "title": "LIC Plans: map uploaded Jeevan Utsav poster and render plan poster images",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Allow multi-image selection/queue in LIC Plans admin upload and derive plan titles from filenames with specific Utsav/Umang mappings.",
+      "summary": "Improve upload filename-to-plan-title mapping so \"jivan utsav-6.jpg\" is grouped under \"Jeevan Utsav\" and shown as the selected/best candidate in the upload summary.",
       "acceptanceCriteria": [
-        "The file input on the LIC Plans page allows selecting multiple image files (or supports repeated selection while preserving a pending upload queue).",
-        "For each selected file, the UI shows the derived plan title before upload.",
-        "Files with names containing \"jivan utsav\" or \"jeevan utsav\" derive the title \"Jeevan Utsav\".",
-        "Files with names containing \"jivan umang\" or \"jeevan umang\" derive the title \"Jeevan Umang\".",
-        "Other filenames still derive a readable default title using the existing capitalization behavior."
+        "When selecting the file named \"jivan utsav-6.jpg\" in the LIC Plans upload input, the UI groups it under the derived plan title \"Jeevan Utsav\".",
+        "The upload summary indicates the selected/best candidate for \"Jeevan Utsav\" is \"jivan utsav-6.jpg\" (when it is the only file for that plan title)."
       ],
       "file_operations": [
         {
           "path": "frontend/src/utils/planFilenameMatching.ts",
-          "operation": "create",
-          "description": "Create filename-to-title derivation utilities that implement explicit mappings (Jeevan Utsav/Umang) plus readable default title capitalization; also expose normalization helpers for later matching."
+          "operation": "modify",
+          "description": "Harden plan title derivation for \"Jeevan Utsav\" by covering common spelling/typo variants (e.g., jivan/jeevan and potential \"utasav\" typo) and add a small exported title-normalization helper suitable for comparing existing plan titles to derived titles."
         },
         {
           "path": "frontend/src/pages/LICPlans.tsx",
           "operation": "modify",
-          "description": "Update admin upload UI to support multi-file selection and/or an additive pending queue; render a list/table of selected files showing each file name and derived plan title before upload; use English-only UI text and keep changes outside frontend/src/components/ui. Verify the component's usage instructions before implementing."
+          "description": "Update the pending-upload grouping and summary rendering so each derived plan title always shows the chosen/best candidate filename (even when only one file is present), ensuring \"Jeevan Utsav\" displays \"jivan utsav-6.jpg\" as the selected file."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "When a derived title matches an existing plan, update that plan instead of creating a duplicate; otherwise create a new plan.",
+      "summary": "Ensure Upload & Process creates or updates the \"Jeevan Utsav\" plan with the uploaded poster and OCR-simulated structured content, updating an existing plan even if its title uses a Jivan/Jeevan spelling variant.",
       "acceptanceCriteria": [
-        "If a plan already exists with metadata.title equal to the derived title (e.g., \"Jeevan Utsav\"), uploading another \"Jivan Utsav\" image updates the existing plan rather than adding a second plan with the same title.",
-        "After update, the plan displays the newly assigned poster image on the LIC Plans page.",
-        "If no existing plan matches the derived title, a new plan entry is created and appears in the list."
+        "Running Upload & Process with only \"jivan utsav-6.jpg\" results in a plan titled \"Jeevan Utsav\" appearing in the fetched plans list (created if missing, updated if already exists).",
+        "The created/updated plan includes a non-empty poster blob and non-empty structured content fields (at minimum, the \"Overview\" section has text).",
+        "No unauthorized errors occur for an authenticated admin user; if not authenticated as admin, the upload UI remains inaccessible as it is today."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/hooks/usePlans.ts",
-          "operation": "modify",
-          "description": "Align plan mutations with the available backend interface by switching the create flow to use the backend capability that supports create-or-update (and keep update using the existing update capability); ensure react-query invalidations keep the LIC Plans list refreshed after mutations."
-        },
-        {
           "path": "frontend/src/pages/LICPlans.tsx",
           "operation": "modify",
-          "description": "On submit/apply, for each derived plan title, check currently loaded plans for an existing entry with matching metadata.title; if found, call the update mutation with that plan id and updated metadata/content/poster; if not found, call the create-or-update mutation with a newly generated id; ensure the list refreshes and the new poster is visible."
+          "description": "Adjust existing-plan detection during upload processing to use a normalized title comparison (e.g., treating \"Jivan Utsav\" and \"Jeevan Utsav\" as the same logical plan) so the workflow updates the correct plan when present, while continuing to use the existing OCR simulation and plan save flow."
+        },
+        {
+          "path": "frontend/src/utils/planFilenameMatching.ts",
+          "operation": "modify",
+          "description": "Expose and reuse a consistent normalization function for plan titles (for both derived titles and stored titles) so the upload workflow can reliably match and update existing plans despite Jivan/Jeevan spelling variations."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Deterministically choose the best poster per plan title when multiple uploaded files map to the same title, and show the chosen file to the admin before submission.",
+      "summary": "Render each plan’s stored poster blob as an image in LIC Plans list cards and expanded/detail view, with sensible sizing and a robust fallback placeholder if rendering fails.",
       "acceptanceCriteria": [
-        "If multiple uploaded files map to \"Jeevan Utsav\", the app deterministically picks one as the preferred poster candidate using the prioritization rules and uses that file when auto-applying the mapping.",
-        "If multiple uploaded files map to \"Jeevan Umang\", the app deterministically picks one as the preferred poster candidate using the prioritization rules and uses that file when auto-applying the mapping.",
-        "The chosen file for each plan title is visible to the admin in the UI before final submission (preview name at minimum)."
+        "For the \"Jeevan Utsav\" plan created/updated from \"jivan utsav-6.jpg\", the plan list shows the poster image thumbnail on the plan card.",
+        "When expanding a plan, the poster image is also visible in the expanded/detail view.",
+        "If an image cannot be rendered for any reason, the UI shows a clear fallback (e.g., placeholder area/icon) without breaking the page layout."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/utils/planFilenameMatching.ts",
-          "operation": "modify",
-          "description": "Add best-candidate selection logic for files grouped by derived title: prioritize filenames that include \"LIC\" and the exact plan name; if ties remain, prefer the highest numeric suffix; expose a deterministic sorter/selector used by the LIC Plans admin page."
-        },
-        {
-          "path": "frontend/src/pages/LICPlans.tsx",
-          "operation": "modify",
-          "description": "Group pending uploads by derived title, compute the preferred file per title using the shared utility, and display which file is selected for each plan title prior to submission (at minimum, show the winning filename); ensure submission uses the preferred file for each title."
-        }
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "summary": "Fix the frontend-side build/configuration integration causing \"Configuration error detected\" and show actionable upload/apply failure messages in the UI.",
-      "acceptanceCriteria": [
-        "The project builds successfully without triggering the \"Configuration error detected\" failure.",
-        "If any configuration-related failure still occurs at runtime, the UI displays a user-facing English error that indicates which step failed (e.g., actor unavailable, permission denied, upload conversion failed) rather than a generic failure."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/config.ts",
+          "path": "frontend/src/components/plans/PlanPosterImage.tsx",
           "operation": "create",
-          "description": "Add the missing core configuration helper used by useActor (createActorWithConfig) so the frontend can build and create an actor reliably using the core-infrastructure wiring; keep errors surfaced as standard JavaScript Error messages suitable for UI mapping."
-        },
-        {
-          "path": "frontend/src/hooks/useActor.ts",
-          "operation": "modify",
-          "description": "Harden actor creation/initialization error handling: wrap actor creation and access-control initialization so configuration/availability failures produce clear Error messages (e.g., actor unavailable, initialization failed) that upstream UI can display; keep existing authorization initialization behavior."
-        },
-        {
-          "path": "frontend/src/hooks/usePlans.ts",
-          "operation": "modify",
-          "description": "Improve mutation error propagation by mapping common failures (actor not available, permission/unauthorized traps, upload conversion issues) into meaningful thrown errors; ensure the LIC Plans UI can display step-specific messages."
+          "description": "Create a reusable poster renderer that accepts a plan poster blob and displays it using the blob-storage ExternalBlob direct URL capability (use ExternalBlob.getDirectURL()), includes loading/error handling, and shows a clear placeholder fallback when unavailable or when image loading fails. Verify the component's usage instructions before implementing."
         },
         {
           "path": "frontend/src/pages/LICPlans.tsx",
           "operation": "modify",
-          "description": "Replace generic upload failure handling with actionable English errors that identify the failing step (file validation, OCR processing, byte conversion, actor availability, permission denied, backend update/create failure); if a configuration-related failure occurs, display guidance tailored to the failing step rather than a generic message."
+          "description": "Use the new PlanPosterImage component in the plans grid card UI and the expanded/detail view so each plan shows a consistent poster thumbnail/preview with proper sizing/aspect handling and a fallback placeholder. Verify the component's usage instructions before implementing."
         }
       ]
     }

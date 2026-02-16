@@ -2,8 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-lic-plans-admin-workflow-to-support-uploading-multiple-images-in-one-session-and-automatically-assign-each-uploaded-image-to-the-best-matching-plan-title-based-on-the-filename-e-g-any-filename-containing-jivan-utsav-jeevan-utsav-maps-to-title-jeevan-utsav-and-any-filename-containing-jivan-umang-jeevan-umang-maps-to-title-jeevan-umang",
-      "featureTitle": "Update the LIC Plans admin workflow to support uploading multiple images in one session and automatically assign each uploaded image to the best-matching plan title based on the filename (e.g., any filename containing \"jivan utsav\"/\"jeevan utsav\" maps to title \"Jeevan Utsav\", and any filename containing \"jivan umang\"/\"jeevan umang\" maps to title \"Jeevan Umang\").",
+      "featureId": "feature-ensure-the-lic-plans-admin-upload-workflow-accepts-the-user-provided-image-file-named-jivan-utsav-6-jpg-and-automatically-maps-it-to-the-plan-title-jeevan-utsav-jivan-jeevan-spelling-variant-when-processing-uploads",
+      "featureTitle": "Ensure the LIC Plans admin upload workflow accepts the user-provided image file named \"jivan utsav-6.jpg\" and automatically maps it to the plan title \"Jeevan Utsav\" (Jivan/Jeevan spelling variant) when processing uploads.",
       "files": [
         "frontend/src/pages/LICPlans.tsx",
         "frontend/src/utils/planFilenameMatching.ts"
@@ -23,11 +23,11 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-when-uploading-an-image-whose-derived-title-matches-an-existing-plan-entry-update-that-existing-plan-s-poster-and-structured-content-instead-of-creating-a-new-duplicate-plan-entry-otherwise-create-a-new-plan-entry",
-      "featureTitle": "When uploading an image whose derived title matches an existing plan entry, update that existing plan’s poster and structured content instead of creating a new duplicate plan entry; otherwise, create a new plan entry.",
+      "featureId": "feature-after-processing-jivan-utsav-6-jpg-create-a-new-plan-entry-or-update-the-existing-one-if-present-for-jeevan-utsav-with-the-uploaded-image-stored-as-the-plan-poster-and-structured-plan-content-extracted-filled-by-the-existing-ocr-simulation",
+      "featureTitle": "After processing \"jivan utsav-6.jpg\", create a new plan entry (or update the existing one if present) for \"Jeevan Utsav\" with the uploaded image stored as the plan poster and structured plan content extracted/filled by the existing OCR simulation.",
       "files": [
-        "frontend/src/hooks/usePlans.ts",
-        "frontend/src/pages/LICPlans.tsx"
+        "frontend/src/pages/LICPlans.tsx",
+        "frontend/src/utils/planFilenameMatching.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -44,31 +44,10 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-apply-the-best-matched-poster-selection-for-the-user-s-uploaded-set-by-prioritizing-the-most-specific-filename-variants-when-multiple-files-map-to-the-same-plan-title-e-g-prefer-files-whose-names-include-lic-and-the-exact-plan-name-over-more-generic-variants-if-ties-remain-prefer-the-highest-numeric-suffix",
-      "featureTitle": "Apply the \"best-matched\" poster selection for the user’s uploaded set by prioritizing the most specific filename variants when multiple files map to the same plan title (e.g., prefer files whose names include \"LIC\" and the exact plan name over more generic variants; if ties remain, prefer the highest numeric suffix).",
+      "featureId": "feature-display-each-plan-s-poster-image-in-the-lic-plans-ui-plan-list-cards-and-the-expanded-detail-section-rendering-the-stored-poster-blob-as-an-actual-image-preview-with-sensible-sizing-aspect-handling-and-a-fallback-placeholder-when-unavailable",
+      "featureTitle": "Display each plan’s poster image in the LIC Plans UI (plan list cards and the expanded/detail section), rendering the stored poster blob as an actual image preview (with sensible sizing, aspect handling, and a fallback placeholder when unavailable).",
       "files": [
-        "frontend/src/pages/LICPlans.tsx",
-        "frontend/src/utils/planFilenameMatching.ts"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "blob-storage@4.0.0"
-      ],
-      "testIds": [
-        "REQ-3"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-resolve-the-build-deploy-failure-that-surfaces-as-configuration-error-detected-when-running-the-build-to-apply-plan-images-and-add-a-clear-actionable-error-message-in-the-ui-when-an-upload-apply-operation-fails-due-to-configuration-problems",
-      "featureTitle": "Resolve the build/deploy failure that surfaces as \"Configuration error detected\" when running the build to apply plan images, and add a clear, actionable error message in the UI when an upload/apply operation fails due to configuration problems.",
-      "files": [
-        "frontend/src/hooks/usePlans.ts",
+        "frontend/src/components/plans/PlanPosterImage.tsx",
         "frontend/src/pages/LICPlans.tsx"
       ],
       "components": [
@@ -81,7 +60,7 @@
         "blob-storage@4.0.0"
       ],
       "testIds": [
-        "REQ-5"
+        "REQ-3"
       ],
       "confidence": "high"
     }

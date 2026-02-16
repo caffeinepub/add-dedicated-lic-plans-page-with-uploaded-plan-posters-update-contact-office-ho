@@ -50,6 +50,7 @@ export const ProductInterest = IDL.Variant({
   'tailorMadeModules' : IDL.Null,
 });
 export const Enquiry = IDL.Record({
+  'submitter' : IDL.Principal,
   'city' : IDL.Opt(IDL.Text),
   'name' : IDL.Text,
   'email' : IDL.Text,
@@ -110,6 +111,7 @@ export const idlService = IDL.Service({
       ['query'],
     ),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+  'processJivanUtsavPoster' : IDL.Func([ExternalBlob], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'submitEnquiry' : IDL.Func(
       [
@@ -175,6 +177,7 @@ export const idlFactory = ({ IDL }) => {
     'tailorMadeModules' : IDL.Null,
   });
   const Enquiry = IDL.Record({
+    'submitter' : IDL.Principal,
     'city' : IDL.Opt(IDL.Text),
     'name' : IDL.Text,
     'email' : IDL.Text,
@@ -235,6 +238,7 @@ export const idlFactory = ({ IDL }) => {
         ['query'],
       ),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+    'processJivanUtsavPoster' : IDL.Func([ExternalBlob], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'submitEnquiry' : IDL.Func(
         [

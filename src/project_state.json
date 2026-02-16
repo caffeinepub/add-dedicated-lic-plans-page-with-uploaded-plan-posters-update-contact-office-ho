@@ -1,42 +1,34 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Website/app with an LIC Plan section where each plan can display a single assigned image; user uploads plan images and requests applying them to the corresponding plans and building/deploying.",
-  "architectural_notes": [],
-  "known_issues": [
-    "Build/deploy failing with a 'Configuration error detected' during build when applying plan images."
+  "summary": "Build LIC Plans enhancement to attach and display a provided image per plan (starting with the Jivan Utsav plan).",
+  "architectural_notes": [
+    "Plan records should support an associated image (e.g., image URL/asset reference) supplied by the admin/user."
   ],
+  "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-update-the-lic-plans-admin-workflow-to-support-uploading-multiple-images-in-one-session-and-automatically-assign-each-uploaded-image-to-the-best-matching-plan-title-based-on-the-filename-e-g-any-filename-containing-jivan-utsav-jeevan-utsav-maps-to-title-jeevan-utsav-and-any-filename-containing-jivan-umang-jeevan-umang-maps-to-title-jeevan-umang",
-      "title": "Update the LIC Plans admin workflow to support uploading multiple images in one session and automatically assign each uploaded image to the best-matching plan title based on the filename (e.g., any filename containing \"jivan utsav\"/\"jeevan utsav\" maps to title \"Jeevan Utsav\", and any filename containing \"jivan umang\"/\"jeevan umang\" maps to title \"Jeevan Umang\").",
+      "id": "feature-ensure-the-lic-plans-admin-upload-workflow-accepts-the-user-provided-image-file-named-jivan-utsav-6-jpg-and-automatically-maps-it-to-the-plan-title-jeevan-utsav-jivan-jeevan-spelling-variant-when-processing-uploads",
+      "title": "Ensure the LIC Plans admin upload workflow accepts the user-provided image file named \"jivan utsav-6.jpg\" and automatically maps it to the plan title \"Jeevan Utsav\" (Jivan/Jeevan spelling variant) when processing uploads.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-when-uploading-an-image-whose-derived-title-matches-an-existing-plan-entry-update-that-existing-plan-s-poster-and-structured-content-instead-of-creating-a-new-duplicate-plan-entry-otherwise-create-a-new-plan-entry",
-      "title": "When uploading an image whose derived title matches an existing plan entry, update that existing plan’s poster and structured content instead of creating a new duplicate plan entry; otherwise, create a new plan entry.",
+      "id": "feature-after-processing-jivan-utsav-6-jpg-create-a-new-plan-entry-or-update-the-existing-one-if-present-for-jeevan-utsav-with-the-uploaded-image-stored-as-the-plan-poster-and-structured-plan-content-extracted-filled-by-the-existing-ocr-simulation",
+      "title": "After processing \"jivan utsav-6.jpg\", create a new plan entry (or update the existing one if present) for \"Jeevan Utsav\" with the uploaded image stored as the plan poster and structured plan content extracted/filled by the existing OCR simulation.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-apply-the-best-matched-poster-selection-for-the-user-s-uploaded-set-by-prioritizing-the-most-specific-filename-variants-when-multiple-files-map-to-the-same-plan-title-e-g-prefer-files-whose-names-include-lic-and-the-exact-plan-name-over-more-generic-variants-if-ties-remain-prefer-the-highest-numeric-suffix",
-      "title": "Apply the \"best-matched\" poster selection for the user’s uploaded set by prioritizing the most specific filename variants when multiple files map to the same plan title (e.g., prefer files whose names include \"LIC\" and the exact plan name over more generic variants; if ties remain, prefer the highest numeric suffix).",
+      "id": "feature-display-each-plan-s-poster-image-in-the-lic-plans-ui-plan-list-cards-and-the-expanded-detail-section-rendering-the-stored-poster-blob-as-an-actual-image-preview-with-sensible-sizing-aspect-handling-and-a-fallback-placeholder-when-unavailable",
+      "title": "Display each plan’s poster image in the LIC Plans UI (plan list cards and the expanded/detail section), rendering the stored poster blob as an actual image preview (with sensible sizing, aspect handling, and a fallback placeholder when unavailable).",
       "reqIds": [
         "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-resolve-the-build-deploy-failure-that-surfaces-as-configuration-error-detected-when-running-the-build-to-apply-plan-images-and-add-a-clear-actionable-error-message-in-the-ui-when-an-upload-apply-operation-fails-due-to-configuration-problems",
-      "title": "Resolve the build/deploy failure that surfaces as \"Configuration error detected\" when running the build to apply plan images, and add a clear, actionable error message in the UI when an upload/apply operation fails due to configuration problems.",
-      "reqIds": [
-        "REQ-5"
       ],
       "version": 1
     }
@@ -44,26 +36,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Update LIC Plan section to support one image per plan (replace/assign uploaded images to each plan and display with plan details).",
+      "summary": "Add support for attaching a provided image to an LIC Plan (starting with Jivan Utsav) and display it in the LIC Plans UI.",
       "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Allow selecting/auto-matching uploaded images to specific LIC plans (e.g., Jeevan/Jivan Umang and Jeevan/Jivan Utsav) and apply mappings during build.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-6",
-      "summary": "Ensure the backend persists plan entries (including poster image reference/blob and structured content) across canister upgrades/redeploys, and add/adjust upgrade-safe state handling if the current in-memory map is not stable.",
-      "reqIds": [
-        "REQ-4"
-      ],
       "status": "pending"
     }
   ],
-  "projectName": "Apply best-matched uploaded images to LIC plans and fix build configuration error",
+  "projectName": "Attach and display poster image for LIC plan (Jeevan Utsav) using uploaded file",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

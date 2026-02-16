@@ -1,60 +1,51 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-14T15:40:42.335Z",
-  "summary": "Diff implements multi-file upload scaffolding and filename→title derivation utilities, plus improved frontend error handling and a backend migration hook. However, upgrade-safe persistence is not evidenced, the deterministic “best match” selection logic appears to conflict with the requested numeric-suffix preference, and the build/deploy configuration error fix is not shown. Some unrelated marketing-page changes and extra filename mappings were added without being requested.",
+  "generatedAt": "2026-02-16T14:53:52.942Z",
+  "summary": "Diff implements plan poster storage on the backend and adds frontend poster rendering plus filename-to-title matching for “Jeevan Utsav”. However, the structured plan content shape shown in the diff does not include an explicit “Overview” field as required by REQ-2’s acceptance criteria.",
   "missing_requirements": [
     {
-      "id": "REQ-3",
-      "requirement": "Apply the \"best-matched\" poster selection by prioritizing the most specific filename variants when multiple files map to the same plan title, preferring names including \"LIC\" and exact plan name, then highest numeric suffix on ties.",
-      "reason": "The implemented scoring prefers files without a numeric suffix (adds +1000 when there is no \"-<n>.\"), which contradicts the acceptance criteria to prefer the highest numeric suffix when ties remain. This likely breaks deterministic selection per the specified rule.",
-      "evidence": [
-        "frontend/src/utils/planFilenameMatching.ts"
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "requirement": "Ensure the backend persists plan entries (including poster and structured content) across canister upgrades/redeploys with upgrade-safe stable state handling.",
-      "reason": "backend/main.mo still shows in-memory `let plans = Map.empty<Text, PlanEntry>()` and `let userProfiles = Map.empty...` with no visible `stable` variables or explicit preupgrade/postupgrade persistence. A migration module is added, but the diff does not show stable state being used to persist the maps across upgrades.",
+      "id": "REQ-2",
+      "requirement": "Created/updated plan includes non-empty structured content fields with (at minimum) an \"Overview\" section that has text.",
+      "reason": "The backend StructuredPlan type in the diff contains fields {title, analysis, goals, hypothesis, experiment, result} and does not show an \"Overview\" field/section. Based on the provided diff summary, the minimum \"Overview\" section requirement is not directly implemented.",
       "evidence": [
         "backend/main.mo",
-        "backend/migration.mo"
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "requirement": "Resolve the build/deploy failure \"Configuration error detected\" so the project builds successfully.",
-      "reason": "No build/deploy configuration files or scripts are shown as changed in the diff summary; only frontend/backend application code changes are evidenced.",
-      "evidence": [
-        "backend/main.mo",
-        "frontend/src/hooks/usePlans.ts",
-        "frontend/src/pages/LICPlans.tsx"
+        "frontend/src/utils/ocr.ts"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Added explicit filename→title mappings for plans beyond the requested Jeevan Utsav and Jeevan Umang (e.g., Bima Laxmi, Jeevan Labh, Jeevan Lakshya).",
-      "reason": "BuildRequest only specified explicit mappings for Utsav and Umang; additional plan mappings were not requested.",
+      "description": "Added data migration logic and expanded backend state to include enquiries/enquiryCounter.",
+      "reason": "Not requested by any REQ; BuildRequest is focused on plan poster upload/display and OCR simulation for plans.",
       "evidence": [
-        "frontend/src/utils/planFilenameMatching.ts"
+        "backend/migration.mo",
+        "backend/main.mo"
       ]
     },
     {
-      "description": "Unrelated marketing-site content/navigation changes (e.g., removing Testimonials, updating About/Hero/Footer/Contact content).",
-      "reason": "These changes are not part of the requested LIC Plans workflow, persistence, or build configuration fix.",
+      "description": "Marketing/homepage content changes (e.g., removing Testimonials references, updating Hero/About/Services/Contact/Footer, SEO/title changes, Tailwind/theme updates).",
+      "reason": "Not requested in the BuildRequest and outside the LIC Plans poster/upload scope.",
       "evidence": [
-        "frontend-file-summaries.txt (App.tsx, Navbar.tsx, Hero.tsx, About.tsx, Testimonials.tsx, Contact.tsx, Footer.tsx)"
+        "frontend-file-summaries.txt"
+      ]
+    },
+    {
+      "description": "Added generated static poster assets under frontend/public/assets/generated/ (e.g., lic-jivan-utsav.dim_668x1086.jpg).",
+      "reason": "BuildRequest specifies using the uploaded file and storing it as a blob (no separate gallery/CDN/static asset pipeline was requested).",
+      "evidence": [
+        "frontend-file-summaries.txt"
       ]
     }
   ],
-  "confidence": 0.66,
+  "confidence": 0.62,
   "changed_files": [
     "backend/main.mo",
     "backend/migration.mo",
     "frontend-file-summaries.txt",
-    "frontend/src/hooks/usePlans.ts",
+    "frontend/src/components/plans/PlanPosterImage.tsx",
     "frontend/src/pages/LICPlans.tsx",
+    "frontend/src/utils/ocr.ts",
     "frontend/src/utils/planFilenameMatching.ts",
     "project_state.json"
   ]

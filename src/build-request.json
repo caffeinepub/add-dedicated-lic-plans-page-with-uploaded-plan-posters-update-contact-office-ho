@@ -1,116 +1,75 @@
 {
   "kind": "build_request",
-  "title": "Apply best-matched uploaded images to LIC plans and fix build configuration error",
-  "priority": "high",
+  "title": "Attach and display poster image for LIC plan (Jeevan Utsav) using uploaded file",
+  "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Update the LIC Plans admin workflow to support uploading multiple images in one session and automatically assign each uploaded image to the best-matching plan title based on the filename (e.g., any filename containing \"jivan utsav\"/\"jeevan utsav\" maps to title \"Jeevan Utsav\", and any filename containing \"jivan umang\"/\"jeevan umang\" maps to title \"Jeevan Umang\").",
+      "text": "Ensure the LIC Plans admin upload workflow accepts the user-provided image file named \"jivan utsav-6.jpg\" and automatically maps it to the plan title \"Jeevan Utsav\" (Jivan/Jeevan spelling variant) when processing uploads.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-1"
         ],
         "quotes": [
-          "done best choice for you",
-          "proceed",
-          "yes apply",
-          "build"
+          "jivan utasav upload this image for jivan utsav",
+          "build it"
         ]
       },
       "acceptanceCriteria": [
-        "The file input on the LIC Plans page allows selecting multiple image files (or supports repeated selection while preserving a pending upload queue).",
-        "For each selected file, the UI shows the derived plan title before upload.",
-        "Files with names containing \"jivan utsav\" or \"jeevan utsav\" derive the title \"Jeevan Utsav\".",
-        "Files with names containing \"jivan umang\" or \"jeevan umang\" derive the title \"Jeevan Umang\".",
-        "Other filenames still derive a readable default title using the existing capitalization behavior."
+        "When selecting the file named \"jivan utsav-6.jpg\" in the LIC Plans upload input, the UI groups it under the derived plan title \"Jeevan Utsav\".",
+        "The upload summary indicates the selected/best candidate for \"Jeevan Utsav\" is \"jivan utsav-6.jpg\" (when it is the only file for that plan title)."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "When uploading an image whose derived title matches an existing plan entry, update that existing plan’s poster and structured content instead of creating a new duplicate plan entry; otherwise, create a new plan entry.",
+      "text": "After processing \"jivan utsav-6.jpg\", create a new plan entry (or update the existing one if present) for \"Jeevan Utsav\" with the uploaded image stored as the plan poster and structured plan content extracted/filled by the existing OCR simulation.",
       "target": "both",
       "source": {
         "messageIds": [
           "msg-1"
         ],
         "quotes": [
-          "done best choice for you",
-          "yes apply"
+          "Please attach Image with Plan",
+          "jivan utasav upload this image for jivan utsav",
+          "build it"
         ]
       },
       "acceptanceCriteria": [
-        "If a plan already exists with metadata.title equal to the derived title (e.g., \"Jeevan Utsav\"), uploading another \"Jivan Utsav\" image updates the existing plan rather than adding a second plan with the same title.",
-        "After update, the plan displays the newly assigned poster image on the LIC Plans page.",
-        "If no existing plan matches the derived title, a new plan entry is created and appears in the list."
+        "Running Upload & Process with only \"jivan utsav-6.jpg\" results in a plan titled \"Jeevan Utsav\" appearing in the fetched plans list (created if missing, updated if already exists).",
+        "The created/updated plan includes a non-empty poster blob and non-empty structured content fields (at minimum, the \"Overview\" section has text).",
+        "No unauthorized errors occur for an authenticated admin user; if not authenticated as admin, the upload UI remains inaccessible as it is today."
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Apply the \"best-matched\" poster selection for the user’s uploaded set by prioritizing the most specific filename variants when multiple files map to the same plan title (e.g., prefer files whose names include \"LIC\" and the exact plan name over more generic variants; if ties remain, prefer the highest numeric suffix).",
+      "text": "Display each plan’s poster image in the LIC Plans UI (plan list cards and the expanded/detail section), rendering the stored poster blob as an actual image preview (with sensible sizing, aspect handling, and a fallback placeholder when unavailable).",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-1"
         ],
         "quotes": [
-          "done best choice for you",
-          "proceed",
-          "continue"
+          "in LIC PLANS Please attach Image with Plan",
+          "image shows & also plan i provide image"
         ]
       },
       "acceptanceCriteria": [
-        "If multiple uploaded files map to \"Jeevan Utsav\", the app deterministically picks one as the preferred poster candidate using the prioritization rules and uses that file when auto-applying the mapping.",
-        "If multiple uploaded files map to \"Jeevan Umang\", the app deterministically picks one as the preferred poster candidate using the prioritization rules and uses that file when auto-applying the mapping.",
-        "The chosen file for each plan title is visible to the admin in the UI before final submission (preview name at minimum)."
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Ensure the backend persists plan entries (including poster image reference/blob and structured content) across canister upgrades/redeploys, and add/adjust upgrade-safe state handling if the current in-memory map is not stable.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "build"
-        ]
-      },
-      "acceptanceCriteria": [
-        "After creating/updating plans, refreshing the page still shows the same plans and assigned posters.",
-        "After a backend redeploy/upgrade, previously created plans and their posters are still returned by getPlans and rendered on the LIC Plans page.",
-        "No unauthorized caller can create/update plans (existing authorization behavior remains intact)."
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Resolve the build/deploy failure that surfaces as \"Configuration error detected\" when running the build to apply plan images, and add a clear, actionable error message in the UI when an upload/apply operation fails due to configuration problems.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "build",
-          "⚠️ Configuration error detected. Please contact the Caffeine team about this issue."
-        ]
-      },
-      "acceptanceCriteria": [
-        "The project builds successfully without triggering the \"Configuration error detected\" failure.",
-        "If any configuration-related failure still occurs at runtime, the UI displays a user-facing English error that indicates which step failed (e.g., actor unavailable, permission denied, upload conversion failed) rather than a generic failure."
+        "For the \"Jeevan Utsav\" plan created/updated from \"jivan utsav-6.jpg\", the plan list shows the poster image thumbnail on the plan card.",
+        "When expanding a plan, the poster image is also visible in the expanded/detail view.",
+        "If an image cannot be rendered for any reason, the UI shows a clear fallback (e.g., placeholder area/icon) without breaking the page layout."
       ]
     }
   ],
   "constraints": [
-    "Backend must remain a single-actor Motoko canister (all logic in backend/main.mo).",
-    "Do not edit files under frontend/src/components/ui or any paths listed in frontend.immutablePaths.",
-    "Use English for all user-facing UI text."
+    "Do not modify files under frontend/src/components/ui (compose them only).",
+    "Do not modify frontend immutable hook paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx.",
+    "Backend must remain a single-actor Motoko canister (all logic in backend/main.mo)."
   ],
   "nonGoals": [
-    "Implementing real OCR via external services or third-party APIs (current simulated OCR behavior is acceptable).",
-    "Adding third-party authentication providers (only Internet Identity is supported).",
-    "Introducing external databases or non-Motoko backend services."
+    "Adding support for multiple images per plan (one poster image per plan only).",
+    "Introducing third-party OCR services or external storage/CDNs.",
+    "Implementing a separate public image gallery or marketing carousel outside the LIC Plans page."
   ],
   "imageRequirements": {
     "required": [],

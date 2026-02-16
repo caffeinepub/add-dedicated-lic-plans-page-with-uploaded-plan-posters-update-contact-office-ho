@@ -37,6 +37,7 @@ export interface PlanMetadata {
     updatedAt: Time;
 }
 export interface Enquiry {
+    submitter: Principal;
     city?: string;
     name: string;
     email: string;
@@ -65,11 +66,12 @@ export interface backendInterface {
     createOrUpdatePlan(id: string, metadata: PlanMetadata, poster: ExternalBlob, structuredContent: StructuredPlan): Promise<void>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
-    getEnquiries(_limit: bigint): Promise<Array<Enquiry>>;
+    getEnquiries(limit: bigint): Promise<Array<Enquiry>>;
     getPlanById(id: string): Promise<PlanEntry | null>;
     getPlans(limit: bigint): Promise<Array<PlanEntry>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
+    processJivanUtsavPoster(poster: ExternalBlob): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     submitEnquiry(name: string, phone: string | null, email: string, city: string | null, productInterest: ProductInterest | null, message: string): Promise<void>;
     updatePlan(id: string, metadata: PlanMetadata, poster: ExternalBlob, structuredContent: StructuredPlan): Promise<void>;

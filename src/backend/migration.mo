@@ -1,11 +1,18 @@
 import Map "mo:core/Map";
 import Principal "mo:core/Principal";
 import Storage "blob-storage/Storage";
-import Text "mo:core/Text";
 import Time "mo:core/Time";
 
 module {
-  public type PlanMetadata = {
+  type ProductInterest = {
+    #groundworks;
+    #tailorMadeModules;
+    #moduleSelector;
+    #unloadModifications;
+    #other;
+  };
+
+  type PlanMetadata = {
     title : Text;
     description : Text;
     creator : Principal;
@@ -13,7 +20,7 @@ module {
     updatedAt : Time.Time;
   };
 
-  public type StructuredPlan = {
+  type StructuredPlan = {
     title : Text;
     analysis : Text;
     goals : Text;
@@ -22,22 +29,14 @@ module {
     result : Text;
   };
 
-  public type PlanEntry = {
+  type PlanEntry = {
     id : Text;
     metadata : PlanMetadata;
     poster : Storage.ExternalBlob;
     content : StructuredPlan;
   };
 
-  public type ProductInterest = {
-    #groundworks;
-    #tailorMadeModules;
-    #moduleSelector;
-    #unloadModifications;
-    #other;
-  };
-
-  public type Enquiry = {
+  type Enquiry = {
     name : Text;
     phone : ?Text;
     email : Text;
@@ -45,9 +44,10 @@ module {
     productInterest : ?ProductInterest;
     message : Text;
     timestamp : Time.Time;
+    submitter : Principal;
   };
 
-  public type UserProfile = {
+  type UserProfile = {
     name : Text;
   };
 
@@ -59,10 +59,16 @@ module {
   type NewActor = {
     userProfiles : Map.Map<Principal, UserProfile>;
     plans : Map.Map<Text, PlanEntry>;
+    enquiries : Map.Map<Nat, Enquiry>;
+    enquiryCounter : Nat;
   };
 
   public func run(old : OldActor) : NewActor {
-    // No structural changes, just carry old state to new
-    old;
+    {
+      userProfiles = old.userProfiles;
+      plans = old.plans;
+      enquiries = Map.empty<Nat, Enquiry>();
+      enquiryCounter = 0;
+    };
   };
 };
