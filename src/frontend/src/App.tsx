@@ -9,6 +9,10 @@ import FAQ from './components/marketing/FAQ';
 import Contact from './components/marketing/Contact';
 import Footer from './components/marketing/Footer';
 import LICPlans from './pages/LICPlans';
+import ComparisonPage from './pages/ComparisonPage';
+import PremiumCalculatorPage from './pages/PremiumCalculatorPage';
+import MaturityCalculatorPage from './pages/MaturityCalculatorPage';
+import ROIAnalysisPage from './pages/ROIAnalysisPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,13 +24,21 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const [currentView, setCurrentView] = useState<'home' | 'lic-plans'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'lic-plans' | 'comparison' | 'calculator-premium' | 'calculator-maturity' | 'roi-analysis'>('home');
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1);
       if (hash === 'lic-plans') {
         setCurrentView('lic-plans');
+      } else if (hash === 'comparison') {
+        setCurrentView('comparison');
+      } else if (hash === 'calculator/premium') {
+        setCurrentView('calculator-premium');
+      } else if (hash === 'calculator/maturity') {
+        setCurrentView('calculator-maturity');
+      } else if (hash === 'roi-analysis') {
+        setCurrentView('roi-analysis');
       } else {
         setCurrentView('home');
       }
@@ -50,6 +62,14 @@ function App() {
             <FAQ />
             <Contact />
           </main>
+        ) : currentView === 'comparison' ? (
+          <ComparisonPage />
+        ) : currentView === 'calculator-premium' ? (
+          <PremiumCalculatorPage />
+        ) : currentView === 'calculator-maturity' ? (
+          <MaturityCalculatorPage />
+        ) : currentView === 'roi-analysis' ? (
+          <ROIAnalysisPage />
         ) : (
           <LICPlans />
         )}

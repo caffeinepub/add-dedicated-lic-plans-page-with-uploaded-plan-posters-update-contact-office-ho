@@ -1,69 +1,15 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-21T14:18:14.223Z",
-  "summary": "The diff implements a dedicated LIC Plans section with 6 hardcoded plans (Jivan Labh, Jivan Umang, Jivan Shanti, Jivan Utsav, Jivan Lakshya, Bima Laxmi) featuring trilingual support (Marathi, Hindi, English), expandable plan cards, and responsive grid layout. However, the implementation uses generic placeholder data instead of extracting detailed information from uploaded marketing images as specified in requirements REQ-3 through REQ-8. The 9 uploaded marketing images are referenced but not confirmed as stored static assets.",
+  "generatedAt": "2026-02-21T15:14:57.433Z",
+  "summary": "The diff implements all major frontend requirements (REQ-9 through REQ-13) including side-by-side comparison, premium/maturity calculators, ROI analysis, and search/filter functionality with trilingual support. Backend data extraction (REQ-14) is partially implemented with structured types and sample data for 2 plans, but lacks complete extraction from all 6 plan images.",
   "missing_requirements": [
     {
-      "id": "REQ-3",
-      "requirement": "Extract and structure detailed plan information from uploaded images for Jivan Labh: 10 year payment term, 6 year income period, 16 year maturity, premium tables showing coverage from ₹2.1 lakh to ₹12.1 lakh with daily, monthly, and full payment options",
-      "reason": "The Jivan Labh plan in backend/main.mo and frontend/src/data/planTranslations.ts contains only generic placeholder text ('Detailed premium tables extracted from images') instead of the specific premium table data with daily, monthly, full payment columns and coverage ranges required by the acceptance criteria.",
+      "id": "REQ-14",
+      "requirement": "Extract and structure detailed data from all 6 uploaded LIC plan images including premium tables with age-based rates, maturity benefit formulas, policy terms, guaranteed additions/bonuses, risk coverage details, and special features",
+      "reason": "Backend only shows sample premium rates for 2 plans (Jivan Labh and Jivan Umang at ages 30 and 40). The remaining 4 plans (Bima Laxmi, Jivan Lakshya, Jivan Utsav, Jivan Shanti) lack complete premium rate tables extracted from images. Sample data is insufficient compared to 'detailed data from images' requirement.",
       "evidence": [
-        "backend/main.mo",
-        "frontend/src/data/planTranslations.ts"
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "requirement": "Extract and structure detailed plan information from uploaded images for Jivan Umang with specific values: ₹138 daily, 15 years payment, ₹50,000 annual pension, ₹52 lakh maturity, ₹22 lakh family benefit, ₹5.4 lakh natural risk, ₹22 lakh accidental risk",
-      "reason": "While the translation data mentions these values in summary form, there is no evidence of structured data extraction with separate fields for each benefit component (daily savings, payment period, pension, maturity, family benefit, risk covers) as required by the acceptance criteria.",
-      "evidence": [
-        "backend/main.mo",
-        "frontend/src/data/planTranslations.ts"
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "requirement": "Extract and structure detailed plan information from uploaded images for Jivan Shanti: Single premium annuity plan with guaranteed rates table showing entry ages from 30 to 75 years, deferment periods from 0 to 20 years, with guaranteed annuity rates ranging from 6.49% to 21.60%",
-      "reason": "The plan data contains generic text but does not show a structured rates table with all entry ages (30, 40, 50, 60, 65, 70, 75) and deferment periods (0 to 20 years) as specified. No table structure or complete rate data is evident in the diff.",
-      "evidence": [
-        "backend/main.mo",
-        "frontend/src/data/planTranslations.ts"
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "requirement": "Extract and structure detailed plan information from uploaded images for Jivan Utsav: 10% guaranteed returns plan with example of saving ₹5,000/month for 11 years to get ₹60,000 annually from year 14 onwards, including comprehensive benefit tables showing 5-year payment periods with guaranteed annual income ranging from ₹50,000 to ₹10,00,000",
-      "reason": "The plan data mentions examples but does not show structured benefit tables with all monthly premium options (₹5,000, ₹6,200, ₹7,200, ₹8,300, ₹9,300, ₹10,200, ₹15,300, ₹20,400) and corresponding guaranteed annual income amounts with total income benefit and family fund columns.",
-      "evidence": [
-        "backend/main.mo",
-        "frontend/src/data/planTranslations.ts"
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "requirement": "Extract and structure detailed plan information from uploaded images for Jivan Lakshya: Target-oriented life goal plan with entry age 18-50 years, policy maturity 13-25 years, premium payment age 13-25 years, hospitalization benefits from policy start, with example showing ₹5 lakh coverage for 30-year-old with ₹23,105 annual premium (₹1,966 monthly), 50,000 annual returns building to ₹13,75,000 maturity",
-      "reason": "The plan data contains summary text but lacks structured fields for entry age ranges, policy maturity ranges, premium payment periods, hospitalization benefit details, and the specific example calculation with timeline as required by acceptance criteria.",
-      "evidence": [
-        "backend/main.mo",
-        "frontend/src/data/planTranslations.ts"
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "requirement": "Extract and structure detailed plan information from uploaded images for Bima Laxmi: Women-focused 25-year money back plan (Plan 881) with ₹10 lakh coverage providing ₹75,000 returns every 2 years, ₹5 lakh after premium term completion, ₹5 lakh bonus at policy maturity",
-      "reason": "While the plan data mentions it is women-focused and includes a 25-year term, the structured money back schedule showing ₹75,000 returns every 2 years with specific timing is not evident in the implementation.",
-      "evidence": [
-        "backend/main.mo",
-        "frontend/src/data/planTranslations.ts"
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "requirement": "Store and display the 9 uploaded marketing images (jivan labh 736-4.jpg, Jivan Umang-6.jpg, jivan shanti-1.jpg, LIC Jivan Utsav-7.jpg, jivan utsav-8.jpg, jivan utsav plan-6.jpg, jivan lakshya-1.jpg, bima laxmi-2.jpg, jivan lakshya..-4.jpg) as static assets in frontend/public/assets/generated directory",
-      "reason": "The diff references image paths in planImageMapping.ts but does not show evidence that all 9 images are actually stored in frontend/public/assets/generated with their original filenames. The file list shows only 2 images (jivan-lakshya and lic-jivan-utsav) with dimension-suffixed filenames that differ from the required original filenames.",
-      "evidence": [
-        "frontend/src/utils/planImageMapping.ts"
+        "backend/main.mo"
       ]
     }
   ],
@@ -74,17 +20,29 @@
     "backend/migration.mo",
     "frontend-file-summaries.txt",
     "frontend/src/App.tsx",
-    "frontend/src/components/plans/LanguageToggle.tsx",
-    "frontend/src/components/plans/PlanCard.tsx",
-    "frontend/src/components/plans/PlanDetails.tsx",
-    "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+    "frontend/src/components/calculators/MaturityCalculatorForm.tsx",
+    "frontend/src/components/calculators/MaturityResultsDisplay.tsx",
+    "frontend/src/components/calculators/PremiumCalculatorForm.tsx",
+    "frontend/src/components/calculators/PremiumResultsGrid.tsx",
+    "frontend/src/components/comparison/ComparisonTable.tsx",
+    "frontend/src/components/comparison/PlanSelector.tsx",
+    "frontend/src/components/filters/PlanFilterPanel.tsx",
+    "frontend/src/components/roi/ROIComparisonChart.tsx",
+    "frontend/src/components/roi/ROIInputForm.tsx",
+    "frontend/src/components/roi/ROIResultsTable.tsx",
     "frontend/src/data/planTranslations.ts",
-    "frontend/src/hooks/useLICPlans.ts",
-    "frontend/src/hooks/useLanguage.tsx",
-    "frontend/src/index.css",
+    "frontend/src/hooks/usePlanFilters.ts",
+    "frontend/src/pages/ComparisonPage.tsx",
     "frontend/src/pages/LICPlans.tsx",
+    "frontend/src/pages/MaturityCalculatorPage.tsx",
+    "frontend/src/pages/PremiumCalculatorPage.tsx",
+    "frontend/src/pages/ROIAnalysisPage.tsx",
+    "frontend/src/types/filters.ts",
     "frontend/src/types/translations.ts",
-    "frontend/src/utils/planImageMapping.ts",
+    "frontend/src/utils/maturityCalculations.ts",
+    "frontend/src/utils/planFiltering.ts",
+    "frontend/src/utils/premiumCalculations.ts",
+    "frontend/src/utils/roiCalculations.ts",
     "project_state.json"
   ]
 }

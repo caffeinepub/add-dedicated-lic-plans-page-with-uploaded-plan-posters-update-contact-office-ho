@@ -328,4 +328,304 @@ export const uiLabels: UILabels = {
     hi: 'हमसे संपर्क करें',
     en: 'Contact Us',
   },
+  selectPlansToCompare: {
+    mr: 'तुलना करण्यासाठी योजना निवडा',
+    hi: 'तुलना के लिए योजनाएं चुनें',
+    en: 'Select Plans to Compare',
+  },
+  compareNow: {
+    mr: 'आता तुलना करा',
+    hi: 'अभी तुलना करें',
+    en: 'Compare Now',
+  },
+  clearSelection: {
+    mr: 'निवड साफ करा',
+    hi: 'चयन साफ़ करें',
+    en: 'Clear Selection',
+  },
+  minimumTwoPlans: {
+    mr: 'तुलना करण्यासाठी किमान 2 योजना निवडा',
+    hi: 'तुलना करने के लिए कम से कम 2 योजनाएं चुनें',
+    en: 'Select at least 2 plans to compare',
+  },
+  comparisonTable: {
+    mr: 'तुलना सारणी',
+    hi: 'तुलना तालिका',
+    en: 'Comparison Table',
+  },
+  planName: {
+    mr: 'योजना नाव',
+    hi: 'योजना का नाम',
+    en: 'Plan Name',
+  },
+  premiumDetails: {
+    mr: 'प्रीमियम तपशील',
+    hi: 'प्रीमियम विवरण',
+    en: 'Premium Details',
+  },
+  maturityBenefits: {
+    mr: 'परिपक्वता लाभ',
+    hi: 'परिपक्वता लाभ',
+    en: 'Maturity Benefits',
+  },
+  sumAssured: {
+    mr: 'विमा रक्कम',
+    hi: 'बीमा राशि',
+    en: 'Sum Assured',
+  },
+  guaranteedAdditions: {
+    mr: 'हमी जोड',
+    hi: 'गारंटीड जोड़',
+    en: 'Guaranteed Additions',
+  },
+  bonuses: {
+    mr: 'बोनस',
+    hi: 'बोनस',
+    en: 'Bonuses',
+  },
+  premiumCalculator: {
+    mr: 'प्रीमियम कॅल्क्युलेटर',
+    hi: 'प्रीमियम कैलकुलेटर',
+    en: 'Premium Calculator',
+  },
+  enterYourAge: {
+    mr: 'तुमचे वय प्रविष्ट करा',
+    hi: 'अपनी आयु दर्ज करें',
+    en: 'Enter Your Age',
+  },
+  desiredSumAssured: {
+    mr: 'इच्छित विमा रक्कम',
+    hi: 'वांछित बीमा राशि',
+    en: 'Desired Sum Assured',
+  },
+  calculatePremiums: {
+    mr: 'प्रीमियम मोजा',
+    hi: 'प्रीमियम की गणना करें',
+    en: 'Calculate Premiums',
+  },
+  monthlyPremium: {
+    mr: 'मासिक प्रीमियम',
+    hi: 'मासिक प्रीमियम',
+    en: 'Monthly Premium',
+  },
+  quarterlyPremium: {
+    mr: 'त्रैमासिक प्रीमियम',
+    hi: 'त्रैमासिक प्रीमियम',
+    en: 'Quarterly Premium',
+  },
+  halfYearlyPremium: {
+    mr: 'अर्धवार्षिक प्रीमियम',
+    hi: 'अर्धवार्षिक प्रीमियम',
+    en: 'Half-Yearly Premium',
+  },
+  annualPremium: {
+    mr: 'वार्षिक प्रीमियम',
+    hi: 'वार्षिक प्रीमियम',
+    en: 'Annual Premium',
+  },
+  calculatedResults: {
+    mr: 'मोजलेले परिणाम',
+    hi: 'गणना किए गए परिणाम',
+    en: 'Calculated Results',
+  },
+  eligiblePlans: {
+    mr: 'पात्र योजना',
+    hi: 'पात्र योजनाएं',
+    en: 'Eligible Plans',
+  },
+  notEligible: {
+    mr: 'पात्र नाही',
+    hi: 'पात्र नहीं',
+    en: 'Not Eligible',
+  },
+  ageValidation: {
+    mr: 'वय 18 ते 65 दरम्यान असावे',
+    hi: 'आयु 18 से 65 के बीच होनी चाहिए',
+    en: 'Age must be between 18 and 65',
+  },
+  sumAssuredValidation: {
+    mr: 'विमा रक्कम किमान ₹1,00,000 असावी',
+    hi: 'बीमा राशि कम से कम ₹1,00,000 होनी चाहिए',
+    en: 'Sum assured must be at least ₹1,00,000',
+  },
+  maturityCalculator: {
+    mr: 'परिपक्वता कॅल्क्युलेटर',
+    hi: 'परिपक्वता कैलकुलेटर',
+    en: 'Maturity Calculator',
+  },
+  premiumAmount: {
+    mr: 'प्रीमियम रक्कम',
+    hi: 'प्रीमियम राशि',
+    en: 'Premium Amount',
+  },
+  totalMaturityAmount: {
+    mr: 'एकूण परिपक्वता रक्कम',
+    hi: 'कुल परिपक्वता राशि',
+    en: 'Total Maturity Amount',
+  },
+  maturityBreakdown: {
+    mr: 'परिपक्वता तपशील',
+    hi: 'परिपक्वता विवरण',
+    en: 'Maturity Breakdown',
+  },
+  calculateMaturity: {
+    mr: 'परिपक्वता मोजा',
+    hi: 'परिपक्वता की गणना करें',
+    en: 'Calculate Maturity',
+  },
+  eligibleForMaturity: {
+    mr: 'परिपक्वतेसाठी पात्र',
+    hi: 'परिपक्वता के लिए पात्र',
+    en: 'Eligible for Maturity',
+  },
+  baseSum: {
+    mr: 'मूळ रक्कम',
+    hi: 'मूल राशि',
+    en: 'Base Sum',
+  },
+  additionalBenefits: {
+    mr: 'अतिरिक्त लाभ',
+    hi: 'अतिरिक्त लाभ',
+    en: 'Additional Benefits',
+  },
+  projectedMaturity: {
+    mr: 'अंदाजित परिपक्वता',
+    hi: 'अनुमानित परिपक्वता',
+    en: 'Projected Maturity',
+  },
+  premiumValidation: {
+    mr: 'प्रीमियम रक्कम किमान ₹10,000 असावी',
+    hi: 'प्रीमियम राशि कम से कम ₹10,000 होनी चाहिए',
+    en: 'Premium amount must be at least ₹10,000',
+  },
+  termValidation: {
+    mr: 'मुदत 10 ते 30 वर्षे दरम्यान असावी',
+    hi: 'अवधि 10 से 30 वर्ष के बीच होनी चाहिए',
+    en: 'Term must be between 10 and 30 years',
+  },
+  roiAnalysis: {
+    mr: 'ROI विश्लेषण',
+    hi: 'ROI विश्लेषण',
+    en: 'ROI Analysis',
+  },
+  returnOnInvestment: {
+    mr: 'गुंतवणूक परतावा',
+    hi: 'निवेश पर रिटर्न',
+    en: 'Return on Investment',
+  },
+  effectiveAnnualReturn: {
+    mr: 'प्रभावी वार्षिक परतावा',
+    hi: 'प्रभावी वार्षिक रिटर्न',
+    en: 'Effective Annual Return',
+  },
+  totalPremiumsPaid: {
+    mr: 'एकूण भरलेले प्रीमियम',
+    hi: 'कुल भुगतान किया गया प्रीमियम',
+    en: 'Total Premiums Paid',
+  },
+  maturityBenefitsReceived: {
+    mr: 'मिळालेले परिपक्वता लाभ',
+    hi: 'प्राप्त परिपक्वता लाभ',
+    en: 'Maturity Benefits Received',
+  },
+  netGain: {
+    mr: 'निव्वळ लाभ',
+    hi: 'शुद्ध लाभ',
+    en: 'Net Gain',
+  },
+  roiPercentage: {
+    mr: 'ROI टक्केवारी',
+    hi: 'ROI प्रतिशत',
+    en: 'ROI Percentage',
+  },
+  compareReturns: {
+    mr: 'परताव्याची तुलना करा',
+    hi: 'रिटर्न की तुलना करें',
+    en: 'Compare Returns',
+  },
+  bestReturns: {
+    mr: 'सर्वोत्तम परतावा',
+    hi: 'सर्वोत्तम रिटर्न',
+    en: 'Best Returns',
+  },
+  roiComparison: {
+    mr: 'ROI तुलना',
+    hi: 'ROI तुलना',
+    en: 'ROI Comparison',
+  },
+  investmentPeriod: {
+    mr: 'गुंतवणूक कालावधी',
+    hi: 'निवेश अवधि',
+    en: 'Investment Period',
+  },
+  filterPlans: {
+    mr: 'योजना फिल्टर करा',
+    hi: 'योजना फ़िल्टर करें',
+    en: 'Filter Plans',
+  },
+  ageRange: {
+    mr: 'वय श्रेणी',
+    hi: 'आयु सीमा',
+    en: 'Age Range',
+  },
+  minAge: {
+    mr: 'किमान वय',
+    hi: 'न्यूनतम आयु',
+    en: 'Minimum Age',
+  },
+  maxAge: {
+    mr: 'कमाल वय',
+    hi: 'अधिकतम आयु',
+    en: 'Maximum Age',
+  },
+  premiumBudget: {
+    mr: 'प्रीमियम बजेट',
+    hi: 'प्रीमियम बजट',
+    en: 'Premium Budget',
+  },
+  monthlyBudget: {
+    mr: 'मासिक बजेट',
+    hi: 'मासिक बजट',
+    en: 'Monthly Budget',
+  },
+  financialGoals: {
+    mr: 'आर्थिक उद्दिष्टे',
+    hi: 'वित्तीय लक्ष्य',
+    en: 'Financial Goals',
+  },
+  savingsGoal: {
+    mr: 'बचत',
+    hi: 'बचत',
+    en: 'Savings',
+  },
+  pensionGoal: {
+    mr: 'पेन्शन',
+    hi: 'पेंशन',
+    en: 'Pension',
+  },
+  moneyBackGoal: {
+    mr: 'मनी बॅक',
+    hi: 'मनी बैक',
+    en: 'Money Back',
+  },
+  guaranteedReturnsGoal: {
+    mr: 'हमी परतावा',
+    hi: 'गारंटीड रिटर्न',
+    en: 'Guaranteed Returns',
+  },
+  clearFilters: {
+    mr: 'फिल्टर साफ करा',
+    hi: 'फ़िल्टर साफ़ करें',
+    en: 'Clear Filters',
+  },
+  applyFilters: {
+    mr: 'फिल्टर लागू करा',
+    hi: 'फ़िल्टर लागू करें',
+    en: 'Apply Filters',
+  },
+  noPlansMatch: {
+    mr: 'तुमच्या फिल्टरशी जुळणाऱ्या योजना आढळल्या नाहीत',
+    hi: 'आपके फ़िल्टर से मेल खाने वाली कोई योजना नहीं मिली',
+    en: 'No plans match your filters',
+  },
 };

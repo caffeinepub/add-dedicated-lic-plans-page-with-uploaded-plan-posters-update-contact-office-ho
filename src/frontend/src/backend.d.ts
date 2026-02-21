@@ -14,6 +14,29 @@ export class ExternalBlob {
     static fromBytes(blob: Uint8Array<ArrayBuffer>): ExternalBlob;
     withUploadProgress(onProgress: (percentage: number) => void): ExternalBlob;
 }
+export type Time = bigint;
+export interface RiskCover {
+    criticalIllnessCover?: bigint;
+    accidentalDeathBenefit: bigint;
+    naturalDeathBenefit: bigint;
+}
+export interface Enquiry {
+    submitter: Principal;
+    city?: string;
+    name: string;
+    email: string;
+    message: string;
+    timestamp: Time;
+    productInterest?: ProductInterest;
+    phone?: string;
+}
+export interface PremiumRate {
+    age: bigint;
+    annualPremium: bigint;
+    quarterlyPremium: bigint;
+    halfYearlyPremium: bigint;
+    monthlyPremium: bigint;
+}
 export interface PlanEntry {
     id: string;
     content: StructuredPlan;
@@ -26,10 +49,12 @@ export interface LICPlan {
     premiumDetails: string;
     maturityDetails: string;
     name: string;
+    premiumRates: Array<PremiumRate>;
     description: string;
     benefits: string;
+    riskCover?: RiskCover;
+    maturityBenefits: Array<MaturityBenefit>;
 }
-export type Time = bigint;
 export interface StructuredPlan {
     result: string;
     title: string;
@@ -45,18 +70,14 @@ export interface PlanMetadata {
     description: string;
     updatedAt: Time;
 }
-export interface Enquiry {
-    submitter: Principal;
-    city?: string;
-    name: string;
-    email: string;
-    message: string;
-    timestamp: Time;
-    productInterest?: ProductInterest;
-    phone?: string;
-}
 export interface UserProfile {
     name: string;
+}
+export interface MaturityBenefit {
+    sumAssured: bigint;
+    term: bigint;
+    guaranteedAdditions: bigint;
+    bonus: bigint;
 }
 export enum ProductInterest {
     other = "other",

@@ -1,191 +1,270 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Update LIC Plans section with 6 real plans using uploaded marketing images and trilingual content",
+  "title": "Enhance LIC plan comparison app with side-by-side comparison, calculators, and ROI analysis",
   "requirements": [
     {
-      "id": "REQ-1",
-      "summary": "Display 6 specific LIC plans in the LIC Plans section with correct plan numbers and responsive grid layout",
-      "acceptanceCriteria": [
-        "All 6 plans are displayed in the LIC Plans section",
-        "Each plan shows correct plan number where applicable",
-        "Plans are arranged in a responsive grid layout"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/LICPlans.tsx",
-          "operation": "modify",
-          "description": "Update the LICPlans component to fetch and display the 6 specific plans (Jivan Labh 736, Jivan Umang, Jivan Shanti 850, Jivan Utsav 771, Jivan Lakshya, Bima Laxmi 881) using the getAllLICPlans backend capability. Replace existing plan display logic to render plan cards in a responsive grid (3 columns desktop, 2 tablet, 1 mobile) using the LICPlan data structure from the backend interface. Ensure each plan displays its plan number (e.g., 736, 850, 771, 881) prominently in the card header."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Store and display 9 uploaded marketing images as static assets accessible via frontend",
-      "acceptanceCriteria": [
-        "All 9 uploaded images are stored in frontend/public/assets/generated",
-        "Images maintain their original filenames",
-        "Images are accessible via static asset URLs"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/jivan-labh-736-4.jpg",
-          "operation": "create",
-          "description": "Store the uploaded image 'jivan labh 736-4.jpg' as a static asset with normalized filename 'jivan-labh-736-4.jpg' in the generated assets directory for Jivan Labh plan marketing visual."
-        },
-        {
-          "path": "frontend/public/assets/generated/jivan-umang-6.jpg",
-          "operation": "create",
-          "description": "Store the uploaded image 'Jivan Umang-6.jpg' as a static asset with normalized filename 'jivan-umang-6.jpg' in the generated assets directory for Jivan Umang plan marketing visual."
-        },
-        {
-          "path": "frontend/public/assets/generated/jivan-shanti-1.jpg",
-          "operation": "create",
-          "description": "Store the uploaded image 'jivan shanti-1.jpg' as a static asset with normalized filename 'jivan-shanti-1.jpg' in the generated assets directory for Jivan Shanti plan marketing visual."
-        },
-        {
-          "path": "frontend/public/assets/generated/lic-jivan-utsav-7.jpg",
-          "operation": "create",
-          "description": "Store the uploaded image 'LIC Jivan Utsav-7.jpg' as a static asset with normalized filename 'lic-jivan-utsav-7.jpg' in the generated assets directory as the primary image for Jivan Utsav plan."
-        },
-        {
-          "path": "frontend/public/assets/generated/jivan-utsav-8.jpg",
-          "operation": "create",
-          "description": "Store the uploaded image 'jivan utsav-8.jpg' as a static asset with normalized filename 'jivan-utsav-8.jpg' in the generated assets directory as an additional detail image for Jivan Utsav plan."
-        },
-        {
-          "path": "frontend/public/assets/generated/jivan-utsav-plan-6.jpg",
-          "operation": "create",
-          "description": "Store the uploaded image 'jivan utsav plan-6.jpg' as a static asset with normalized filename 'jivan-utsav-plan-6.jpg' in the generated assets directory as an additional detail image for Jivan Utsav plan."
-        },
-        {
-          "path": "frontend/public/assets/generated/jivan-lakshya-1.jpg",
-          "operation": "create",
-          "description": "Store the uploaded image 'jivan lakshya-1.jpg' as a static asset with normalized filename 'jivan-lakshya-1.jpg' in the generated assets directory as the primary image for Jivan Lakshya plan."
-        },
-        {
-          "path": "frontend/public/assets/generated/jivan-lakshya-4.jpg",
-          "operation": "create",
-          "description": "Store the uploaded image 'jivan lakshya..-4.jpg' as a static asset with normalized filename 'jivan-lakshya-4.jpg' in the generated assets directory as an additional detail image for Jivan Lakshya plan."
-        },
-        {
-          "path": "frontend/public/assets/generated/bima-laxmi-2.jpg",
-          "operation": "create",
-          "description": "Store the uploaded image 'bima laxmi-2.jpg' as a static asset with normalized filename 'bima-laxmi-2.jpg' in the generated assets directory for Bima Laxmi plan marketing visual."
-        }
-      ]
-    },
-    {
       "id": "REQ-9",
-      "summary": "Implement trilingual content support (Marathi, Hindi, English) with language toggle switch for LIC Plans section",
+      "summary": "Create a side-by-side plan comparison view with tabular display of key features, premiums, maturity benefits, and policy terms",
       "acceptanceCriteria": [
-        "Language toggle switch allows users to select between Marathi, Hindi, and English",
-        "Plan titles, descriptions, benefits, and all textual content display in selected language",
-        "Marathi/Hindi content matches text from uploaded images",
-        "English translations are accurate and professional for insurance terminology"
+        "Users can select 2 or more plans from a checkbox list",
+        "Comparison table displays plan names, premium amounts, maturity benefits, policy terms, and key features",
+        "Table is responsive and works on mobile devices",
+        "Comparison view is available in Marathi, Hindi, and English"
       ],
       "file_operations": [
+        {
+          "path": "frontend/src/pages/ComparisonPage.tsx",
+          "operation": "create",
+          "description": "Create a dedicated comparison page component that displays a plan selection interface with checkboxes for all 6 LIC plans (Jivan Labh 736, Jivan Umang, Bima Laxmi 881, Jivan Lakshya, Jivan Utsav, Jivan Shanti 850), a comparison table with columns for each selected plan showing name, premium rates, maturity benefits, policy terms, and key features, and responsive layout that stacks columns vertically on mobile devices. Use the useLanguage hook for trilingual support and useLICPlans hook to fetch plan data from the backend."
+        },
+        {
+          "path": "frontend/src/components/comparison/PlanSelector.tsx",
+          "operation": "create",
+          "description": "Create a plan selector component with checkboxes for each of the 6 LIC plans, displaying plan names using translated labels from useLanguage context. Include select all/none buttons and maintain selected plan state. Ensure minimum 2 plans selected for comparison and show validation message if less than 2 plans are selected."
+        },
+        {
+          "path": "frontend/src/components/comparison/ComparisonTable.tsx",
+          "operation": "create",
+          "description": "Create a responsive comparison table component that accepts an array of selected LICPlan objects and displays them side-by-side with rows for plan name, age range, premium amounts (monthly/quarterly/half-yearly/annual), sum assured, policy term, maturity benefits breakdown, guaranteed additions, bonuses, and key features. Use Tailwind responsive utilities for mobile stacking and implement the premium-table utility classes from frontend/src/index.css for zebra striping and mobile-friendly layout. Support trilingual display via useLanguage."
+        },
         {
           "path": "frontend/src/types/translations.ts",
-          "operation": "create",
-          "description": "Define TypeScript types for trilingual content structure including Language enum ('mr' | 'hi' | 'en'), TranslatedText interface for storing text in all three languages, and PlanTranslations interface mapping plan IDs to their translated content (name, description, benefits, premium details, maturity details, additional info). Include types for UI labels used in the plans section (section title, view details button, collapse button, language toggle labels)."
+          "operation": "modify",
+          "description": "Add translation types for comparison page UI labels including 'selectPlansToCompare', 'compareNow', 'clearSelection', 'minimumTwoPlans', 'comparisonTable', 'planName', 'premiumDetails', 'maturityBenefits', 'policyTerm', 'keyFeatures', 'sumAssured', 'guaranteedAdditions', 'bonuses' for all three languages (Marathi, Hindi, English)."
         },
         {
           "path": "frontend/src/data/planTranslations.ts",
-          "operation": "create",
-          "description": "Create trilingual content data for all 6 LIC plans extracted from uploaded images. For each plan (Jivan Labh 736, Jivan Umang, Jivan Shanti 850, Jivan Utsav 771, Jivan Lakshya, Bima Laxmi 881), provide Marathi text matching the uploaded images, Hindi translations, and professional English translations. Structure includes plan names, descriptions, benefit summaries, premium details, maturity calculations, and eligibility criteria. Export as a constant object keyed by plan ID for easy lookup."
+          "operation": "modify",
+          "description": "Add comparison-related translation strings for the new UI labels defined in types/translations.ts, ensuring coverage for Marathi, Hindi, and English across all comparison page elements including plan selector and comparison table headers."
         },
         {
-          "path": "frontend/src/hooks/useLanguage.ts",
-          "operation": "create",
-          "description": "Create a React context and custom hook for managing the selected language state across the LIC Plans section. Provide functions to get the current language, set a new language, and retrieve translated text by key. Store the selected language in localStorage for persistence across sessions. Default to English ('en') on first visit."
-        },
-        {
-          "path": "frontend/src/components/plans/LanguageToggle.tsx",
-          "operation": "create",
-          "description": "Create a language toggle component displaying three options (Marathi, Hindi, English) as buttons or a dropdown. Use the useLanguage hook to display the current selection and update language on user click. Style the toggle to match the existing deep forest green and gold color scheme. Position the toggle prominently at the top of the LIC Plans section for easy access."
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a new route for the comparison page at path '#/comparison' using HashRouter, registering the ComparisonPage component. Ensure the route is wrapped with LanguageProvider for trilingual support."
         },
         {
           "path": "frontend/src/pages/LICPlans.tsx",
           "operation": "modify",
-          "description": "Integrate the LanguageToggle component at the top of the LIC Plans section. Use the useLanguage hook to retrieve the current language and pass translated content to each plan card component. Ensure all plan text (names, descriptions, benefits, details) displays in the selected language by fetching translations from planTranslations.ts data using the current language and plan ID."
+          "description": "Add a 'Compare Plans' button near the top of the page that navigates to the comparison page route '#/comparison'. Position it next to the language toggle for easy access. Use translated button label from useLanguage context."
+        },
+        {
+          "path": "frontend/src/components/plans/PlanCard.tsx",
+          "operation": "modify",
+          "description": "Add a checkbox in the top-right corner of each plan card to enable quick plan selection for comparison. When checked, add the plan to a comparison selection state managed via React Context or URL parameters. Include a 'Compare Selected' floating action button that appears when 2+ plans are selected, navigating to the comparison page with selected plan IDs."
         }
       ]
     },
     {
       "id": "REQ-10",
-      "summary": "Design plan cards with summary view and expandable 'View Full Details' sections containing comprehensive plan information",
+      "summary": "Build an interactive premium calculator that calculates monthly/annual premiums based on age, sum assured, and policy term inputs",
       "acceptanceCriteria": [
-        "Each plan card displays summary information in collapsed state: plan name with number, primary coverage amount, premium range, policy term duration, 2-3 key benefits",
-        "'View Full Details' button toggles expansion to show comprehensive tables",
-        "Expanded view includes all data from uploaded images: complete premium tables with all columns and rows, maturity benefit calculations, eligibility criteria (age ranges, payment terms), guaranteed rates or return schedules",
-        "Tables are responsive and maintain readability on mobile devices",
-        "Expansion/collapse animation is smooth and intuitive"
+        "Calculator accepts age (numeric input), sum assured (numeric input), and policy term (dropdown or numeric input)",
+        "Calculator displays premium amounts for applicable plans",
+        "Results update dynamically as user changes inputs",
+        "Calculator supports all three languages (Marathi, Hindi, English)"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/plans/PlanCard.tsx",
+          "path": "frontend/src/pages/PremiumCalculatorPage.tsx",
           "operation": "create",
-          "description": "Create a PlanCard component that displays a single LIC plan in summary view (collapsed state) showing plan name with number, hero image, primary coverage amount, premium range, policy term, and 2-3 key benefits as bullet points. Include a 'View Full Details' button that toggles expansion state. Use React state (useState) to track expanded/collapsed status. Apply smooth height transition animation using CSS or Tailwind utilities. Style the card with the existing deep forest green and gold palette, maintaining consistent spacing and typography with the rest of the application."
+          "description": "Create a premium calculator page with input form for age (18-65 numeric input with validation), desired sum assured (numeric input with currency formatting), and policy term (dropdown with common terms: 10, 15, 20, 25, 30 years). Display calculated premiums for all applicable LIC plans in a results grid showing monthly, quarterly, half-yearly, and annual premium amounts. Use controlled form inputs with real-time calculation updates on input change. Support trilingual display via useLanguage."
         },
         {
-          "path": "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+          "path": "frontend/src/components/calculators/PremiumCalculatorForm.tsx",
           "operation": "create",
-          "description": "Create a PlanDetailsExpanded component that renders comprehensive plan information within the expanded PlanCard. Display full premium tables (using premium-table utility classes from index.css for responsive table styling), maturity benefit calculations with formulas, complete eligibility criteria (entry age ranges, policy maturity ranges, payment terms), and guaranteed annuity rates or return schedules. For plans with multiple uploaded images (Jivan Utsav with 3 images, Jivan Lakshya with 2 images), display additional images in a gallery or tabbed view. Ensure all table columns (daily premium, monthly premium, full payment, maturity benefits, coverage amounts) remain readable on mobile devices using horizontal scroll or stacked layouts as needed."
+          "description": "Create a form component with labeled inputs for age, sum assured, and policy term using Shadcn UI form components (Input, Select). Include input validation with error messages for out-of-range ages, invalid sum assured amounts, and missing required fields. Use useLanguage for all labels and validation messages in Marathi, Hindi, and English."
+        },
+        {
+          "path": "frontend/src/components/calculators/PremiumResultsGrid.tsx",
+          "operation": "create",
+          "description": "Create a results grid component that displays calculated premium amounts for each applicable LIC plan in a card-based layout. Each card shows plan name, calculated monthly/quarterly/half-yearly/annual premiums formatted as currency, and a brief explanation of eligibility based on age/term constraints. Use responsive grid layout that adapts to mobile devices. Support trilingual display."
+        },
+        {
+          "path": "frontend/src/utils/premiumCalculations.ts",
+          "operation": "create",
+          "description": "Create utility functions for client-side premium calculations based on the LICPlan premiumRates data from backend. Implement calculatePremium(age, sumAssured, term, plan) that interpolates premium rates from the plan's premiumRates array, handles age-based rate lookup, and calculates all payment frequencies (monthly, quarterly, half-yearly, annual). Include helper functions for eligibility checks based on plan constraints and age ranges extracted from the uploaded plan images data."
+        },
+        {
+          "path": "frontend/src/types/translations.ts",
+          "operation": "modify",
+          "description": "Add translation types for premium calculator UI labels including 'premiumCalculator', 'enterYourAge', 'desiredSumAssured', 'policyTerm', 'calculatePremiums', 'monthlyPremium', 'quarterlyPremium', 'halfYearlyPremium', 'annualPremium', 'calculatedResults', 'eligiblePlans', 'notEligible', 'ageValidation', 'sumAssuredValidation' for all three languages."
+        },
+        {
+          "path": "frontend/src/data/planTranslations.ts",
+          "operation": "modify",
+          "description": "Add premium calculator translation strings for all UI labels defined in types/translations.ts, ensuring Marathi, Hindi, and English coverage for form labels, validation messages, and results display."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a route for the premium calculator page at path '#/calculator/premium' using HashRouter, registering the PremiumCalculatorPage component wrapped with LanguageProvider."
         },
         {
           "path": "frontend/src/pages/LICPlans.tsx",
           "operation": "modify",
-          "description": "Replace the existing plan display logic with a grid of PlanCard components. Fetch plan data using getAllLICPlans backend capability and map each LICPlan object to a PlanCard, passing the plan data and current language from useLanguage hook as props. Ensure the grid layout is responsive (3 columns on desktop using grid-cols-3, 2 columns on tablet using md:grid-cols-2, 1 column on mobile) with consistent gap spacing. Remove any separate detail page navigation logic since details now expand inline within each card."
+          "description": "Add a 'Calculate Premium' button in the page header or CTA section that navigates to '#/calculator/premium'. Use translated button label from useLanguage context."
         }
       ]
     },
     {
       "id": "REQ-11",
-      "summary": "Map each of the 6 plans to their corresponding uploaded marketing images with support for multiple images per plan",
+      "summary": "Create a maturity benefit calculator that calculates total maturity amount including bonuses and guaranteed additions",
       "acceptanceCriteria": [
-        "Each plan card displays its corresponding uploaded marketing image",
-        "Images maintain aspect ratio and professional appearance",
-        "Plans with multiple uploaded images (Jivan Utsav has 3, Jivan Lakshya has 2) show primary image on card and include additional images in expanded details view",
-        "Image loading includes proper error handling and fallback display"
+        "Calculator accepts premium amount, policy term, and age as inputs",
+        "Displays calculated maturity benefits including sum assured, bonuses, and guaranteed additions",
+        "Shows breakdown of maturity components (base amount + bonuses)",
+        "Available in Marathi, Hindi, and English"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/utils/planImageMapping.ts",
-          "operation": "modify",
-          "description": "Update the plan image mapping utility to map each of the 6 plans to their corresponding uploaded marketing images stored in frontend/public/assets/generated. Map Jivan Labh to 'jivan-labh-736-4.jpg', Jivan Umang to 'jivan-umang-6.jpg', Jivan Shanti to 'jivan-shanti-1.jpg', Jivan Utsav to primary image 'lic-jivan-utsav-7.jpg' with additional images ['jivan-utsav-8.jpg', 'jivan-utsav-plan-6.jpg'], Jivan Lakshya to primary image 'jivan-lakshya-1.jpg' with additional image 'jivan-lakshya-4.jpg', and Bima Laxmi to 'bima-laxmi-2.jpg'. Export a function that takes a plan ID or normalized plan name and returns the primary image path and an optional array of additional image paths."
+          "path": "frontend/src/pages/MaturityCalculatorPage.tsx",
+          "operation": "create",
+          "description": "Create a maturity calculator page with input form for premium amount (numeric input with currency formatting), policy term (dropdown: 10, 15, 20, 25, 30 years), and age at entry (18-65 numeric input). Display calculated maturity benefits for all applicable LIC plans showing total maturity amount, sum assured, guaranteed additions, bonuses, and a visual breakdown chart. Use controlled form inputs with real-time calculation on input change. Support trilingual display via useLanguage."
         },
         {
-          "path": "frontend/src/components/plans/PlanCard.tsx",
-          "operation": "modify",
-          "description": "Integrate the planImageMapping utility to retrieve and display the primary marketing image for each plan in the card summary view. Use an <img> tag with the full path to the image in frontend/public/assets/generated. Apply object-fit: cover or contain to maintain aspect ratio within a fixed height container. Include error handling with an onError handler that displays a fallback default image (e.g., 'lic-plan-default.png') if the primary image fails to load. Ensure the image loads with a loading spinner or skeleton while fetching."
+          "path": "frontend/src/components/calculators/MaturityCalculatorForm.tsx",
+          "operation": "create",
+          "description": "Create a form component with labeled inputs for premium amount, policy term, and entry age using Shadcn UI form components. Include input validation with error messages for invalid premium amounts, out-of-range ages, and missing fields. Use useLanguage for all labels and validation messages in Marathi, Hindi, and English."
         },
         {
-          "path": "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+          "path": "frontend/src/components/calculators/MaturityResultsDisplay.tsx",
+          "operation": "create",
+          "description": "Create a results display component showing calculated maturity benefits for each applicable plan in a card layout. Each card displays plan name, total maturity amount (highlighted/emphasized), and a breakdown table showing sum assured, guaranteed additions, bonuses, and total. Include a simple bar chart or stacked visualization showing the composition of maturity benefits. Use responsive layout for mobile. Support trilingual display."
+        },
+        {
+          "path": "frontend/src/utils/maturityCalculations.ts",
+          "operation": "create",
+          "description": "Create utility functions for client-side maturity benefit calculations using LICPlan maturityBenefits data from backend. Implement calculateMaturityBenefit(premiumAmount, term, age, plan) that computes sum assured based on premium and term, retrieves applicable guaranteed additions and bonuses from plan data, and calculates total maturity amount. Include helper functions for eligibility checks and term-based benefit lookups from the uploaded plan images data."
+        },
+        {
+          "path": "frontend/src/types/translations.ts",
           "operation": "modify",
-          "description": "When rendering the expanded details for plans with multiple images (Jivan Utsav with 3 images, Jivan Lakshya with 2 images), retrieve the additional image paths from planImageMapping utility and display them in a horizontal scrollable gallery or as tabbed images below the primary content. Each additional image should be clickable to view in full size or toggled as the main display image. Include the same error handling and loading states as the primary image in PlanCard."
+          "description": "Add translation types for maturity calculator UI labels including 'maturityCalculator', 'premiumAmount', 'totalMaturityAmount', 'maturityBreakdown', 'calculateMaturity', 'eligibleForMaturity', 'baseSum', 'additionalBenefits', 'projectedMaturity', 'premiumValidation', 'termValidation' for all three languages."
+        },
+        {
+          "path": "frontend/src/data/planTranslations.ts",
+          "operation": "modify",
+          "description": "Add maturity calculator translation strings for all UI labels defined in types/translations.ts, ensuring Marathi, Hindi, and English coverage for form labels, validation messages, and results display including breakdown labels."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a route for the maturity calculator page at path '#/calculator/maturity' using HashRouter, registering the MaturityCalculatorPage component wrapped with LanguageProvider."
+        },
+        {
+          "path": "frontend/src/pages/LICPlans.tsx",
+          "operation": "modify",
+          "description": "Add a 'Calculate Maturity' button in the page header or CTA section next to the premium calculator button, navigating to '#/calculator/maturity'. Use translated button label from useLanguage context."
         }
       ]
     },
     {
       "id": "REQ-12",
-      "summary": "Create a responsive grid layout for displaying all 6 plan cards that adapts to different screen sizes",
+      "summary": "Implement a Return on Investment (ROI) analysis feature with effective annual return percentage calculation and visual comparison charts",
       "acceptanceCriteria": [
-        "Grid displays 3 columns on desktop, 2 columns on tablet, 1 column on mobile",
-        "Cards have equal heights within each row",
-        "Spacing between cards is consistent and visually balanced",
-        "Layout maintains readability and usability across all device sizes"
+        "ROI calculation considers total premiums paid and maturity benefits",
+        "Displays ROI percentage for each plan",
+        "Includes visual chart (bar chart or line chart) comparing ROI across plans",
+        "Supports trilingual display"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ROIAnalysisPage.tsx",
+          "operation": "create",
+          "description": "Create an ROI analysis page with input form for premium amount, policy term, and age, similar to maturity calculator but focused on ROI metrics. Display calculated ROI percentages for all applicable plans in both tabular and chart formats. Include a bar chart comparing effective annual returns across plans, a table showing total premiums paid vs maturity benefits, and calculated ROI percentage for each plan. Use controlled form inputs with real-time calculation. Support trilingual display via useLanguage."
+        },
+        {
+          "path": "frontend/src/components/roi/ROIInputForm.tsx",
+          "operation": "create",
+          "description": "Create a form component with labeled inputs for premium amount, policy term, and entry age using Shadcn UI form components. Include input validation with error messages. Reuse validation logic from maturity calculator. Use useLanguage for all labels and validation messages in Marathi, Hindi, and English."
+        },
+        {
+          "path": "frontend/src/components/roi/ROIComparisonChart.tsx",
+          "operation": "create",
+          "description": "Create a bar chart component using a lightweight charting library (e.g., Recharts) that visualizes ROI percentages for each applicable LIC plan. Display plan names on x-axis and ROI percentage on y-axis. Use color coding to highlight best-performing plans. Include chart legend and tooltips showing detailed ROI breakdown on hover. Support responsive layout for mobile devices and trilingual axis labels."
+        },
+        {
+          "path": "frontend/src/components/roi/ROIResultsTable.tsx",
+          "operation": "create",
+          "description": "Create a results table component displaying ROI analysis for each plan with columns for plan name, total premiums paid, maturity benefits received, net gain/profit, and effective annual ROI percentage. Sort plans by ROI in descending order by default. Use color-coded badges for ROI ranges (e.g., <5% red, 5-8% yellow, >8% green). Include responsive layout that stacks on mobile. Support trilingual display."
+        },
+        {
+          "path": "frontend/src/utils/roiCalculations.ts",
+          "operation": "create",
+          "description": "Create utility functions for client-side ROI calculations. Implement calculateROI(premiumAmount, term, age, plan) that computes total premiums paid (premiumAmount * term), total maturity benefits using maturityCalculations.ts, net gain (maturity - premiums), and effective annual ROI percentage using compound interest formula. Include helper function calculateEffectiveAnnualReturn(premiums, maturity, years) for accurate ROI percentage. Handle edge cases for plans with different payment frequencies."
+        },
+        {
+          "path": "frontend/src/types/translations.ts",
+          "operation": "modify",
+          "description": "Add translation types for ROI analysis UI labels including 'roiAnalysis', 'returnOnInvestment', 'effectiveAnnualReturn', 'totalPremiumsPaid', 'maturityBenefitsReceived', 'netGain', 'roiPercentage', 'compareReturns', 'bestReturns', 'roiComparison', 'investmentPeriod' for all three languages."
+        },
+        {
+          "path": "frontend/src/data/planTranslations.ts",
+          "operation": "modify",
+          "description": "Add ROI analysis translation strings for all UI labels defined in types/translations.ts, ensuring Marathi, Hindi, and English coverage for form labels, chart labels, and results table headers."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a route for the ROI analysis page at path '#/roi-analysis' using HashRouter, registering the ROIAnalysisPage component wrapped with LanguageProvider."
+        },
+        {
+          "path": "frontend/src/pages/LICPlans.tsx",
+          "operation": "modify",
+          "description": "Add a 'View ROI Analysis' button in the page header or CTA section next to the calculator buttons, navigating to '#/roi-analysis'. Use translated button label from useLanguage context."
+        },
+        {
+          "path": "frontend/package.json",
+          "operation": "modify",
+          "description": "Add recharts as a dependency (^2.10.0 or latest stable) for rendering ROI comparison charts in the ROI analysis feature."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Add search and filter functionality for filtering LIC plans by age range, budget range, and financial goals with real-time filtering",
+      "acceptanceCriteria": [
+        "Filter panel includes age range inputs, premium budget slider or inputs, and financial goal checkboxes",
+        "Plans are filtered in real-time as user adjusts criteria",
+        "Filtered results maintain trilingual support",
+        "Clear filters button resets all selections"
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/LICPlans.tsx",
           "operation": "modify",
-          "description": "Wrap the mapped PlanCard components in a responsive CSS Grid container using Tailwind classes: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'. Apply equal height to cards within each row using 'auto-rows-fr' or by setting a min-height on PlanCard. Ensure consistent horizontal and vertical spacing (gap-6 provides 1.5rem gap). Add padding around the grid container to prevent cards from touching screen edges on mobile devices. Test layout at breakpoints (mobile <768px, tablet 768-1024px, desktop >1024px) to ensure cards resize appropriately and maintain visual balance."
+          "description": "Add a filter panel component above the plan cards grid that includes age range inputs (min/max age), premium budget range slider (monthly premium), and financial goal checkboxes (savings, pension, money-back, guaranteed returns). Implement real-time filtering logic that filters the plans array based on selected criteria before rendering PlanCard components. Add a 'Clear Filters' button that resets all filter state. Maintain trilingual support for all filter labels using useLanguage."
         },
         {
-          "path": "frontend/src/components/plans/PlanCard.tsx",
+          "path": "frontend/src/components/filters/PlanFilterPanel.tsx",
+          "operation": "create",
+          "description": "Create a filter panel component with controlled inputs for age range (two numeric inputs for min/max age with validation 18-65), premium budget range (range slider or two inputs for min/max monthly premium with currency formatting), and financial goal checkboxes (savings, pension, money-back, guaranteed returns). Include a 'Clear All Filters' button. Use Shadcn UI components (Input, Slider, Checkbox). Expose filter state via props or callback functions. Support trilingual labels via useLanguage."
+        },
+        {
+          "path": "frontend/src/utils/planFiltering.ts",
+          "operation": "create",
+          "description": "Create utility functions for filtering LIC plans based on criteria. Implement filterPlansByAge(plans, minAge, maxAge) that checks if user's age falls within each plan's eligibility range, filterPlansByBudget(plans, minBudget, maxBudget) that checks if plans have premium rates within the budget range using premiumRates data, and filterPlansByGoals(plans, selectedGoals) that matches plans to financial goals based on plan characteristics (e.g., Jivan Shanti for pension, Bima Laxmi for money-back). Export a combined filterPlans(plans, criteria) function that applies all filters."
+        },
+        {
+          "path": "frontend/src/types/filters.ts",
+          "operation": "create",
+          "description": "Create TypeScript types for filter criteria including PlanFilterCriteria interface with optional fields for ageRange (min/max), budgetRange (min/max monthly premium), and financialGoals (array of goal strings). Define FinancialGoal enum or type with values 'savings', 'pension', 'moneyBack', 'guaranteedReturns'. Export types for use in filter components and utility functions."
+        },
+        {
+          "path": "frontend/src/types/translations.ts",
           "operation": "modify",
-          "description": "Apply consistent card styling to ensure equal heights within grid rows. Use flex layout within the card (flex flex-col) to distribute space between header, image, summary content, and button footer. Set a minimum height (e.g., min-h-[400px]) to prevent short cards in rows with longer cards. Ensure the 'View Full Details' button remains at the bottom of the card using 'mt-auto'. Test card rendering with varying content lengths (some plans have longer descriptions or more benefits) to confirm height consistency across the grid."
+          "description": "Add translation types for filter UI labels including 'filterPlans', 'ageRange', 'minAge', 'maxAge', 'premiumBudget', 'monthlyBudget', 'financialGoals', 'savingsGoal', 'pensionGoal', 'moneyBackGoal', 'guaranteedReturnsGoal', 'clearFilters', 'applyFilters', 'noPlansMatch' for all three languages."
+        },
+        {
+          "path": "frontend/src/data/planTranslations.ts",
+          "operation": "modify",
+          "description": "Add filter-related translation strings for all UI labels defined in types/translations.ts, ensuring Marathi, Hindi, and English coverage for filter panel labels, goal options, and empty state messages when no plans match the filters."
+        },
+        {
+          "path": "frontend/src/hooks/usePlanFilters.ts",
+          "operation": "create",
+          "description": "Create a custom hook usePlanFilters() that manages filter state (age range, budget range, selected goals) and provides functions to update each filter criterion, clear all filters, and compute filtered plans array using the filterPlans utility. Return filter state, setter functions, and filtered plans array for use in LICPlans page."
         }
       ]
     }

@@ -2,31 +2,14 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-replace-existing-lic-plans-section-content-with-6-specific-plans-jivan-labh-plan-736-jivan-umang-jivan-shanti-plan-850-jivan-utsav-plan-771-jivan-lakshya-and-bima-laxmi-plan-881",
-      "featureTitle": "Replace existing LIC Plans section content with 6 specific plans: Jivan Labh (Plan 736), Jivan Umang, Jivan Shanti (Plan 850), Jivan Utsav (Plan 771), Jivan Lakshya, and Bima Laxmi (Plan 881)",
+      "featureId": "feature-create-a-side-by-side-plan-comparison-view-that-allows-users-to-select-multiple-lic-plans-jivan-labh-736-jivan-umang-bima-laxmi-881-jivan-lakshya-jivan-utsav-jivan-shanti-850-and-display-their-key-features-premiums-maturity-benefits-and-policy-terms-in-a-tabular-format-for-easy-comparison",
+      "featureTitle": "Create a side-by-side plan comparison view that allows users to select multiple LIC plans (Jivan Labh 736, Jivan Umang, Bima Laxmi 881, Jivan Lakshya, Jivan Utsav, Jivan Shanti 850) and display their key features, premiums, maturity benefits, and policy terms in a tabular format for easy comparison",
       "files": [
-        "frontend/src/pages/LICPlans.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "blob-storage@4.0.0"
-      ],
-      "testIds": [
-        "REQ-1"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-implement-trilingual-content-support-marathi-hindi-english-with-a-language-toggle-switch-for-the-lic-plans-section-extracting-marathi-hindi-text-from-uploaded-images-and-providing-english-translations-for-all-plan-details",
-      "featureTitle": "Implement trilingual content support (Marathi, Hindi, English) with a language toggle switch for the LIC Plans section, extracting Marathi/Hindi text from uploaded images and providing English translations for all plan details",
-      "files": [
-        "frontend/src/components/plans/LanguageToggle.tsx",
+        "frontend/src/App.tsx",
+        "frontend/src/components/comparison/ComparisonTable.tsx",
+        "frontend/src/components/comparison/PlanSelector.tsx",
         "frontend/src/data/planTranslations.ts",
+        "frontend/src/pages/ComparisonPage.tsx",
         "frontend/src/pages/LICPlans.tsx",
         "frontend/src/types/translations.ts"
       ],
@@ -45,12 +28,17 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-design-each-plan-card-with-a-summary-view-showing-key-highlights-plan-name-with-number-coverage-amounts-premium-ranges-policy-terms-key-benefits-and-implement-expandable-view-full-details-sections-containing-all-detailed-premium-tables-maturity-calculations-eligibility-criteria-and-annuity-rate-schedules-extracted-from-uploaded-images",
-      "featureTitle": "Design each plan card with a summary view showing key highlights (plan name with number, coverage amounts, premium ranges, policy terms, key benefits) and implement expandable 'View Full Details' sections containing all detailed premium tables, maturity calculations, eligibility criteria, and annuity rate schedules extracted from uploaded images",
+      "featureId": "feature-build-an-interactive-premium-calculator-that-allows-users-to-input-their-age-desired-sum-assured-and-policy-term-then-calculates-the-required-monthly-annual-premium-for-each-lic-plan-based-on-the-premium-tables-from-the-uploaded-images",
+      "featureTitle": "Build an interactive premium calculator that allows users to input their age, desired sum assured, and policy term, then calculates the required monthly/annual premium for each LIC plan based on the premium tables from the uploaded images",
       "files": [
-        "frontend/src/components/plans/PlanCard.tsx",
-        "frontend/src/components/plans/PlanDetailsExpanded.tsx",
-        "frontend/src/pages/LICPlans.tsx"
+        "frontend/src/App.tsx",
+        "frontend/src/components/calculators/PremiumCalculatorForm.tsx",
+        "frontend/src/components/calculators/PremiumResultsGrid.tsx",
+        "frontend/src/data/planTranslations.ts",
+        "frontend/src/pages/LICPlans.tsx",
+        "frontend/src/pages/PremiumCalculatorPage.tsx",
+        "frontend/src/types/translations.ts",
+        "frontend/src/utils/premiumCalculations.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -67,12 +55,17 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-map-each-of-the-6-plans-to-their-corresponding-uploaded-marketing-images-jivan-labh-uses-jivan-labh-736-4-jpg-jivan-umang-uses-jivan-umang-6-jpg-jivan-shanti-uses-jivan-shanti-1-jpg-jivan-utsav-uses-lic-jivan-utsav-7-jpg-as-primary-image-with-jivan-utsav-8-jpg-and-jivan-utsav-plan-6-jpg-available-as-additional-detail-images-jivan-lakshya-uses-jivan-lakshya-1-jpg-as-primary-image-with-jivan-lakshya-4-jpg-as-additional-detail-and-bima-laxmi-uses-bima-laxmi-2-jpg",
-      "featureTitle": "Map each of the 6 plans to their corresponding uploaded marketing images: Jivan Labh uses 'jivan labh 736-4.jpg', Jivan Umang uses 'Jivan Umang-6.jpg', Jivan Shanti uses 'jivan shanti-1.jpg', Jivan Utsav uses 'LIC Jivan Utsav-7.jpg' as primary image (with 'jivan utsav-8.jpg' and 'jivan utsav plan-6.jpg' available as additional detail images), Jivan Lakshya uses 'jivan lakshya-1.jpg' as primary image (with 'jivan lakshya..-4.jpg' as additional detail), and Bima Laxmi uses 'bima laxmi-2.jpg'",
+      "featureId": "feature-create-a-maturity-benefit-calculator-that-takes-user-inputs-premium-amount-policy-term-age-and-calculates-the-total-maturity-amount-including-bonuses-and-guaranteed-additions-for-each-plan-using-the-data-from-the-uploaded-plan-images",
+      "featureTitle": "Create a maturity benefit calculator that takes user inputs (premium amount, policy term, age) and calculates the total maturity amount including bonuses and guaranteed additions for each plan, using the data from the uploaded plan images",
       "files": [
-        "frontend/src/components/plans/PlanCard.tsx",
-        "frontend/src/components/plans/PlanDetailsExpanded.tsx",
-        "frontend/src/utils/planImageMapping.ts"
+        "frontend/src/App.tsx",
+        "frontend/src/components/calculators/MaturityCalculatorForm.tsx",
+        "frontend/src/components/calculators/MaturityResultsDisplay.tsx",
+        "frontend/src/data/planTranslations.ts",
+        "frontend/src/pages/LICPlans.tsx",
+        "frontend/src/pages/MaturityCalculatorPage.tsx",
+        "frontend/src/types/translations.ts",
+        "frontend/src/utils/maturityCalculations.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -89,11 +82,18 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-create-a-responsive-grid-layout-for-displaying-all-6-plan-cards-that-adapts-to-different-screen-sizes-mobile-tablet-desktop-while-maintaining-visual-consistency-and-professional-presentation",
-      "featureTitle": "Create a responsive grid layout for displaying all 6 plan cards that adapts to different screen sizes (mobile, tablet, desktop) while maintaining visual consistency and professional presentation",
+      "featureId": "feature-implement-a-return-on-investment-roi-analysis-feature-that-calculates-and-displays-the-effective-annual-return-percentage-for-each-plan-based-on-total-premiums-paid-versus-maturity-benefits-received-with-visual-comparison-charts",
+      "featureTitle": "Implement a Return on Investment (ROI) analysis feature that calculates and displays the effective annual return percentage for each plan based on total premiums paid versus maturity benefits received, with visual comparison charts",
       "files": [
-        "frontend/src/components/plans/PlanCard.tsx",
-        "frontend/src/pages/LICPlans.tsx"
+        "frontend/src/App.tsx",
+        "frontend/src/components/roi/ROIComparisonChart.tsx",
+        "frontend/src/components/roi/ROIInputForm.tsx",
+        "frontend/src/components/roi/ROIResultsTable.tsx",
+        "frontend/src/data/planTranslations.ts",
+        "frontend/src/pages/LICPlans.tsx",
+        "frontend/src/pages/ROIAnalysisPage.tsx",
+        "frontend/src/types/translations.ts",
+        "frontend/src/utils/roiCalculations.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -106,6 +106,32 @@
       ],
       "testIds": [
         "REQ-12"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-search-and-filter-functionality-that-allows-users-to-filter-lic-plans-by-criteria-including-age-range-minimum-maximum-entry-age-budget-range-monthly-annual-premium-limits-and-financial-goals-savings-pension-money-back-guaranteed-returns-with-real-time-filtering-of-the-plan-grid",
+      "featureTitle": "Add search and filter functionality that allows users to filter LIC plans by criteria including age range (minimum/maximum entry age), budget range (monthly/annual premium limits), and financial goals (savings, pension, money-back, guaranteed returns), with real-time filtering of the plan grid",
+      "files": [
+        "frontend/src/components/filters/PlanFilterPanel.tsx",
+        "frontend/src/data/planTranslations.ts",
+        "frontend/src/hooks/usePlanFilters.ts",
+        "frontend/src/pages/LICPlans.tsx",
+        "frontend/src/types/filters.ts",
+        "frontend/src/types/translations.ts",
+        "frontend/src/utils/planFiltering.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
       ],
       "confidence": "high"
     }

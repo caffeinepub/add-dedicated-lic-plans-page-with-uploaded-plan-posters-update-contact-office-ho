@@ -1,15 +1,14 @@
 # Specification
 
 ## Summary
-**Goal:** Update the LIC Plans section with 6 real insurance plans using uploaded marketing images and trilingual content (Marathi, Hindi, English).
+**Goal:** Enhance the LIC Plan Advisor app with side-by-side plan comparison, interactive premium and maturity calculators, ROI analysis with visual charts, and search/filter functionality based on age, budget, and financial goals.
 
 **Planned changes:**
-- Replace existing LIC Plans section with 6 specific plans: Jivan Labh (Plan 736), Jivan Umang, Jivan Shanti (Plan 850), Jivan Utsav (Plan 771), Jivan Lakshya, and Bima Laxmi (Plan 881)
-- Store 9 uploaded marketing images in frontend/public/assets/generated directory
-- Extract detailed plan information from uploaded images including payment terms, coverage amounts, premium tables, and benefit structures
-- Implement trilingual content support with language toggle switch for Marathi, Hindi, and English
-- Design plan cards with summary view showing key highlights and expandable "View Full Details" sections
-- Map each plan to its corresponding uploaded marketing image(s)
-- Create responsive grid layout displaying all 6 plan cards
+- Add side-by-side comparison view for multiple LIC plans with tabular display of premiums, maturity benefits, policy terms, and key features
+- Build interactive premium calculator accepting age, sum assured, and policy term inputs with dynamic results
+- Create maturity benefit calculator showing total maturity amounts including bonuses and guaranteed additions
+- Implement ROI analysis feature with percentage calculations and visual comparison charts
+- Add search and filter functionality by age range, premium budget, and financial goals with real-time filtering
+- Extract and structure detailed data from 6 LIC plan images (Jivan Labh 736, Jivan Umang, Bima Laxmi 881, Jivan Lakshya, Jivan Utsav, Jivan Shanti 850) including premium tables, maturity formulas, bonus structures, and risk coverage details
 
-**User-visible outcome:** Users can browse 6 authentic LIC insurance plans with detailed premium tables, maturity calculations, and benefits in their preferred language (Marathi, Hindi, or English), view professional marketing images for each plan, and expand cards to see comprehensive plan details extracted from official marketing materials.
+**User-visible outcome:** Users can compare multiple LIC plans side-by-side, calculate premiums and maturity benefits based on their inputs, view ROI analysis with visual charts, and filter plans by age, budget, and financial goals in Marathi, Hindi, and English.

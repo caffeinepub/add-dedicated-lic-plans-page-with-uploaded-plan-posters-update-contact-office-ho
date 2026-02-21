@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Calculator, TrendingUp, GitCompare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -7,9 +7,21 @@ import { LanguageToggle } from '../components/plans/LanguageToggle';
 import { PlanCard } from '../components/plans/PlanCard';
 import { getPlanImages } from '../utils/planImageMapping';
 import { uiLabels } from '../data/planTranslations';
+import { PlanFilterPanel } from '../components/filters/PlanFilterPanel';
+import { usePlanFilters } from '../hooks/usePlanFilters';
 
 function LICPlansContent() {
   const { t } = useLanguage();
+  const {
+    ageRange,
+    budgetRange,
+    selectedGoals,
+    setAgeRange,
+    setBudgetRange,
+    setSelectedGoals,
+    clearFilters,
+    filteredPlans,
+  } = usePlanFilters();
 
   const goHome = () => {
     window.location.hash = '';
@@ -32,15 +44,25 @@ function LICPlansContent() {
     }, 100);
   };
 
-  // Define the 6 plans in order
-  const planIds = [
-    'jivan-labh',
-    'jivan-umang',
-    'jivan-shanti',
-    'jivan-utsav',
-    'jivan-lakshya',
-    'bima-laxmi',
-  ];
+  const navigateToComparison = () => {
+    window.location.hash = 'comparison';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToPremiumCalculator = () => {
+    window.location.hash = 'calculator/premium';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToMaturityCalculator = () => {
+    window.location.hash = 'calculator/maturity';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToROIAnalysis = () => {
+    window.location.hash = 'roi-analysis';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen pt-20">
@@ -53,51 +75,105 @@ function LICPlansContent() {
             className="mb-6 text-muted-foreground hover:text-foreground"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
+            {t({ mr: 'मुख्यपृष्ठावर परत', hi: 'मुख्य पृष्ठ पर वापस', en: 'Back to Home' })}
           </Button>
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground">
               {t(uiLabels.sectionTitle)}
             </h1>
-            <p className="text-lg text-muted-foreground mb-6">
-              Discover comprehensive insurance solutions designed to secure your family's future
-              and achieve your life goals with confidence.
-            </p>
             <LanguageToggle />
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-3">
+            <Button onClick={navigateToComparison} variant="default" className="gap-2">
+              <GitCompare className="h-4 w-4" />
+              {t({ mr: 'योजना तुलना करा', hi: 'योजना तुलना करें', en: 'Compare Plans' })}
+            </Button>
+            <Button onClick={navigateToPremiumCalculator} variant="outline" className="gap-2">
+              <Calculator className="h-4 w-4" />
+              {t({ mr: 'प्रीमियम मोजा', hi: 'प्रीमियम गणना', en: 'Calculate Premium' })}
+            </Button>
+            <Button onClick={navigateToMaturityCalculator} variant="outline" className="gap-2">
+              <Calculator className="h-4 w-4" />
+              {t({ mr: 'परिपक्वता मोजा', hi: 'परिपक्वता गणना', en: 'Calculate Maturity' })}
+            </Button>
+            <Button onClick={navigateToROIAnalysis} variant="outline" className="gap-2">
+              <TrendingUp className="h-4 w-4" />
+              {t({ mr: 'ROI विश्लेषण', hi: 'ROI विश्लेषण', en: 'ROI Analysis' })}
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Plans Grid */}
-      <section className="py-16 bg-background">
+      {/* Filter Panel */}
+      <section className="py-8 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
-            {planIds.map((planId) => {
-              const images = getPlanImages(planId);
-              return (
-                <PlanCard
-                  key={planId}
-                  planId={planId}
-                  primaryImage={images.primary}
-                  additionalImages={images.additional}
-                />
-              );
-            })}
-          </div>
+          <PlanFilterPanel
+            ageRange={ageRange}
+            budgetRange={budgetRange}
+            selectedGoals={selectedGoals}
+            onAgeRangeChange={setAgeRange}
+            onBudgetRangeChange={setBudgetRange}
+            onGoalsChange={setSelectedGoals}
+            onClearFilters={clearFilters}
+          />
+        </div>
+      </section>
+
+      {/* Plans Grid */}
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          {filteredPlans.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg">
+                {t({
+                  mr: 'तुमच्या फिल्टरशी जुळणाऱ्या योजना आढळल्या नाहीत',
+                  hi: 'आपके फ़िल्टर से मेल खाने वाली कोई योजना नहीं मिली',
+                  en: 'No plans match your filters',
+                })}
+              </p>
+              <Button onClick={clearFilters} variant="outline" className="mt-4">
+                {t({ mr: 'फिल्टर साफ करा', hi: 'फ़िल्टर साफ़ करें', en: 'Clear Filters' })}
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPlans.map(planId => {
+                const images = getPlanImages(planId);
+                return (
+                  <PlanCard
+                    key={planId}
+                    planId={planId}
+                    primaryImage={images.primary}
+                    additionalImages={images.additional}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-br from-primary/10 via-background to-accent/10">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Ready to Secure Your Future?
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            {t({
+              mr: 'तुमच्यासाठी योग्य योजना शोधण्यात मदत हवी आहे?',
+              hi: 'आपके लिए सही योजना खोजने में मदद चाहिए?',
+              en: 'Need help finding the right plan for you?',
+            })}
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Get personalized advice and find the perfect insurance plan for your needs.
-            Contact us today for a free consultation.
+            {t({
+              mr: 'आमच्या तज्ञांशी संपर्क साधा आणि तुमच्या गरजांसाठी सर्वोत्तम विमा योजना निवडा',
+              hi: 'हमारे विशेषज्ञों से संपर्क करें और अपनी आवश्यकताओं के लिए सर्वोत्तम बीमा योजना चुनें',
+              en: 'Contact our experts and choose the best insurance plan for your needs',
+            })}
           </p>
-          <Button size="lg" onClick={scrollToContact} className="text-lg px-8">
+          <Button size="lg" onClick={scrollToContact}>
             {t(uiLabels.contactUs)}
           </Button>
         </div>

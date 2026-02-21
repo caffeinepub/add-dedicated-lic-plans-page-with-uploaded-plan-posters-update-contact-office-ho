@@ -41,14 +41,35 @@ export const StructuredPlan = IDL.Record({
   'goals' : IDL.Text,
   'analysis' : IDL.Text,
 });
+export const PremiumRate = IDL.Record({
+  'age' : IDL.Nat,
+  'annualPremium' : IDL.Nat,
+  'quarterlyPremium' : IDL.Nat,
+  'halfYearlyPremium' : IDL.Nat,
+  'monthlyPremium' : IDL.Nat,
+});
+export const RiskCover = IDL.Record({
+  'criticalIllnessCover' : IDL.Opt(IDL.Nat),
+  'accidentalDeathBenefit' : IDL.Nat,
+  'naturalDeathBenefit' : IDL.Nat,
+});
+export const MaturityBenefit = IDL.Record({
+  'sumAssured' : IDL.Nat,
+  'term' : IDL.Nat,
+  'guaranteedAdditions' : IDL.Nat,
+  'bonus' : IDL.Nat,
+});
 export const LICPlan = IDL.Record({
   'id' : IDL.Text,
   'additionalInfo' : IDL.Text,
   'premiumDetails' : IDL.Text,
   'maturityDetails' : IDL.Text,
   'name' : IDL.Text,
+  'premiumRates' : IDL.Vec(PremiumRate),
   'description' : IDL.Text,
   'benefits' : IDL.Text,
+  'riskCover' : IDL.Opt(RiskCover),
+  'maturityBenefits' : IDL.Vec(MaturityBenefit),
 });
 export const UserProfile = IDL.Record({ 'name' : IDL.Text });
 export const ProductInterest = IDL.Variant({
@@ -179,14 +200,35 @@ export const idlFactory = ({ IDL }) => {
     'goals' : IDL.Text,
     'analysis' : IDL.Text,
   });
+  const PremiumRate = IDL.Record({
+    'age' : IDL.Nat,
+    'annualPremium' : IDL.Nat,
+    'quarterlyPremium' : IDL.Nat,
+    'halfYearlyPremium' : IDL.Nat,
+    'monthlyPremium' : IDL.Nat,
+  });
+  const RiskCover = IDL.Record({
+    'criticalIllnessCover' : IDL.Opt(IDL.Nat),
+    'accidentalDeathBenefit' : IDL.Nat,
+    'naturalDeathBenefit' : IDL.Nat,
+  });
+  const MaturityBenefit = IDL.Record({
+    'sumAssured' : IDL.Nat,
+    'term' : IDL.Nat,
+    'guaranteedAdditions' : IDL.Nat,
+    'bonus' : IDL.Nat,
+  });
   const LICPlan = IDL.Record({
     'id' : IDL.Text,
     'additionalInfo' : IDL.Text,
     'premiumDetails' : IDL.Text,
     'maturityDetails' : IDL.Text,
     'name' : IDL.Text,
+    'premiumRates' : IDL.Vec(PremiumRate),
     'description' : IDL.Text,
     'benefits' : IDL.Text,
+    'riskCover' : IDL.Opt(RiskCover),
+    'maturityBenefits' : IDL.Vec(MaturityBenefit),
   });
   const UserProfile = IDL.Record({ 'name' : IDL.Text });
   const ProductInterest = IDL.Variant({

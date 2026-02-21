@@ -1,143 +1,144 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-21T14:18:14.227Z",
+  "generatedAt": "2026-02-21T15:14:57.436Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 12,
+    "total": 6,
     "implemented": 5,
     "items": [
       {
-        "id": "REQ-1",
-        "summary": "Replace existing LIC Plans section content with 6 specific plans: Jivan Labh (Plan 736), Jivan Umang, Jivan Shanti (Plan 850), Jivan Utsav (Plan 771), Jivan Lakshya, and Bima Laxmi (Plan 881)",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/LICPlans.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/LICPlans.tsx"
-        ]
-      },
-      {
         "id": "REQ-10",
-        "summary": "Design each plan card with a summary view showing key highlights (plan name with number, coverage amounts, premium ranges, policy terms, key benefits) and implement expandable 'View Full Details' sections containing all detailed premium tables, maturity calculations, eligibility criteria, and annuity rate schedules extracted from uploaded images",
+        "summary": "Build an interactive premium calculator that allows users to input their age, desired sum assured, and policy term, then calculates the required monthly/annual premium for each LIC plan based on the premium tables from the uploaded images",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/plans/PlanCard.tsx",
-          "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+          "frontend/src/pages/PremiumCalculatorPage.tsx",
+          "frontend/src/components/calculators/PremiumCalculatorForm.tsx",
+          "frontend/src/components/calculators/PremiumResultsGrid.tsx",
+          "frontend/src/utils/premiumCalculations.ts",
+          "frontend/src/types/translations.ts",
+          "frontend/src/data/planTranslations.ts",
+          "frontend/src/App.tsx",
           "frontend/src/pages/LICPlans.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/plans/PlanCard.tsx",
-          "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+          "frontend/src/pages/PremiumCalculatorPage.tsx",
+          "frontend/src/components/calculators/PremiumCalculatorForm.tsx",
+          "frontend/src/components/calculators/PremiumResultsGrid.tsx",
+          "frontend/src/utils/premiumCalculations.ts",
+          "frontend/src/types/translations.ts",
+          "frontend/src/data/planTranslations.ts",
+          "frontend/src/App.tsx",
           "frontend/src/pages/LICPlans.tsx"
         ]
       },
       {
         "id": "REQ-11",
-        "summary": "Map each of the 6 plans to their corresponding uploaded marketing images: Jivan Labh uses 'jivan labh 736-4.jpg', Jivan Umang uses 'Jivan Umang-6.jpg', Jivan Shanti uses 'jivan shanti-1.jpg', Jivan Utsav uses 'LIC Jivan Utsav-7.jpg' as primary image (with 'jivan utsav-8.jpg' and 'jivan utsav plan-6.jpg' available as additional detail images), Jivan Lakshya uses 'jivan lakshya-1.jpg' as primary image (with 'jivan lakshya..-4.jpg' as additional detail), and Bima Laxmi uses 'bima laxmi-2.jpg'",
+        "summary": "Create a maturity benefit calculator that takes user inputs (premium amount, policy term, age) and calculates the total maturity amount including bonuses and guaranteed additions for each plan, using the data from the uploaded plan images",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/utils/planImageMapping.ts",
-          "frontend/src/components/plans/PlanCard.tsx",
-          "frontend/src/components/plans/PlanDetailsExpanded.tsx"
+          "frontend/src/pages/MaturityCalculatorPage.tsx",
+          "frontend/src/components/calculators/MaturityCalculatorForm.tsx",
+          "frontend/src/components/calculators/MaturityResultsDisplay.tsx",
+          "frontend/src/utils/maturityCalculations.ts",
+          "frontend/src/types/translations.ts",
+          "frontend/src/data/planTranslations.ts",
+          "frontend/src/App.tsx",
+          "frontend/src/pages/LICPlans.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/utils/planImageMapping.ts",
-          "frontend/src/components/plans/PlanCard.tsx",
-          "frontend/src/components/plans/PlanDetailsExpanded.tsx"
+          "frontend/src/pages/MaturityCalculatorPage.tsx",
+          "frontend/src/components/calculators/MaturityCalculatorForm.tsx",
+          "frontend/src/components/calculators/MaturityResultsDisplay.tsx",
+          "frontend/src/utils/maturityCalculations.ts",
+          "frontend/src/types/translations.ts",
+          "frontend/src/data/planTranslations.ts",
+          "frontend/src/App.tsx",
+          "frontend/src/pages/LICPlans.tsx"
         ]
       },
       {
         "id": "REQ-12",
-        "summary": "Create a responsive grid layout for displaying all 6 plan cards that adapts to different screen sizes (mobile, tablet, desktop) while maintaining visual consistency and professional presentation",
+        "summary": "Implement a Return on Investment (ROI) analysis feature that calculates and displays the effective annual return percentage for each plan based on total premiums paid versus maturity benefits received, with visual comparison charts",
         "status": "implemented",
         "plannedFiles": [
+          "frontend/src/pages/ROIAnalysisPage.tsx",
+          "frontend/src/components/roi/ROIInputForm.tsx",
+          "frontend/src/components/roi/ROIComparisonChart.tsx",
+          "frontend/src/components/roi/ROIResultsTable.tsx",
+          "frontend/src/utils/roiCalculations.ts",
+          "frontend/src/types/translations.ts",
+          "frontend/src/data/planTranslations.ts",
+          "frontend/src/App.tsx",
           "frontend/src/pages/LICPlans.tsx",
-          "frontend/src/components/plans/PlanCard.tsx"
+          "frontend/package.json"
         ],
         "matchedFiles": [
-          "frontend/src/pages/LICPlans.tsx",
-          "frontend/src/components/plans/PlanCard.tsx"
+          "frontend/src/pages/ROIAnalysisPage.tsx",
+          "frontend/src/components/roi/ROIInputForm.tsx",
+          "frontend/src/components/roi/ROIComparisonChart.tsx",
+          "frontend/src/components/roi/ROIResultsTable.tsx",
+          "frontend/src/utils/roiCalculations.ts",
+          "frontend/src/types/translations.ts",
+          "frontend/src/data/planTranslations.ts",
+          "frontend/src/App.tsx",
+          "frontend/src/pages/LICPlans.tsx"
         ]
       },
       {
-        "id": "REQ-2",
-        "summary": "Store and display the 9 uploaded marketing images (jivan labh 736-4.jpg, Jivan Umang-6.jpg, jivan shanti-1.jpg, LIC Jivan Utsav-7.jpg, jivan utsav-8.jpg, jivan utsav plan-6.jpg, jivan lakshya-1.jpg, bima laxmi-2.jpg, jivan lakshya..-4.jpg) as static assets in frontend/public/assets/generated directory",
-        "status": "missing",
+        "id": "REQ-13",
+        "summary": "Add search and filter functionality that allows users to filter LIC plans by criteria including age range (minimum/maximum entry age), budget range (monthly/annual premium limits), and financial goals (savings, pension, money-back, guaranteed returns), with real-time filtering of the plan grid",
+        "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/generated/jivan-labh-736-4.jpg",
-          "frontend/public/assets/generated/jivan-umang-6.jpg",
-          "frontend/public/assets/generated/jivan-shanti-1.jpg",
-          "frontend/public/assets/generated/lic-jivan-utsav-7.jpg",
-          "frontend/public/assets/generated/jivan-utsav-8.jpg",
-          "frontend/public/assets/generated/jivan-utsav-plan-6.jpg",
-          "frontend/public/assets/generated/jivan-lakshya-1.jpg",
-          "frontend/public/assets/generated/jivan-lakshya-4.jpg",
-          "frontend/public/assets/generated/bima-laxmi-2.jpg"
+          "frontend/src/pages/LICPlans.tsx",
+          "frontend/src/components/filters/PlanFilterPanel.tsx",
+          "frontend/src/utils/planFiltering.ts",
+          "frontend/src/types/filters.ts",
+          "frontend/src/types/translations.ts",
+          "frontend/src/data/planTranslations.ts",
+          "frontend/src/hooks/usePlanFilters.ts"
         ],
-        "matchedFiles": []
+        "matchedFiles": [
+          "frontend/src/pages/LICPlans.tsx",
+          "frontend/src/components/filters/PlanFilterPanel.tsx",
+          "frontend/src/utils/planFiltering.ts",
+          "frontend/src/types/filters.ts",
+          "frontend/src/types/translations.ts",
+          "frontend/src/data/planTranslations.ts",
+          "frontend/src/hooks/usePlanFilters.ts"
+        ]
       },
       {
-        "id": "REQ-3",
-        "summary": "Extract and structure detailed plan information from uploaded images for Jivan Labh: 10 year payment term, 6 year income period, 16 year maturity, premium tables showing coverage from ₹2.1 lakh to ₹12.1 lakh with daily, monthly, and full payment options",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-4",
-        "summary": "Extract and structure detailed plan information from uploaded images for Jivan Umang: Save ₹138 daily for 15 years to get lifetime ₹50,000 annual pension, ₹52 lakh on maturity, ₹22 lakh for family, with guaranteed bonus structure and natural risk cover of ₹5.4 lakh and accidental risk cover of ₹22 lakh",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-5",
-        "summary": "Extract and structure detailed plan information from uploaded images for Jivan Shanti: Single premium annuity plan with guaranteed rates table showing entry ages from 30 to 75 years, deferment periods from 0 to 20 years, with guaranteed annuity rates ranging from 6.49% to 21.60%",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-6",
-        "summary": "Extract and structure detailed plan information from uploaded images for Jivan Utsav: 10% guaranteed returns plan with example of saving ₹5,000/month for 11 years to get ₹60,000 annually from year 14 onwards, including comprehensive benefit tables showing 5-year payment periods with guaranteed annual income ranging from ₹50,000 to ₹10,00,000",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-7",
-        "summary": "Extract and structure detailed plan information from uploaded images for Jivan Lakshya: Target-oriented life goal plan with entry age 18-50 years, policy maturity 13-25 years, premium payment age 13-25 years, hospitalization benefits from policy start, with example showing ₹5 lakh coverage for 30-year-old with ₹23,105 annual premium (₹1,966 monthly), 50,000 annual returns building to ₹13,75,000 maturity with 110% coverage sum plus bonuses and final additional bonuses",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-8",
-        "summary": "Extract and structure detailed plan information from uploaded images for Bima Laxmi: Women-focused 25-year money back plan (Plan 881) with ₹10 lakh coverage providing ₹75,000 returns every 2 years, ₹5 lakh after premium term completion, ₹5 lakh bonus at policy maturity, ensuring both security and savings for women",
+        "id": "REQ-14",
+        "summary": "Extract and structure detailed data from all 6 uploaded LIC plan images including premium tables with age-based rates, maturity benefit formulas, policy terms, guaranteed additions/bonuses, risk coverage details, and special features, then integrate this data into the backend LICPlan records to support accurate calculator and comparison functionality",
         "status": "unknown",
         "plannedFiles": [],
         "matchedFiles": []
       },
       {
         "id": "REQ-9",
-        "summary": "Implement trilingual content support (Marathi, Hindi, English) with a language toggle switch for the LIC Plans section, extracting Marathi/Hindi text from uploaded images and providing English translations for all plan details",
+        "summary": "Create a side-by-side plan comparison view that allows users to select multiple LIC plans (Jivan Labh 736, Jivan Umang, Bima Laxmi 881, Jivan Lakshya, Jivan Utsav, Jivan Shanti 850) and display their key features, premiums, maturity benefits, and policy terms in a tabular format for easy comparison",
         "status": "implemented",
         "plannedFiles": [
+          "frontend/src/pages/ComparisonPage.tsx",
+          "frontend/src/components/comparison/PlanSelector.tsx",
+          "frontend/src/components/comparison/ComparisonTable.tsx",
           "frontend/src/types/translations.ts",
           "frontend/src/data/planTranslations.ts",
-          "frontend/src/hooks/useLanguage.ts",
-          "frontend/src/components/plans/LanguageToggle.tsx",
-          "frontend/src/pages/LICPlans.tsx"
+          "frontend/src/App.tsx",
+          "frontend/src/pages/LICPlans.tsx",
+          "frontend/src/components/plans/PlanCard.tsx"
         ],
         "matchedFiles": [
+          "frontend/src/pages/ComparisonPage.tsx",
+          "frontend/src/components/comparison/PlanSelector.tsx",
+          "frontend/src/components/comparison/ComparisonTable.tsx",
           "frontend/src/types/translations.ts",
           "frontend/src/data/planTranslations.ts",
-          "frontend/src/components/plans/LanguageToggle.tsx",
+          "frontend/src/App.tsx",
           "frontend/src/pages/LICPlans.tsx"
         ]
       }
@@ -150,24 +151,34 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/jivan-lakshya.dim_750x1030.jpg",
-    "frontend/public/assets/generated/lic-jivan-utsav.dim_668x1086.jpg",
     "frontend/src/App.tsx",
     "frontend/src/backend.d.ts",
     "frontend/src/backend.ts",
-    "frontend/src/components/plans/LanguageToggle.tsx",
-    "frontend/src/components/plans/PlanCard.tsx",
-    "frontend/src/components/plans/PlanDetails.tsx",
-    "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+    "frontend/src/components/calculators/MaturityCalculatorForm.tsx",
+    "frontend/src/components/calculators/MaturityResultsDisplay.tsx",
+    "frontend/src/components/calculators/PremiumCalculatorForm.tsx",
+    "frontend/src/components/calculators/PremiumResultsGrid.tsx",
+    "frontend/src/components/comparison/ComparisonTable.tsx",
+    "frontend/src/components/comparison/PlanSelector.tsx",
+    "frontend/src/components/filters/PlanFilterPanel.tsx",
+    "frontend/src/components/roi/ROIComparisonChart.tsx",
+    "frontend/src/components/roi/ROIInputForm.tsx",
+    "frontend/src/components/roi/ROIResultsTable.tsx",
     "frontend/src/data/planTranslations.ts",
     "frontend/src/declarations/backend.did.d.ts",
     "frontend/src/declarations/backend.did.js",
-    "frontend/src/hooks/useLICPlans.ts",
-    "frontend/src/hooks/useLanguage.tsx",
-    "frontend/src/index.css",
+    "frontend/src/hooks/usePlanFilters.ts",
+    "frontend/src/pages/ComparisonPage.tsx",
     "frontend/src/pages/LICPlans.tsx",
+    "frontend/src/pages/MaturityCalculatorPage.tsx",
+    "frontend/src/pages/PremiumCalculatorPage.tsx",
+    "frontend/src/pages/ROIAnalysisPage.tsx",
+    "frontend/src/types/filters.ts",
     "frontend/src/types/translations.ts",
-    "frontend/src/utils/planImageMapping.ts",
+    "frontend/src/utils/maturityCalculations.ts",
+    "frontend/src/utils/planFiltering.ts",
+    "frontend/src/utils/premiumCalculations.ts",
+    "frontend/src/utils/roiCalculations.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

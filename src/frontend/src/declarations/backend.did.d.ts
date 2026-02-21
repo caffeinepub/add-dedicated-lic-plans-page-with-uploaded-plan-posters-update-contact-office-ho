@@ -27,8 +27,17 @@ export interface LICPlan {
   'premiumDetails' : string,
   'maturityDetails' : string,
   'name' : string,
+  'premiumRates' : Array<PremiumRate>,
   'description' : string,
   'benefits' : string,
+  'riskCover' : [] | [RiskCover],
+  'maturityBenefits' : Array<MaturityBenefit>,
+}
+export interface MaturityBenefit {
+  'sumAssured' : bigint,
+  'term' : bigint,
+  'guaranteedAdditions' : bigint,
+  'bonus' : bigint,
 }
 export interface PlanEntry {
   'id' : string,
@@ -43,12 +52,24 @@ export interface PlanMetadata {
   'description' : string,
   'updatedAt' : Time,
 }
+export interface PremiumRate {
+  'age' : bigint,
+  'annualPremium' : bigint,
+  'quarterlyPremium' : bigint,
+  'halfYearlyPremium' : bigint,
+  'monthlyPremium' : bigint,
+}
 export type ProductInterest = { 'other' : null } |
   { 'unloadModifications' : null } |
   { 'moduleSelector' : null } |
   { 'licPlan' : null } |
   { 'groundworks' : null } |
   { 'tailorMadeModules' : null };
+export interface RiskCover {
+  'criticalIllnessCover' : [] | [bigint],
+  'accidentalDeathBenefit' : bigint,
+  'naturalDeathBenefit' : bigint,
+}
 export interface StructuredPlan {
   'result' : string,
   'title' : string,

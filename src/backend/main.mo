@@ -66,6 +66,27 @@ actor {
     name : Text;
   };
 
+  public type PremiumRate = {
+    age : Nat;
+    annualPremium : Nat;
+    halfYearlyPremium : Nat;
+    quarterlyPremium : Nat;
+    monthlyPremium : Nat;
+  };
+
+  public type MaturityBenefit = {
+    term : Nat;
+    sumAssured : Nat;
+    bonus : Nat;
+    guaranteedAdditions : Nat;
+  };
+
+  public type RiskCover = {
+    accidentalDeathBenefit : Nat;
+    naturalDeathBenefit : Nat;
+    criticalIllnessCover : ?Nat;
+  };
+
   public type LICPlan = {
     id : Text;
     name : Text;
@@ -74,6 +95,9 @@ actor {
     premiumDetails : Text;
     maturityDetails : Text;
     additionalInfo : Text;
+    premiumRates : [PremiumRate];
+    maturityBenefits : [MaturityBenefit];
+    riskCover : ?RiskCover;
   };
 
   let licPlans = Map.empty<Text, LICPlan>();
@@ -81,10 +105,6 @@ actor {
   let plans = Map.empty<Text, PlanEntry>();
   let enquiries = Map.empty<Nat, Enquiry>();
   var enquiryCounter : Nat = 0;
-
-  let jivanUtsavId = "jivan-utsav";
-  let jivanUtsavTitle = "Jivan Utsav";
-  let jivanUtsavDescription = "Plan extracted from Jivan Utsav poster";
 
   func initializeLICPlans() {
     let jivanLabh : LICPlan = {
@@ -95,6 +115,14 @@ actor {
       premiumDetails = "Detailed premium tables extracted from images.";
       maturityDetails = "Maturity benefits after 16 years.";
       additionalInfo = "Guaranteed returns and bonuses.";
+      premiumRates = [
+        { age = 30; annualPremium = 12000; halfYearlyPremium = 6100; quarterlyPremium = 3100; monthlyPremium = 1040 },
+        { age = 40; annualPremium = 14000; halfYearlyPremium = 7150; quarterlyPremium = 3650; monthlyPremium = 1220 },
+      ];
+      maturityBenefits = [
+        { term = 16; sumAssured = 50000; bonus = 20000; guaranteedAdditions = 10000 },
+      ];
+      riskCover = ?{ accidentalDeathBenefit = 100000; naturalDeathBenefit = 50000; criticalIllnessCover = ?20000 };
     };
 
     let jivanUmang : LICPlan = {
@@ -105,6 +133,13 @@ actor {
       premiumDetails = "Guaranteed bonus structure and risk cover details.";
       maturityDetails = "Comprehensive family benefits.";
       additionalInfo = "Accidental and natural risk covers.";
+      premiumRates = [
+        { age = 35; annualPremium = 15400; halfYearlyPremium = 7750; quarterlyPremium = 3900; monthlyPremium = 1310 },
+      ];
+      maturityBenefits = [
+        { term = 30; sumAssured = 100000; bonus = 40000; guaranteedAdditions = 20000 },
+      ];
+      riskCover = ?{ accidentalDeathBenefit = 150000; naturalDeathBenefit = 100000; criticalIllnessCover = null };
     };
 
     let jivanShanti : LICPlan = {
@@ -115,6 +150,13 @@ actor {
       premiumDetails = "Detailed annuity rate tables extracted from images.";
       maturityDetails = "Guaranteed annuity rates from 6.49% to 21.60%.";
       additionalInfo = "Lifetime income options available.";
+      premiumRates = [
+        { age = 55; annualPremium = 0; halfYearlyPremium = 0; quarterlyPremium = 0; monthlyPremium = 0 },
+      ];
+      maturityBenefits = [
+        { term = 0; sumAssured = 0; bonus = 0; guaranteedAdditions = 0 },
+      ];
+      riskCover = null;
     };
 
     let jivanUtsav : LICPlan = {
@@ -125,6 +167,13 @@ actor {
       premiumDetails = "Detailed benefit tables for various payment periods.";
       maturityDetails = "Guaranteed annual income and maturity benefits.";
       additionalInfo = "Flexible payment and return options.";
+      premiumRates = [
+        { age = 40; annualPremium = 52000; halfYearlyPremium = 26500; quarterlyPremium = 13300; monthlyPremium = 4490 },
+      ];
+      maturityBenefits = [
+        { term = 25; sumAssured = 1000000; bonus = 0; guaranteedAdditions = 1100000 },
+      ];
+      riskCover = ?{ accidentalDeathBenefit = 1000000; naturalDeathBenefit = 1000000; criticalIllnessCover = null };
     };
 
     let jivanLakshya : LICPlan = {
@@ -135,6 +184,13 @@ actor {
       premiumDetails = "Example premiums for ₹5 lakh coverage.";
       maturityDetails = "110% coverage sum with bonuses and additional benefits.";
       additionalInfo = "Comprehensive life goal planning.";
+      premiumRates = [
+        { age = 25; annualPremium = 16000; halfYearlyPremium = 8000; quarterlyPremium = 4200; monthlyPremium = 1360 },
+      ];
+      maturityBenefits = [
+        { term = 25; sumAssured = 500000; bonus = 120000; guaranteedAdditions = 50000 },
+      ];
+      riskCover = ?{ accidentalDeathBenefit = 500000; naturalDeathBenefit = 500000; criticalIllnessCover = ?100000 };
     };
 
     let bimaLaxmi : LICPlan = {
@@ -145,6 +201,13 @@ actor {
       premiumDetails = "₹5 lakh after premium term completion.";
       maturityDetails = "₹5 lakh bonus at policy maturity.";
       additionalInfo = "Ensures both security and savings for women.";
+      premiumRates = [
+        { age = 35; annualPremium = 20000; halfYearlyPremium = 10200; quarterlyPremium = 5300; monthlyPremium = 1690 },
+      ];
+      maturityBenefits = [
+        { term = 25; sumAssured = 1000000; bonus = 500000; guaranteedAdditions = 0 },
+      ];
+      riskCover = ?{ accidentalDeathBenefit = 1000000; naturalDeathBenefit = 500000; criticalIllnessCover = null };
     };
 
     licPlans.add(jivanLabh.id, jivanLabh);
@@ -155,27 +218,58 @@ actor {
     licPlans.add(bimaLaxmi.id, bimaLaxmi);
   };
 
+  // Initialize LIC plans on actor creation
+  initializeLICPlans();
+
   public shared ({ caller }) func createOrUpdatePlan(id : Text, metadata : PlanMetadata, poster : Storage.ExternalBlob, structuredContent : StructuredPlan) : async () {
     if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
       Runtime.trap("Unauthorized: Only users can save plans");
     };
 
-    let verifiedMetadata : PlanMetadata = {
-      title = metadata.title;
-      description = metadata.description;
-      creator = caller;
-      createdAt = metadata.createdAt;
-      updatedAt = metadata.updatedAt;
-    };
+    // Check if plan exists and verify ownership for updates
+    switch (plans.get(id)) {
+      case (?existingPlan) {
+        // Plan exists - verify ownership for update
+        if (existingPlan.metadata.creator != caller and not AccessControl.isAdmin(accessControlState, caller)) {
+          Runtime.trap("Unauthorized: Only the plan creator or admins can update this plan");
+        };
 
-    let planEntry : PlanEntry = {
-      id;
-      metadata = verifiedMetadata;
-      poster;
-      content = structuredContent;
-    };
+        let verifiedMetadata : PlanMetadata = {
+          title = metadata.title;
+          description = metadata.description;
+          creator = existingPlan.metadata.creator;
+          createdAt = existingPlan.metadata.createdAt;
+          updatedAt = metadata.updatedAt;
+        };
 
-    plans.add(id, planEntry);
+        let updatedPlan : PlanEntry = {
+          id;
+          metadata = verifiedMetadata;
+          poster;
+          content = structuredContent;
+        };
+        plans.add(id, updatedPlan);
+      };
+      case (null) {
+        // New plan - create with caller as creator
+        let verifiedMetadata : PlanMetadata = {
+          title = metadata.title;
+          description = metadata.description;
+          creator = caller;
+          createdAt = metadata.createdAt;
+          updatedAt = metadata.updatedAt;
+        };
+
+        let planEntry : PlanEntry = {
+          id;
+          metadata = verifiedMetadata;
+          poster;
+          content = structuredContent;
+        };
+
+        plans.add(id, planEntry);
+      };
+    };
   };
 
   public shared ({ caller }) func updatePlan(id : Text, metadata : PlanMetadata, poster : Storage.ExternalBlob, structuredContent : StructuredPlan) : async () {
@@ -212,6 +306,7 @@ actor {
   };
 
   public query ({ caller }) func getPlans(limit : Nat) : async [PlanEntry] {
+    // No authorization check - accessible to all users including guests
     let planList = plans.values().toArray();
     let size = planList.size();
     let sliceSize = Nat.min(size, limit);
@@ -219,15 +314,17 @@ actor {
   };
 
   public query ({ caller }) func getPlanById(id : Text) : async ?PlanEntry {
+    // No authorization check - accessible to all users including guests
     plans.get(id);
   };
 
   public query ({ caller }) func getAllLICPlans() : async [LICPlan] {
-    let licPlanList = licPlans.values().toArray();
-    licPlanList;
+    // No authorization check - accessible to all users including guests
+    licPlans.values().toArray();
   };
 
   public query ({ caller }) func getLICPlanById(id : Text) : async ?LICPlan {
+    // No authorization check - accessible to all users including guests
     licPlans.get(id);
   };
 

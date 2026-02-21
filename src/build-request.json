@@ -1,251 +1,144 @@
 {
   "kind": "build_request",
-  "title": "Update LIC Plans section with 6 real plans using uploaded marketing images and trilingual content",
-  "projectName": "LIC Advisory Platform",
+  "title": "Enhance LIC plan comparison app with side-by-side comparison, calculators, and ROI analysis",
+  "projectName": "LIC Plan Advisor",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-1",
-      "text": "Replace existing LIC Plans section content with 6 specific plans: Jivan Labh (Plan 736), Jivan Umang, Jivan Shanti (Plan 850), Jivan Utsav (Plan 771), Jivan Lakshya, and Bima Laxmi (Plan 881)",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-user-final"
-        ],
-        "quotes": [
-          "6 LIC Plans with complete details extracted from your 9 uploaded images"
-        ]
-      },
-      "acceptanceCriteria": [
-        "All 6 plans are displayed in the LIC Plans section",
-        "Each plan shows correct plan number where applicable",
-        "Plans are arranged in a responsive grid layout"
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Store and display the 9 uploaded marketing images (jivan labh 736-4.jpg, Jivan Umang-6.jpg, jivan shanti-1.jpg, LIC Jivan Utsav-7.jpg, jivan utsav-8.jpg, jivan utsav plan-6.jpg, jivan lakshya-1.jpg, bima laxmi-2.jpg, jivan lakshya..-4.jpg) as static assets in frontend/public/assets/generated directory",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-user-final"
-        ],
-        "quotes": [
-          "Using your uploaded marketing images",
-          "Use your actual uploaded marketing images from each plan"
-        ]
-      },
-      "acceptanceCriteria": [
-        "All 9 uploaded images are stored in frontend/public/assets/generated",
-        "Images maintain their original filenames",
-        "Images are accessible via static asset URLs"
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "Extract and structure detailed plan information from uploaded images for Jivan Labh: 10 year payment term, 6 year income period, 16 year maturity, premium tables showing coverage from ₹2.1 lakh to ₹12.1 lakh with daily, monthly, and full payment options",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-user-final"
-        ],
-        "quotes": [
-          "Jivan Labh (Plan 736) - 10 year payment term, 6 year income period, 16 year maturity with detailed premium tables showing coverage from ₹2.1 lakh to ₹12.1 lakh"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Plan data includes payment term (10 years), income period (6 years), maturity period (16 years)",
-        "Premium table data is structured with daily, monthly, full payment, maturity at 16 years, pure benefit, and coverage amount columns",
-        "Coverage amounts range from ₹2.1 lakh to ₹12.1 lakh with corresponding premium calculations"
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Extract and structure detailed plan information from uploaded images for Jivan Umang: Save ₹138 daily for 15 years to get lifetime ₹50,000 annual pension, ₹52 lakh on maturity, ₹22 lakh for family, with guaranteed bonus structure and natural risk cover of ₹5.4 lakh and accidental risk cover of ₹22 lakh",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-user-final"
-        ],
-        "quotes": [
-          "Jivan Umang - Save ₹138 daily for 15 years → Get lifetime ₹50,000 annual pension + ₹52 lakh on maturity + ₹22 lakh for family"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Plan data includes daily savings amount (₹138), payment period (15 years)",
-        "Benefits structured to show lifetime pension (₹50,000 annually), maturity amount (₹52 lakh), family benefit (₹22 lakh)",
-        "Risk cover details include natural risk (₹5.4 lakh) and accidental risk (₹22 lakh)"
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Extract and structure detailed plan information from uploaded images for Jivan Shanti: Single premium annuity plan with guaranteed rates table showing entry ages from 30 to 75 years, deferment periods from 0 to 20 years, with guaranteed annuity rates ranging from 6.49% to 21.60%",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-user-final"
-        ],
-        "quotes": [
-          "Jivan Shanti (Plan 850) - Single premium annuity plan with guaranteed rates table (entry ages 30-75, deferment periods 0-20 years with rates 6.49% to 21.60%)"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Plan data includes complete guaranteed rates table with entry ages (30, 40, 50, 60, 65, 70, 75)",
-        "Deferment periods range from 0 to 20 years with corresponding rates",
-        "Rates are structured showing immediate and deferred annuity options with death benefit and life long regular income features"
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "text": "Extract and structure detailed plan information from uploaded images for Jivan Utsav: 10% guaranteed returns plan with example of saving ₹5,000/month for 11 years to get ₹60,000 annually from year 14 onwards, including comprehensive benefit tables showing 5-year payment periods with guaranteed annual income ranging from ₹50,000 to ₹10,00,000",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-user-final"
-        ],
-        "quotes": [
-          "Jivan Utsav (Plan 771) - 10% guaranteed returns, save ₹5,000/month for 11 years → Get ₹60,000 annually from year 14 onwards"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Plan data includes payment period (10 years for premium), income start (year 13/14)",
-        "Example calculation shows monthly premium options (₹5,000, ₹6,200, ₹7,200, ₹8,300, ₹9,300, ₹10,200, ₹15,300, ₹20,400)",
-        "Benefit tables show guaranteed annual income amounts (₹50,000 to ₹10,00,000) with corresponding total income benefit and family fund amounts",
-        "Three uploaded images for Jivan Utsav show different aspects: promotional banner with 10% returns, family-focused 10-year plan details, and comprehensive payment/benefit table"
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "text": "Extract and structure detailed plan information from uploaded images for Jivan Lakshya: Target-oriented life goal plan with entry age 18-50 years, policy maturity 13-25 years, premium payment age 13-25 years, hospitalization benefits from policy start, with example showing ₹5 lakh coverage for 30-year-old with ₹23,105 annual premium (₹1,966 monthly), 50,000 annual returns building to ₹13,75,000 maturity with 110% coverage sum plus bonuses and final additional bonuses",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-user-final"
-        ],
-        "quotes": [
-          "Jivan Lakshya - Target-oriented goal plan (Entry age: 18-50 years, Policy maturity: 13-25 years). Example: ₹5 lakh coverage for 30-year-old with ₹23,105/year premium"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Plan data includes entry age range (18-50 years), policy maturity range (13-25 years), premium payment period (13-25 years)",
-        "Hospitalization benefits start from policy inception (3 years minimum)",
-        "Example calculation structured with timeline showing annual returns of 50,000 building toward maturity amount",
-        "Maturity benefit formula includes sum assured (coverage amount) plus bonuses plus final additional bonuses (110% of policy maturity amount)",
-        "Two uploaded images provide visual timeline illustration and detailed Marathi text specifications"
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "text": "Extract and structure detailed plan information from uploaded images for Bima Laxmi: Women-focused 25-year money back plan (Plan 881) with ₹10 lakh coverage providing ₹75,000 returns every 2 years, ₹5 lakh after premium term completion, ₹5 lakh bonus at policy maturity, ensuring both security and savings for women",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-user-final"
-        ],
-        "quotes": [
-          "Bima Laxmi (Plan 881) - Women's plan: ₹10 lakh coverage → ₹75,000 returns every 2 years"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Plan data specifies 25-year policy term",
-        "Money back schedule shows ₹75,000 returns every 2 years during policy term",
-        "Benefits structured to show ₹5 lakh after premium term and ₹5 lakh bonus at maturity",
-        "Plan is clearly designated as women-focused with security and savings emphasis"
-      ]
-    },
-    {
       "id": "REQ-9",
-      "text": "Implement trilingual content support (Marathi, Hindi, English) with a language toggle switch for the LIC Plans section, extracting Marathi/Hindi text from uploaded images and providing English translations for all plan details",
+      "text": "Create a side-by-side plan comparison view that allows users to select multiple LIC plans (Jivan Labh 736, Jivan Umang, Bima Laxmi 881, Jivan Lakshya, Jivan Utsav, Jivan Shanti 850) and display their key features, premiums, maturity benefits, and policy terms in a tabular format for easy comparison",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-final"
+          "msg-5"
         ],
         "quotes": [
-          "Trilingual content - Marathi, Hindi, and English with seamless language toggle",
-          "Extract and display the exact text from your images alongside English translations"
+          "What should users be able to do? Compare plans side-by-side"
         ]
       },
       "acceptanceCriteria": [
-        "Language toggle switch allows users to select between Marathi, Hindi, and English",
-        "Plan titles, descriptions, benefits, and all textual content display in selected language",
-        "Marathi/Hindi content matches text from uploaded images",
-        "English translations are accurate and professional for insurance terminology"
+        "Users can select 2 or more plans from a checkbox list",
+        "Comparison table displays plan names, premium amounts, maturity benefits, policy terms, and key features",
+        "Table is responsive and works on mobile devices",
+        "Comparison view is available in Marathi, Hindi, and English"
       ]
     },
     {
       "id": "REQ-10",
-      "text": "Design each plan card with a summary view showing key highlights (plan name with number, coverage amounts, premium ranges, policy terms, key benefits) and implement expandable 'View Full Details' sections containing all detailed premium tables, maturity calculations, eligibility criteria, and annuity rate schedules extracted from uploaded images",
+      "text": "Build an interactive premium calculator that allows users to input their age, desired sum assured, and policy term, then calculates the required monthly/annual premium for each LIC plan based on the premium tables from the uploaded images",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-final"
+          "msg-5"
         ],
         "quotes": [
-          "Summary cards with key highlights (coverage, premiums, benefits)",
-          "Expandable 'View Full Details' sections containing all premium tables, maturity calculations, eligibility criteria, and annuity rates from your images"
+          "calculate premiums/returns",
+          "Should the app compute maturity amounts"
         ]
       },
       "acceptanceCriteria": [
-        "Each plan card displays summary information in collapsed state: plan name with number, primary coverage amount, premium range, policy term duration, 2-3 key benefits",
-        "'View Full Details' button toggles expansion to show comprehensive tables",
-        "Expanded view includes all data from uploaded images: complete premium tables with all columns and rows, maturity benefit calculations, eligibility criteria (age ranges, payment terms), guaranteed rates or return schedules",
-        "Tables are responsive and maintain readability on mobile devices",
-        "Expansion/collapse animation is smooth and intuitive"
+        "Calculator accepts age (numeric input), sum assured (numeric input), and policy term (dropdown or numeric input)",
+        "Calculator displays premium amounts for applicable plans",
+        "Results update dynamically as user changes inputs",
+        "Calculator supports all three languages (Marathi, Hindi, English)"
       ]
     },
     {
       "id": "REQ-11",
-      "text": "Map each of the 6 plans to their corresponding uploaded marketing images: Jivan Labh uses 'jivan labh 736-4.jpg', Jivan Umang uses 'Jivan Umang-6.jpg', Jivan Shanti uses 'jivan shanti-1.jpg', Jivan Utsav uses 'LIC Jivan Utsav-7.jpg' as primary image (with 'jivan utsav-8.jpg' and 'jivan utsav plan-6.jpg' available as additional detail images), Jivan Lakshya uses 'jivan lakshya-1.jpg' as primary image (with 'jivan lakshya..-4.jpg' as additional detail), and Bima Laxmi uses 'bima laxmi-2.jpg'",
+      "text": "Create a maturity benefit calculator that takes user inputs (premium amount, policy term, age) and calculates the total maturity amount including bonuses and guaranteed additions for each plan, using the data from the uploaded plan images",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-final"
+          "msg-5"
         ],
         "quotes": [
-          "Use your actual uploaded marketing images from each plan"
+          "calculate premiums/returns",
+          "compute maturity amounts"
         ]
       },
       "acceptanceCriteria": [
-        "Each plan card displays its corresponding uploaded marketing image",
-        "Images maintain aspect ratio and professional appearance",
-        "Plans with multiple uploaded images (Jivan Utsav has 3, Jivan Lakshya has 2) show primary image on card and include additional images in expanded details view",
-        "Image loading includes proper error handling and fallback display"
+        "Calculator accepts premium amount, policy term, and age as inputs",
+        "Displays calculated maturity benefits including sum assured, bonuses, and guaranteed additions",
+        "Shows breakdown of maturity components (base amount + bonuses)",
+        "Available in Marathi, Hindi, and English"
       ]
     },
     {
       "id": "REQ-12",
-      "text": "Create a responsive grid layout for displaying all 6 plan cards that adapts to different screen sizes (mobile, tablet, desktop) while maintaining visual consistency and professional presentation",
+      "text": "Implement a Return on Investment (ROI) analysis feature that calculates and displays the effective annual return percentage for each plan based on total premiums paid versus maturity benefits received, with visual comparison charts",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-final"
+          "msg-5"
         ],
         "quotes": [
-          "Responsive grid layout for all 6 plan cards",
-          "6 plan cards beautifully arranged"
+          "compare returns across plans",
+          "ROI (Return on Investment) analysis"
         ]
       },
       "acceptanceCriteria": [
-        "Grid displays 3 columns on desktop, 2 columns on tablet, 1 column on mobile",
-        "Cards have equal heights within each row",
-        "Spacing between cards is consistent and visually balanced",
-        "Layout maintains readability and usability across all device sizes"
+        "ROI calculation considers total premiums paid and maturity benefits",
+        "Displays ROI percentage for each plan",
+        "Includes visual chart (bar chart or line chart) comparing ROI across plans",
+        "Supports trilingual display"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Add search and filter functionality that allows users to filter LIC plans by criteria including age range (minimum/maximum entry age), budget range (monthly/annual premium limits), and financial goals (savings, pension, money-back, guaranteed returns), with real-time filtering of the plan grid",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "search by criteria (age/budget/goals)",
+          "Filter by age, budget, and financial goals"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Filter panel includes age range inputs, premium budget slider or inputs, and financial goal checkboxes",
+        "Plans are filtered in real-time as user adjusts criteria",
+        "Filtered results maintain trilingual support",
+        "Clear filters button resets all selections"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Extract and structure detailed data from all 6 uploaded LIC plan images including premium tables with age-based rates, maturity benefit formulas, policy terms, guaranteed additions/bonuses, risk coverage details, and special features, then integrate this data into the backend LICPlan records to support accurate calculator and comparison functionality",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "Extract and structure data from 6 LIC plan images"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Jivan Labh 736 data includes premium table with age-based rates and maturity calculations",
+        "Jivan Umang data includes guaranteed bonus structure and lifetime pension details",
+        "Bima Laxmi 881 data includes money-back schedule and maturity benefit formula",
+        "Jivan Lakshya data includes bonus structure and maturity calculation",
+        "Jivan Utsav data includes guaranteed return rates and maturity formula",
+        "Jivan Shanti 850 data includes annuity rate table across different ages and deferment periods",
+        "All extracted data is stored in structured format accessible to frontend calculators"
       ]
     }
   ],
   "constraints": [
-    "Do not modify or remove existing marketing pages, navigation, or contact functionality",
-    "Preserve the current deep forest green and gold color scheme",
-    "Maintain existing authentication and Internet Identity integration",
-    "Keep all text content in English, Marathi, and Hindi as specified"
+    "Maintain single-actor architecture in backend/main.mo",
+    "Do not modify immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui",
+    "Use only React, Shadcn, Tailwind, and React Query for frontend implementation",
+    "All calculations must be performed client-side in the frontend",
+    "Premium and maturity calculations must be based on actual data from the uploaded plan images"
   ],
   "nonGoals": [
-    "Adding new insurance plans beyond the 6 specified",
-    "Creating a plan comparison feature",
-    "Implementing premium calculators or quote generators",
-    "Adding user reviews or testimonials for plans",
-    "Creating downloadable plan brochures or PDFs"
+    "Real-time chat or messaging features",
+    "Integration with external payment gateways beyond existing setup",
+    "PDF generation of comparison reports",
+    "User authentication beyond existing Internet Identity setup",
+    "Email notifications for calculation results"
   ],
   "imageRequirements": {
     "required": [],
