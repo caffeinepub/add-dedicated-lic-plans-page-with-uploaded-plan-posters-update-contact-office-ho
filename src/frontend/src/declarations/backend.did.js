@@ -41,11 +41,21 @@ export const StructuredPlan = IDL.Record({
   'goals' : IDL.Text,
   'analysis' : IDL.Text,
 });
+export const LICPlan = IDL.Record({
+  'id' : IDL.Text,
+  'additionalInfo' : IDL.Text,
+  'premiumDetails' : IDL.Text,
+  'maturityDetails' : IDL.Text,
+  'name' : IDL.Text,
+  'description' : IDL.Text,
+  'benefits' : IDL.Text,
+});
 export const UserProfile = IDL.Record({ 'name' : IDL.Text });
 export const ProductInterest = IDL.Variant({
   'other' : IDL.Null,
   'unloadModifications' : IDL.Null,
   'moduleSelector' : IDL.Null,
+  'licPlan' : IDL.Null,
   'groundworks' : IDL.Null,
   'tailorMadeModules' : IDL.Null,
 });
@@ -100,9 +110,11 @@ export const idlService = IDL.Service({
       [],
       [],
     ),
+  'getAllLICPlans' : IDL.Func([], [IDL.Vec(LICPlan)], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getEnquiries' : IDL.Func([IDL.Nat], [IDL.Vec(Enquiry)], ['query']),
+  'getLICPlanById' : IDL.Func([IDL.Text], [IDL.Opt(LICPlan)], ['query']),
   'getPlanById' : IDL.Func([IDL.Text], [IDL.Opt(PlanEntry)], ['query']),
   'getPlans' : IDL.Func([IDL.Nat], [IDL.Vec(PlanEntry)], ['query']),
   'getUserProfile' : IDL.Func(
@@ -111,7 +123,6 @@ export const idlService = IDL.Service({
       ['query'],
     ),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
-  'processJivanUtsavPoster' : IDL.Func([ExternalBlob], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'submitEnquiry' : IDL.Func(
       [
@@ -168,11 +179,21 @@ export const idlFactory = ({ IDL }) => {
     'goals' : IDL.Text,
     'analysis' : IDL.Text,
   });
+  const LICPlan = IDL.Record({
+    'id' : IDL.Text,
+    'additionalInfo' : IDL.Text,
+    'premiumDetails' : IDL.Text,
+    'maturityDetails' : IDL.Text,
+    'name' : IDL.Text,
+    'description' : IDL.Text,
+    'benefits' : IDL.Text,
+  });
   const UserProfile = IDL.Record({ 'name' : IDL.Text });
   const ProductInterest = IDL.Variant({
     'other' : IDL.Null,
     'unloadModifications' : IDL.Null,
     'moduleSelector' : IDL.Null,
+    'licPlan' : IDL.Null,
     'groundworks' : IDL.Null,
     'tailorMadeModules' : IDL.Null,
   });
@@ -227,9 +248,11 @@ export const idlFactory = ({ IDL }) => {
         [],
         [],
       ),
+    'getAllLICPlans' : IDL.Func([], [IDL.Vec(LICPlan)], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getEnquiries' : IDL.Func([IDL.Nat], [IDL.Vec(Enquiry)], ['query']),
+    'getLICPlanById' : IDL.Func([IDL.Text], [IDL.Opt(LICPlan)], ['query']),
     'getPlanById' : IDL.Func([IDL.Text], [IDL.Opt(PlanEntry)], ['query']),
     'getPlans' : IDL.Func([IDL.Nat], [IDL.Vec(PlanEntry)], ['query']),
     'getUserProfile' : IDL.Func(
@@ -238,7 +261,6 @@ export const idlFactory = ({ IDL }) => {
         ['query'],
       ),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
-    'processJivanUtsavPoster' : IDL.Func([ExternalBlob], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'submitEnquiry' : IDL.Func(
         [

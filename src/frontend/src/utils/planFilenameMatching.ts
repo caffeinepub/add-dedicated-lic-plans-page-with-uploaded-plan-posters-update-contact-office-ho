@@ -36,23 +36,36 @@ export function normalizePlanTitle(title: string): string {
 
 /**
  * Derive a plan title from a filename using explicit mappings and fallback capitalization
- * Enhanced to handle common spelling variants (Jivan/Jeevan, Utasav/Utsav)
+ * Enhanced to handle common spelling variants (Jivan/Jeevan, Utasav/Utsav) and various separators
  */
 export function derivePlanTitle(filename: string): string {
   const normalized = normalizeFilename(filename);
+  
+  // Remove common prefixes like "lic" to focus on the plan name
+  const withoutPrefix = normalized.replace(/^lic\s+/, '');
 
   // Explicit mappings for known plan names with spelling variants
   // Jivan Utsav / Jeevan Utsav (including typo "utasav")
-  if (normalized.includes('jivan utsav') || normalized.includes('jeevan utsav') || 
-      normalized.includes('jivan utasav') || normalized.includes('jeevan utasav') ||
-      normalized.includes('lic jivan utsav') || normalized.includes('lic jeevan utsav') ||
-      normalized.includes('lic jivan utasav') || normalized.includes('lic jeevan utasav')) {
+  if (
+    withoutPrefix.includes('jivan utsav') || 
+    withoutPrefix.includes('jeevan utsav') || 
+    withoutPrefix.includes('jivan utasav') || 
+    withoutPrefix.includes('jeevan utasav') ||
+    normalized.includes('jivan utsav') || 
+    normalized.includes('jeevan utsav') ||
+    normalized.includes('jivan utasav') || 
+    normalized.includes('jeevan utasav')
+  ) {
     return 'Jeevan Utsav';
   }
   
   // Jivan Umang / Jeevan Umang
-  if (normalized.includes('jivan umang') || normalized.includes('jeevan umang') ||
-      normalized.includes('lic jivan umang') || normalized.includes('lic jeevan umang')) {
+  if (
+    withoutPrefix.includes('jivan umang') || 
+    withoutPrefix.includes('jeevan umang') ||
+    normalized.includes('jivan umang') || 
+    normalized.includes('jeevan umang')
+  ) {
     return 'Jeevan Umang';
   }
   
@@ -62,22 +75,30 @@ export function derivePlanTitle(filename: string): string {
   }
   
   // Jivan Labh / Jeevan Labh
-  if (normalized.includes('jivan labh') || normalized.includes('jeevan labh') ||
-      normalized.includes('lic jivan labh') || normalized.includes('lic jeevan labh')) {
+  if (
+    withoutPrefix.includes('jivan labh') || 
+    withoutPrefix.includes('jeevan labh') ||
+    normalized.includes('jivan labh') || 
+    normalized.includes('jeevan labh')
+  ) {
     return 'Jeevan Labh';
   }
   
   // Jivan Lakshya / Jeevan Lakshya
-  if (normalized.includes('jivan lakshya') || normalized.includes('jeevan lakshya') ||
-      normalized.includes('lic jivan lakshya') || normalized.includes('lic jeevan lakshya')) {
+  if (
+    withoutPrefix.includes('jivan lakshya') || 
+    withoutPrefix.includes('jeevan lakshya') ||
+    normalized.includes('jivan lakshya') || 
+    normalized.includes('jeevan lakshya')
+  ) {
     return 'Jeevan Lakshya';
   }
 
-  // Fallback: capitalize each word
+  // Fallback: capitalize each word, removing common words like "plan"
   return filename
     .replace(/\.[^/.]+$/, '')
     .split(/[-_\s]+/)
-    .filter(word => word.length > 0)
+    .filter(word => word.length > 0 && word.toLowerCase() !== 'plan')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 }

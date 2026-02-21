@@ -5,94 +5,77 @@
 @layer base {
   :root {
     /* Deep Forest Green & Gold Premium Palette */
-    --background: oklch(98% 0.01 120);
-    --foreground: oklch(20% 0.02 140);
+    --background: 98% 0.01 106;
+    --foreground: 25% 0.02 146;
 
-    --card: oklch(100% 0 0);
-    --card-foreground: oklch(20% 0.02 140);
+    --card: 98% 0.01 106;
+    --card-foreground: 25% 0.02 146;
 
-    --popover: oklch(100% 0 0);
-    --popover-foreground: oklch(20% 0.02 140);
+    --popover: 98% 0.01 106;
+    --popover-foreground: 25% 0.02 146;
 
-    /* Primary: Deep Forest Green */
-    --primary: oklch(35% 0.08 150);
-    --primary-foreground: oklch(98% 0.01 120);
+    --primary: 35% 0.12 146;
+    --primary-foreground: 98% 0.01 106;
 
-    /* Secondary: Warm Neutral */
-    --secondary: oklch(92% 0.01 80);
-    --secondary-foreground: oklch(20% 0.02 140);
+    --secondary: 92% 0.02 106;
+    --secondary-foreground: 25% 0.02 146;
 
-    /* Muted: Soft Gray-Green */
-    --muted: oklch(94% 0.01 140);
-    --muted-foreground: oklch(45% 0.02 140);
+    --muted: 92% 0.02 106;
+    --muted-foreground: 50% 0.02 146;
 
-    /* Accent: Rich Gold */
-    --accent: oklch(65% 0.12 85);
-    --accent-foreground: oklch(20% 0.02 140);
+    --accent: 75% 0.15 85;
+    --accent-foreground: 25% 0.02 146;
 
-    /* Destructive: Warm Red */
-    --destructive: oklch(55% 0.18 25);
-    --destructive-foreground: oklch(98% 0.01 120);
+    --destructive: 55% 0.20 25;
+    --destructive-foreground: 98% 0.01 106;
 
-    /* Success: Forest Green */
-    --success: oklch(50% 0.10 145);
-    --success-foreground: oklch(98% 0.01 120);
+    --border: 88% 0.02 146;
+    --input: 88% 0.02 146;
+    --ring: 35% 0.12 146;
 
-    /* Warning: Amber */
-    --warning: oklch(70% 0.14 75);
-    --warning-foreground: oklch(20% 0.02 140);
-
-    /* Border & Input */
-    --border: oklch(88% 0.01 140);
-    --input: oklch(88% 0.01 140);
-    --ring: oklch(35% 0.08 150);
+    --chart-1: 55% 0.15 146;
+    --chart-2: 65% 0.12 85;
+    --chart-3: 45% 0.10 200;
+    --chart-4: 70% 0.08 50;
+    --chart-5: 60% 0.14 300;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    /* Dark Mode: Deep Forest Night */
-    --background: oklch(15% 0.02 140);
-    --foreground: oklch(95% 0.01 120);
+    --background: 20% 0.02 146;
+    --foreground: 95% 0.01 106;
 
-    --card: oklch(18% 0.02 140);
-    --card-foreground: oklch(95% 0.01 120);
+    --card: 22% 0.02 146;
+    --card-foreground: 95% 0.01 106;
 
-    --popover: oklch(18% 0.02 140);
-    --popover-foreground: oklch(95% 0.01 120);
+    --popover: 20% 0.02 146;
+    --popover-foreground: 95% 0.01 106;
 
-    /* Primary: Bright Forest Green */
-    --primary: oklch(55% 0.12 150);
-    --primary-foreground: oklch(15% 0.02 140);
+    --primary: 45% 0.12 146;
+    --primary-foreground: 98% 0.01 106;
 
-    /* Secondary: Dark Neutral */
-    --secondary: oklch(25% 0.02 140);
-    --secondary-foreground: oklch(95% 0.01 120);
+    --secondary: 28% 0.02 146;
+    --secondary-foreground: 95% 0.01 106;
 
-    /* Muted: Dark Gray-Green */
-    --muted: oklch(22% 0.02 140);
-    --muted-foreground: oklch(65% 0.02 140);
+    --muted: 28% 0.02 146;
+    --muted-foreground: 65% 0.02 106;
 
-    /* Accent: Bright Gold */
-    --accent: oklch(75% 0.14 85);
-    --accent-foreground: oklch(15% 0.02 140);
+    --accent: 75% 0.15 85;
+    --accent-foreground: 20% 0.02 146;
 
-    /* Destructive: Bright Red */
-    --destructive: oklch(60% 0.20 25);
-    --destructive-foreground: oklch(95% 0.01 120);
+    --destructive: 55% 0.20 25;
+    --destructive-foreground: 98% 0.01 106;
 
-    /* Success: Bright Green */
-    --success: oklch(60% 0.12 145);
-    --success-foreground: oklch(15% 0.02 140);
+    --border: 30% 0.02 146;
+    --input: 30% 0.02 146;
+    --ring: 45% 0.12 146;
 
-    /* Warning: Bright Amber */
-    --warning: oklch(75% 0.16 75);
-    --warning-foreground: oklch(15% 0.02 140);
-
-    /* Border & Input */
-    --border: oklch(28% 0.02 140);
-    --input: oklch(28% 0.02 140);
-    --ring: oklch(55% 0.12 150);
+    --chart-1: 55% 0.15 146;
+    --chart-2: 65% 0.12 85;
+    --chart-3: 45% 0.10 200;
+    --chart-4: 70% 0.08 50;
+    --chart-5: 60% 0.14 300;
   }
 }
 
@@ -107,68 +90,56 @@
 }
 
 @layer utilities {
-  /* Premium table styling for plan details */
-  .premium-table-wrapper {
-    @apply w-full overflow-x-auto rounded-lg border border-border;
-  }
-
   .premium-table {
-    @apply w-full border-collapse text-sm;
-    min-width: 600px;
+    @apply w-full border-collapse;
   }
-
+  
   .premium-table thead {
     @apply bg-primary/10;
   }
-
+  
   .premium-table th {
-    @apply px-4 py-3 text-left font-semibold text-foreground border-b-2 border-primary/30;
+    @apply px-4 py-3 text-left text-sm font-semibold text-foreground border border-border;
   }
-
-  .premium-table tbody tr {
-    @apply border-b border-border transition-colors hover:bg-muted/50;
-  }
-
-  .premium-table tbody tr:nth-child(even) {
-    @apply bg-muted/20;
-  }
-
+  
   .premium-table td {
-    @apply px-4 py-3 text-muted-foreground;
+    @apply px-4 py-3 text-sm text-muted-foreground border border-border;
   }
-
-  .premium-table td strong,
-  .premium-table th {
-    @apply text-foreground;
+  
+  .premium-table tbody tr:nth-child(even) {
+    @apply bg-muted/30;
   }
-
-  /* Mobile-friendly stacked layout for very small screens */
-  @media (max-width: 640px) {
+  
+  .premium-table tbody tr:hover {
+    @apply bg-muted/50;
+  }
+  
+  @media (max-width: 768px) {
     .premium-table {
-      min-width: 100%;
+      @apply block overflow-x-auto;
     }
     
     .premium-table thead {
       @apply hidden;
     }
     
-    .premium-table tbody tr {
-      @apply block mb-4 border-2 border-border rounded-lg;
+    .premium-table tbody,
+    .premium-table tr,
+    .premium-table td {
+      @apply block;
+    }
+    
+    .premium-table tr {
+      @apply mb-4 border border-border rounded-lg overflow-hidden;
     }
     
     .premium-table td {
-      @apply block text-right px-4 py-2 border-b border-border;
-      position: relative;
-      padding-left: 50%;
-    }
-    
-    .premium-table td:last-child {
-      @apply border-b-0;
+      @apply relative pl-32 text-right border-b last:border-b-0;
     }
     
     .premium-table td::before {
+      @apply absolute left-4 top-3 font-semibold text-foreground;
       content: attr(data-label);
-      @apply absolute left-4 font-semibold text-foreground;
     }
   }
 }

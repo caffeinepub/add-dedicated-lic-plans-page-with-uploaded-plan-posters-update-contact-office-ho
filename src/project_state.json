@@ -1,34 +1,56 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Build LIC Plans enhancement to attach and display a provided image per plan (starting with the Jivan Utsav plan).",
+  "summary": "LIC insurance plan application featuring 6 detailed plans (Jivan Labh, Jivan Umang, Jivan Shanti, Jivan Utsav, Jivan Lakshya, and Bima Laxmi) with trilingual support (Marathi, Hindi, English), displaying comprehensive plan details including premium tables, maturity benefits, and eligibility criteria",
   "architectural_notes": [
-    "Plan records should support an associated image (e.g., image URL/asset reference) supplied by the admin/user."
+    "LIC Plans section displays 6 insurance plans with detailed information extracted from uploaded marketing materials",
+    "Trilingual interface supporting Marathi (primary), Hindi, and English with toggle functionality",
+    "Plan cards show summary information with expandable sections for detailed premium tables and benefit calculations",
+    "Using actual uploaded marketing images instead of AI-generated images for authentic representation",
+    "Responsive grid layout presenting all 6 plans (Jivan Labh, Jivan Umang, Jivan Shanti, Jivan Utsav, Jivan Lakshya, Bima Laxmi)"
   ],
-  "known_issues": [],
-  "isFixRequest": false,
+  "known_issues": [
+    "Previous build attempts failed - LIC Plans section not displaying images or content properly"
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-ensure-the-lic-plans-admin-upload-workflow-accepts-the-user-provided-image-file-named-jivan-utsav-6-jpg-and-automatically-maps-it-to-the-plan-title-jeevan-utsav-jivan-jeevan-spelling-variant-when-processing-uploads",
-      "title": "Ensure the LIC Plans admin upload workflow accepts the user-provided image file named \"jivan utsav-6.jpg\" and automatically maps it to the plan title \"Jeevan Utsav\" (Jivan/Jeevan spelling variant) when processing uploads.",
+      "id": "feature-replace-existing-lic-plans-section-content-with-6-specific-plans-jivan-labh-plan-736-jivan-umang-jivan-shanti-plan-850-jivan-utsav-plan-771-jivan-lakshya-and-bima-laxmi-plan-881",
+      "title": "Replace existing LIC Plans section content with 6 specific plans: Jivan Labh (Plan 736), Jivan Umang, Jivan Shanti (Plan 850), Jivan Utsav (Plan 771), Jivan Lakshya, and Bima Laxmi (Plan 881)",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-after-processing-jivan-utsav-6-jpg-create-a-new-plan-entry-or-update-the-existing-one-if-present-for-jeevan-utsav-with-the-uploaded-image-stored-as-the-plan-poster-and-structured-plan-content-extracted-filled-by-the-existing-ocr-simulation",
-      "title": "After processing \"jivan utsav-6.jpg\", create a new plan entry (or update the existing one if present) for \"Jeevan Utsav\" with the uploaded image stored as the plan poster and structured plan content extracted/filled by the existing OCR simulation.",
+      "id": "feature-implement-trilingual-content-support-marathi-hindi-english-with-a-language-toggle-switch-for-the-lic-plans-section-extracting-marathi-hindi-text-from-uploaded-images-and-providing-english-translations-for-all-plan-details",
+      "title": "Implement trilingual content support (Marathi, Hindi, English) with a language toggle switch for the LIC Plans section, extracting Marathi/Hindi text from uploaded images and providing English translations for all plan details",
       "reqIds": [
-        "REQ-2"
+        "REQ-9"
       ],
       "version": 1
     },
     {
-      "id": "feature-display-each-plan-s-poster-image-in-the-lic-plans-ui-plan-list-cards-and-the-expanded-detail-section-rendering-the-stored-poster-blob-as-an-actual-image-preview-with-sensible-sizing-aspect-handling-and-a-fallback-placeholder-when-unavailable",
-      "title": "Display each plan’s poster image in the LIC Plans UI (plan list cards and the expanded/detail section), rendering the stored poster blob as an actual image preview (with sensible sizing, aspect handling, and a fallback placeholder when unavailable).",
+      "id": "feature-design-each-plan-card-with-a-summary-view-showing-key-highlights-plan-name-with-number-coverage-amounts-premium-ranges-policy-terms-key-benefits-and-implement-expandable-view-full-details-sections-containing-all-detailed-premium-tables-maturity-calculations-eligibility-criteria-and-annuity-rate-schedules-extracted-from-uploaded-images",
+      "title": "Design each plan card with a summary view showing key highlights (plan name with number, coverage amounts, premium ranges, policy terms, key benefits) and implement expandable 'View Full Details' sections containing all detailed premium tables, maturity calculations, eligibility criteria, and annuity rate schedules extracted from uploaded images",
       "reqIds": [
-        "REQ-3"
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-map-each-of-the-6-plans-to-their-corresponding-uploaded-marketing-images-jivan-labh-uses-jivan-labh-736-4-jpg-jivan-umang-uses-jivan-umang-6-jpg-jivan-shanti-uses-jivan-shanti-1-jpg-jivan-utsav-uses-lic-jivan-utsav-7-jpg-as-primary-image-with-jivan-utsav-8-jpg-and-jivan-utsav-plan-6-jpg-available-as-additional-detail-images-jivan-lakshya-uses-jivan-lakshya-1-jpg-as-primary-image-with-jivan-lakshya-4-jpg-as-additional-detail-and-bima-laxmi-uses-bima-laxmi-2-jpg",
+      "title": "Map each of the 6 plans to their corresponding uploaded marketing images: Jivan Labh uses 'jivan labh 736-4.jpg', Jivan Umang uses 'Jivan Umang-6.jpg', Jivan Shanti uses 'jivan shanti-1.jpg', Jivan Utsav uses 'LIC Jivan Utsav-7.jpg' as primary image (with 'jivan utsav-8.jpg' and 'jivan utsav plan-6.jpg' available as additional detail images), Jivan Lakshya uses 'jivan lakshya-1.jpg' as primary image (with 'jivan lakshya..-4.jpg' as additional detail), and Bima Laxmi uses 'bima laxmi-2.jpg'",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-responsive-grid-layout-for-displaying-all-6-plan-cards-that-adapts-to-different-screen-sizes-mobile-tablet-desktop-while-maintaining-visual-consistency-and-professional-presentation",
+      "title": "Create a responsive grid layout for displaying all 6 plan cards that adapts to different screen sizes (mobile, tablet, desktop) while maintaining visual consistency and professional presentation",
+      "reqIds": [
+        "REQ-12"
       ],
       "version": 1
     }
@@ -36,12 +58,92 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Add support for attaching a provided image to an LIC Plan (starting with Jivan Utsav) and display it in the LIC Plans UI.",
+      "summary": "LIC Plans section with 6 plans (Jivan Labh, Jivan Umang, Jivan Shanti, Jivan Utsav, Jivan Lakshya, Bima Laxmi) displaying comprehensive details",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Trilingual support (Marathi, Hindi, English) with language toggle",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Plan cards with summary view and expandable 'View Full Details' sections containing premium tables, maturity calculations, eligibility criteria",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Display uploaded marketing images for each LIC plan",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Responsive grid layout for 6 plan cards",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Store and display the 9 uploaded marketing images (jivan labh 736-4.jpg, Jivan Umang-6.jpg, jivan shanti-1.jpg, LIC Jivan Utsav-7.jpg, jivan utsav-8.jpg, jivan utsav plan-6.jpg, jivan lakshya-1.jpg, bima laxmi-2.jpg, jivan lakshya..-4.jpg) as static assets in frontend/public/assets/generated directory",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Extract and structure detailed plan information from uploaded images for Jivan Labh: 10 year payment term, 6 year income period, 16 year maturity, premium tables showing coverage from ₹2.1 lakh to ₹12.1 lakh with daily, monthly, and full payment options",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Extract and structure detailed plan information from uploaded images for Jivan Umang: Save ₹138 daily for 15 years to get lifetime ₹50,000 annual pension, ₹52 lakh on maturity, ₹22 lakh for family, with guaranteed bonus structure and natural risk cover of ₹5.4 lakh and accidental risk cover of ₹22 lakh",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Extract and structure detailed plan information from uploaded images for Jivan Shanti: Single premium annuity plan with guaranteed rates table showing entry ages from 30 to 75 years, deferment periods from 0 to 20 years, with guaranteed annuity rates ranging from 6.49% to 21.60%",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Extract and structure detailed plan information from uploaded images for Jivan Utsav: 10% guaranteed returns plan with example of saving ₹5,000/month for 11 years to get ₹60,000 annually from year 14 onwards, including comprehensive benefit tables showing 5-year payment periods with guaranteed annual income ranging from ₹50,000 to ₹10,00,000",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Extract and structure detailed plan information from uploaded images for Jivan Lakshya: Target-oriented life goal plan with entry age 18-50 years, policy maturity 13-25 years, premium payment age 13-25 years, hospitalization benefits from policy start, with example showing ₹5 lakh coverage for 30-year-old with ₹23,105 annual premium (₹1,966 monthly), 50,000 annual returns building to ₹13,75,000 maturity with 110% coverage sum plus bonuses and final additional bonuses",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Extract and structure detailed plan information from uploaded images for Bima Laxmi: Women-focused 25-year money back plan (Plan 881) with ₹10 lakh coverage providing ₹75,000 returns every 2 years, ₹5 lakh after premium term completion, ₹5 lakh bonus at policy maturity, ensuring both security and savings for women",
+      "reqIds": [
+        "REQ-8"
+      ],
       "status": "pending"
     }
   ],
-  "projectName": "Attach and display poster image for LIC plan (Jeevan Utsav) using uploaded file",
+  "projectName": "LIC Advisory Platform",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

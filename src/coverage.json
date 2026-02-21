@@ -1,51 +1,143 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-16T14:53:52.945Z",
+  "generatedAt": "2026-02-21T14:18:14.227Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 12,
+    "implemented": 5,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Ensure the LIC Plans admin upload workflow accepts the user-provided image file named \"jivan utsav-6.jpg\" and automatically maps it to the plan title \"Jeevan Utsav\" (Jivan/Jeevan spelling variant) when processing uploads.",
+        "summary": "Replace existing LIC Plans section content with 6 specific plans: Jivan Labh (Plan 736), Jivan Umang, Jivan Shanti (Plan 850), Jivan Utsav (Plan 771), Jivan Lakshya, and Bima Laxmi (Plan 881)",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/utils/planFilenameMatching.ts",
           "frontend/src/pages/LICPlans.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/utils/planFilenameMatching.ts",
           "frontend/src/pages/LICPlans.tsx"
+        ]
+      },
+      {
+        "id": "REQ-10",
+        "summary": "Design each plan card with a summary view showing key highlights (plan name with number, coverage amounts, premium ranges, policy terms, key benefits) and implement expandable 'View Full Details' sections containing all detailed premium tables, maturity calculations, eligibility criteria, and annuity rate schedules extracted from uploaded images",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/plans/PlanCard.tsx",
+          "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+          "frontend/src/pages/LICPlans.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/plans/PlanCard.tsx",
+          "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+          "frontend/src/pages/LICPlans.tsx"
+        ]
+      },
+      {
+        "id": "REQ-11",
+        "summary": "Map each of the 6 plans to their corresponding uploaded marketing images: Jivan Labh uses 'jivan labh 736-4.jpg', Jivan Umang uses 'Jivan Umang-6.jpg', Jivan Shanti uses 'jivan shanti-1.jpg', Jivan Utsav uses 'LIC Jivan Utsav-7.jpg' as primary image (with 'jivan utsav-8.jpg' and 'jivan utsav plan-6.jpg' available as additional detail images), Jivan Lakshya uses 'jivan lakshya-1.jpg' as primary image (with 'jivan lakshya..-4.jpg' as additional detail), and Bima Laxmi uses 'bima laxmi-2.jpg'",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/utils/planImageMapping.ts",
+          "frontend/src/components/plans/PlanCard.tsx",
+          "frontend/src/components/plans/PlanDetailsExpanded.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/utils/planImageMapping.ts",
+          "frontend/src/components/plans/PlanCard.tsx",
+          "frontend/src/components/plans/PlanDetailsExpanded.tsx"
+        ]
+      },
+      {
+        "id": "REQ-12",
+        "summary": "Create a responsive grid layout for displaying all 6 plan cards that adapts to different screen sizes (mobile, tablet, desktop) while maintaining visual consistency and professional presentation",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/LICPlans.tsx",
+          "frontend/src/components/plans/PlanCard.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/LICPlans.tsx",
+          "frontend/src/components/plans/PlanCard.tsx"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "After processing \"jivan utsav-6.jpg\", create a new plan entry (or update the existing one if present) for \"Jeevan Utsav\" with the uploaded image stored as the plan poster and structured plan content extracted/filled by the existing OCR simulation.",
-        "status": "implemented",
+        "summary": "Store and display the 9 uploaded marketing images (jivan labh 736-4.jpg, Jivan Umang-6.jpg, jivan shanti-1.jpg, LIC Jivan Utsav-7.jpg, jivan utsav-8.jpg, jivan utsav plan-6.jpg, jivan lakshya-1.jpg, bima laxmi-2.jpg, jivan lakshya..-4.jpg) as static assets in frontend/public/assets/generated directory",
+        "status": "missing",
         "plannedFiles": [
-          "frontend/src/pages/LICPlans.tsx",
-          "frontend/src/utils/planFilenameMatching.ts"
+          "frontend/public/assets/generated/jivan-labh-736-4.jpg",
+          "frontend/public/assets/generated/jivan-umang-6.jpg",
+          "frontend/public/assets/generated/jivan-shanti-1.jpg",
+          "frontend/public/assets/generated/lic-jivan-utsav-7.jpg",
+          "frontend/public/assets/generated/jivan-utsav-8.jpg",
+          "frontend/public/assets/generated/jivan-utsav-plan-6.jpg",
+          "frontend/public/assets/generated/jivan-lakshya-1.jpg",
+          "frontend/public/assets/generated/jivan-lakshya-4.jpg",
+          "frontend/public/assets/generated/bima-laxmi-2.jpg"
         ],
-        "matchedFiles": [
-          "frontend/src/pages/LICPlans.tsx",
-          "frontend/src/utils/planFilenameMatching.ts"
-        ]
+        "matchedFiles": []
       },
       {
         "id": "REQ-3",
-        "summary": "Display each plan’s poster image in the LIC Plans UI (plan list cards and the expanded/detail section), rendering the stored poster blob as an actual image preview (with sensible sizing, aspect handling, and a fallback placeholder when unavailable).",
+        "summary": "Extract and structure detailed plan information from uploaded images for Jivan Labh: 10 year payment term, 6 year income period, 16 year maturity, premium tables showing coverage from ₹2.1 lakh to ₹12.1 lakh with daily, monthly, and full payment options",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Extract and structure detailed plan information from uploaded images for Jivan Umang: Save ₹138 daily for 15 years to get lifetime ₹50,000 annual pension, ₹52 lakh on maturity, ₹22 lakh for family, with guaranteed bonus structure and natural risk cover of ₹5.4 lakh and accidental risk cover of ₹22 lakh",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-5",
+        "summary": "Extract and structure detailed plan information from uploaded images for Jivan Shanti: Single premium annuity plan with guaranteed rates table showing entry ages from 30 to 75 years, deferment periods from 0 to 20 years, with guaranteed annuity rates ranging from 6.49% to 21.60%",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-6",
+        "summary": "Extract and structure detailed plan information from uploaded images for Jivan Utsav: 10% guaranteed returns plan with example of saving ₹5,000/month for 11 years to get ₹60,000 annually from year 14 onwards, including comprehensive benefit tables showing 5-year payment periods with guaranteed annual income ranging from ₹50,000 to ₹10,00,000",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-7",
+        "summary": "Extract and structure detailed plan information from uploaded images for Jivan Lakshya: Target-oriented life goal plan with entry age 18-50 years, policy maturity 13-25 years, premium payment age 13-25 years, hospitalization benefits from policy start, with example showing ₹5 lakh coverage for 30-year-old with ₹23,105 annual premium (₹1,966 monthly), 50,000 annual returns building to ₹13,75,000 maturity with 110% coverage sum plus bonuses and final additional bonuses",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-8",
+        "summary": "Extract and structure detailed plan information from uploaded images for Bima Laxmi: Women-focused 25-year money back plan (Plan 881) with ₹10 lakh coverage providing ₹75,000 returns every 2 years, ₹5 lakh after premium term completion, ₹5 lakh bonus at policy maturity, ensuring both security and savings for women",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-9",
+        "summary": "Implement trilingual content support (Marathi, Hindi, English) with a language toggle switch for the LIC Plans section, extracting Marathi/Hindi text from uploaded images and providing English translations for all plan details",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/plans/PlanPosterImage.tsx",
+          "frontend/src/types/translations.ts",
+          "frontend/src/data/planTranslations.ts",
+          "frontend/src/hooks/useLanguage.ts",
+          "frontend/src/components/plans/LanguageToggle.tsx",
           "frontend/src/pages/LICPlans.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/plans/PlanPosterImage.tsx",
+          "frontend/src/types/translations.ts",
+          "frontend/src/data/planTranslations.ts",
+          "frontend/src/components/plans/LanguageToggle.tsx",
           "frontend/src/pages/LICPlans.tsx"
         ]
       }
@@ -55,18 +147,27 @@
     "backend/main.mo",
     "backend/migration.mo",
     "build-request.json",
-    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
+    "frontend/public/assets/generated/jivan-lakshya.dim_750x1030.jpg",
+    "frontend/public/assets/generated/lic-jivan-utsav.dim_668x1086.jpg",
+    "frontend/src/App.tsx",
     "frontend/src/backend.d.ts",
     "frontend/src/backend.ts",
-    "frontend/src/components/plans/PlanPosterImage.tsx",
+    "frontend/src/components/plans/LanguageToggle.tsx",
+    "frontend/src/components/plans/PlanCard.tsx",
+    "frontend/src/components/plans/PlanDetails.tsx",
+    "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+    "frontend/src/data/planTranslations.ts",
     "frontend/src/declarations/backend.did.d.ts",
     "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useLICPlans.ts",
+    "frontend/src/hooks/useLanguage.tsx",
+    "frontend/src/index.css",
     "frontend/src/pages/LICPlans.tsx",
-    "frontend/src/utils/ocr.ts",
-    "frontend/src/utils/planFilenameMatching.ts",
+    "frontend/src/types/translations.ts",
+    "frontend/src/utils/planImageMapping.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

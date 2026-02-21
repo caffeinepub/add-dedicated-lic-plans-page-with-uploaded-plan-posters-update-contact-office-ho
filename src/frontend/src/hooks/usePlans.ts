@@ -75,8 +75,10 @@ export function useCreateOrUpdatePlan() {
         throw new Error(`Failed to save plan: ${error.message || 'Unknown error'}`);
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plans'] });
+    onSuccess: async () => {
+      // Invalidate and refetch to ensure fresh data with new ExternalBlob instances
+      await queryClient.invalidateQueries({ queryKey: ['plans'] });
+      await queryClient.refetchQueries({ queryKey: ['plans'] });
     },
     onError: (error: any) => {
       console.error('Plan mutation error:', error);
@@ -119,9 +121,10 @@ export function useUpdatePlan() {
         throw new Error(`Failed to update plan: ${error.message || 'Unknown error'}`);
       }
     },
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['plans'] });
-      queryClient.invalidateQueries({ queryKey: ['plan', variables.id] });
+    onSuccess: async (_, variables) => {
+      await queryClient.invalidateQueries({ queryKey: ['plans'] });
+      await queryClient.invalidateQueries({ queryKey: ['plan', variables.id] });
+      await queryClient.refetchQueries({ queryKey: ['plans'] });
     },
   });
 }

@@ -1,67 +1,191 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "LIC Plans: map uploaded Jeevan Utsav poster and render plan poster images",
+  "title": "Update LIC Plans section with 6 real plans using uploaded marketing images and trilingual content",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Improve upload filename-to-plan-title mapping so \"jivan utsav-6.jpg\" is grouped under \"Jeevan Utsav\" and shown as the selected/best candidate in the upload summary.",
+      "summary": "Display 6 specific LIC plans in the LIC Plans section with correct plan numbers and responsive grid layout",
       "acceptanceCriteria": [
-        "When selecting the file named \"jivan utsav-6.jpg\" in the LIC Plans upload input, the UI groups it under the derived plan title \"Jeevan Utsav\".",
-        "The upload summary indicates the selected/best candidate for \"Jeevan Utsav\" is \"jivan utsav-6.jpg\" (when it is the only file for that plan title)."
+        "All 6 plans are displayed in the LIC Plans section",
+        "Each plan shows correct plan number where applicable",
+        "Plans are arranged in a responsive grid layout"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/utils/planFilenameMatching.ts",
-          "operation": "modify",
-          "description": "Harden plan title derivation for \"Jeevan Utsav\" by covering common spelling/typo variants (e.g., jivan/jeevan and potential \"utasav\" typo) and add a small exported title-normalization helper suitable for comparing existing plan titles to derived titles."
-        },
-        {
           "path": "frontend/src/pages/LICPlans.tsx",
           "operation": "modify",
-          "description": "Update the pending-upload grouping and summary rendering so each derived plan title always shows the chosen/best candidate filename (even when only one file is present), ensuring \"Jeevan Utsav\" displays \"jivan utsav-6.jpg\" as the selected file."
+          "description": "Update the LICPlans component to fetch and display the 6 specific plans (Jivan Labh 736, Jivan Umang, Jivan Shanti 850, Jivan Utsav 771, Jivan Lakshya, Bima Laxmi 881) using the getAllLICPlans backend capability. Replace existing plan display logic to render plan cards in a responsive grid (3 columns desktop, 2 tablet, 1 mobile) using the LICPlan data structure from the backend interface. Ensure each plan displays its plan number (e.g., 736, 850, 771, 881) prominently in the card header."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Ensure Upload & Process creates or updates the \"Jeevan Utsav\" plan with the uploaded poster and OCR-simulated structured content, updating an existing plan even if its title uses a Jivan/Jeevan spelling variant.",
+      "summary": "Store and display 9 uploaded marketing images as static assets accessible via frontend",
       "acceptanceCriteria": [
-        "Running Upload & Process with only \"jivan utsav-6.jpg\" results in a plan titled \"Jeevan Utsav\" appearing in the fetched plans list (created if missing, updated if already exists).",
-        "The created/updated plan includes a non-empty poster blob and non-empty structured content fields (at minimum, the \"Overview\" section has text).",
-        "No unauthorized errors occur for an authenticated admin user; if not authenticated as admin, the upload UI remains inaccessible as it is today."
+        "All 9 uploaded images are stored in frontend/public/assets/generated",
+        "Images maintain their original filenames",
+        "Images are accessible via static asset URLs"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/LICPlans.tsx",
-          "operation": "modify",
-          "description": "Adjust existing-plan detection during upload processing to use a normalized title comparison (e.g., treating \"Jivan Utsav\" and \"Jeevan Utsav\" as the same logical plan) so the workflow updates the correct plan when present, while continuing to use the existing OCR simulation and plan save flow."
+          "path": "frontend/public/assets/generated/jivan-labh-736-4.jpg",
+          "operation": "create",
+          "description": "Store the uploaded image 'jivan labh 736-4.jpg' as a static asset with normalized filename 'jivan-labh-736-4.jpg' in the generated assets directory for Jivan Labh plan marketing visual."
         },
         {
-          "path": "frontend/src/utils/planFilenameMatching.ts",
-          "operation": "modify",
-          "description": "Expose and reuse a consistent normalization function for plan titles (for both derived titles and stored titles) so the upload workflow can reliably match and update existing plans despite Jivan/Jeevan spelling variations."
+          "path": "frontend/public/assets/generated/jivan-umang-6.jpg",
+          "operation": "create",
+          "description": "Store the uploaded image 'Jivan Umang-6.jpg' as a static asset with normalized filename 'jivan-umang-6.jpg' in the generated assets directory for Jivan Umang plan marketing visual."
+        },
+        {
+          "path": "frontend/public/assets/generated/jivan-shanti-1.jpg",
+          "operation": "create",
+          "description": "Store the uploaded image 'jivan shanti-1.jpg' as a static asset with normalized filename 'jivan-shanti-1.jpg' in the generated assets directory for Jivan Shanti plan marketing visual."
+        },
+        {
+          "path": "frontend/public/assets/generated/lic-jivan-utsav-7.jpg",
+          "operation": "create",
+          "description": "Store the uploaded image 'LIC Jivan Utsav-7.jpg' as a static asset with normalized filename 'lic-jivan-utsav-7.jpg' in the generated assets directory as the primary image for Jivan Utsav plan."
+        },
+        {
+          "path": "frontend/public/assets/generated/jivan-utsav-8.jpg",
+          "operation": "create",
+          "description": "Store the uploaded image 'jivan utsav-8.jpg' as a static asset with normalized filename 'jivan-utsav-8.jpg' in the generated assets directory as an additional detail image for Jivan Utsav plan."
+        },
+        {
+          "path": "frontend/public/assets/generated/jivan-utsav-plan-6.jpg",
+          "operation": "create",
+          "description": "Store the uploaded image 'jivan utsav plan-6.jpg' as a static asset with normalized filename 'jivan-utsav-plan-6.jpg' in the generated assets directory as an additional detail image for Jivan Utsav plan."
+        },
+        {
+          "path": "frontend/public/assets/generated/jivan-lakshya-1.jpg",
+          "operation": "create",
+          "description": "Store the uploaded image 'jivan lakshya-1.jpg' as a static asset with normalized filename 'jivan-lakshya-1.jpg' in the generated assets directory as the primary image for Jivan Lakshya plan."
+        },
+        {
+          "path": "frontend/public/assets/generated/jivan-lakshya-4.jpg",
+          "operation": "create",
+          "description": "Store the uploaded image 'jivan lakshya..-4.jpg' as a static asset with normalized filename 'jivan-lakshya-4.jpg' in the generated assets directory as an additional detail image for Jivan Lakshya plan."
+        },
+        {
+          "path": "frontend/public/assets/generated/bima-laxmi-2.jpg",
+          "operation": "create",
+          "description": "Store the uploaded image 'bima laxmi-2.jpg' as a static asset with normalized filename 'bima-laxmi-2.jpg' in the generated assets directory for Bima Laxmi plan marketing visual."
         }
       ]
     },
     {
-      "id": "REQ-3",
-      "summary": "Render each plan’s stored poster blob as an image in LIC Plans list cards and expanded/detail view, with sensible sizing and a robust fallback placeholder if rendering fails.",
+      "id": "REQ-9",
+      "summary": "Implement trilingual content support (Marathi, Hindi, English) with language toggle switch for LIC Plans section",
       "acceptanceCriteria": [
-        "For the \"Jeevan Utsav\" plan created/updated from \"jivan utsav-6.jpg\", the plan list shows the poster image thumbnail on the plan card.",
-        "When expanding a plan, the poster image is also visible in the expanded/detail view.",
-        "If an image cannot be rendered for any reason, the UI shows a clear fallback (e.g., placeholder area/icon) without breaking the page layout."
+        "Language toggle switch allows users to select between Marathi, Hindi, and English",
+        "Plan titles, descriptions, benefits, and all textual content display in selected language",
+        "Marathi/Hindi content matches text from uploaded images",
+        "English translations are accurate and professional for insurance terminology"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/plans/PlanPosterImage.tsx",
+          "path": "frontend/src/types/translations.ts",
           "operation": "create",
-          "description": "Create a reusable poster renderer that accepts a plan poster blob and displays it using the blob-storage ExternalBlob direct URL capability (use ExternalBlob.getDirectURL()), includes loading/error handling, and shows a clear placeholder fallback when unavailable or when image loading fails. Verify the component's usage instructions before implementing."
+          "description": "Define TypeScript types for trilingual content structure including Language enum ('mr' | 'hi' | 'en'), TranslatedText interface for storing text in all three languages, and PlanTranslations interface mapping plan IDs to their translated content (name, description, benefits, premium details, maturity details, additional info). Include types for UI labels used in the plans section (section title, view details button, collapse button, language toggle labels)."
+        },
+        {
+          "path": "frontend/src/data/planTranslations.ts",
+          "operation": "create",
+          "description": "Create trilingual content data for all 6 LIC plans extracted from uploaded images. For each plan (Jivan Labh 736, Jivan Umang, Jivan Shanti 850, Jivan Utsav 771, Jivan Lakshya, Bima Laxmi 881), provide Marathi text matching the uploaded images, Hindi translations, and professional English translations. Structure includes plan names, descriptions, benefit summaries, premium details, maturity calculations, and eligibility criteria. Export as a constant object keyed by plan ID for easy lookup."
+        },
+        {
+          "path": "frontend/src/hooks/useLanguage.ts",
+          "operation": "create",
+          "description": "Create a React context and custom hook for managing the selected language state across the LIC Plans section. Provide functions to get the current language, set a new language, and retrieve translated text by key. Store the selected language in localStorage for persistence across sessions. Default to English ('en') on first visit."
+        },
+        {
+          "path": "frontend/src/components/plans/LanguageToggle.tsx",
+          "operation": "create",
+          "description": "Create a language toggle component displaying three options (Marathi, Hindi, English) as buttons or a dropdown. Use the useLanguage hook to display the current selection and update language on user click. Style the toggle to match the existing deep forest green and gold color scheme. Position the toggle prominently at the top of the LIC Plans section for easy access."
         },
         {
           "path": "frontend/src/pages/LICPlans.tsx",
           "operation": "modify",
-          "description": "Use the new PlanPosterImage component in the plans grid card UI and the expanded/detail view so each plan shows a consistent poster thumbnail/preview with proper sizing/aspect handling and a fallback placeholder. Verify the component's usage instructions before implementing."
+          "description": "Integrate the LanguageToggle component at the top of the LIC Plans section. Use the useLanguage hook to retrieve the current language and pass translated content to each plan card component. Ensure all plan text (names, descriptions, benefits, details) displays in the selected language by fetching translations from planTranslations.ts data using the current language and plan ID."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Design plan cards with summary view and expandable 'View Full Details' sections containing comprehensive plan information",
+      "acceptanceCriteria": [
+        "Each plan card displays summary information in collapsed state: plan name with number, primary coverage amount, premium range, policy term duration, 2-3 key benefits",
+        "'View Full Details' button toggles expansion to show comprehensive tables",
+        "Expanded view includes all data from uploaded images: complete premium tables with all columns and rows, maturity benefit calculations, eligibility criteria (age ranges, payment terms), guaranteed rates or return schedules",
+        "Tables are responsive and maintain readability on mobile devices",
+        "Expansion/collapse animation is smooth and intuitive"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/plans/PlanCard.tsx",
+          "operation": "create",
+          "description": "Create a PlanCard component that displays a single LIC plan in summary view (collapsed state) showing plan name with number, hero image, primary coverage amount, premium range, policy term, and 2-3 key benefits as bullet points. Include a 'View Full Details' button that toggles expansion state. Use React state (useState) to track expanded/collapsed status. Apply smooth height transition animation using CSS or Tailwind utilities. Style the card with the existing deep forest green and gold palette, maintaining consistent spacing and typography with the rest of the application."
+        },
+        {
+          "path": "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+          "operation": "create",
+          "description": "Create a PlanDetailsExpanded component that renders comprehensive plan information within the expanded PlanCard. Display full premium tables (using premium-table utility classes from index.css for responsive table styling), maturity benefit calculations with formulas, complete eligibility criteria (entry age ranges, policy maturity ranges, payment terms), and guaranteed annuity rates or return schedules. For plans with multiple uploaded images (Jivan Utsav with 3 images, Jivan Lakshya with 2 images), display additional images in a gallery or tabbed view. Ensure all table columns (daily premium, monthly premium, full payment, maturity benefits, coverage amounts) remain readable on mobile devices using horizontal scroll or stacked layouts as needed."
+        },
+        {
+          "path": "frontend/src/pages/LICPlans.tsx",
+          "operation": "modify",
+          "description": "Replace the existing plan display logic with a grid of PlanCard components. Fetch plan data using getAllLICPlans backend capability and map each LICPlan object to a PlanCard, passing the plan data and current language from useLanguage hook as props. Ensure the grid layout is responsive (3 columns on desktop using grid-cols-3, 2 columns on tablet using md:grid-cols-2, 1 column on mobile) with consistent gap spacing. Remove any separate detail page navigation logic since details now expand inline within each card."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Map each of the 6 plans to their corresponding uploaded marketing images with support for multiple images per plan",
+      "acceptanceCriteria": [
+        "Each plan card displays its corresponding uploaded marketing image",
+        "Images maintain aspect ratio and professional appearance",
+        "Plans with multiple uploaded images (Jivan Utsav has 3, Jivan Lakshya has 2) show primary image on card and include additional images in expanded details view",
+        "Image loading includes proper error handling and fallback display"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/planImageMapping.ts",
+          "operation": "modify",
+          "description": "Update the plan image mapping utility to map each of the 6 plans to their corresponding uploaded marketing images stored in frontend/public/assets/generated. Map Jivan Labh to 'jivan-labh-736-4.jpg', Jivan Umang to 'jivan-umang-6.jpg', Jivan Shanti to 'jivan-shanti-1.jpg', Jivan Utsav to primary image 'lic-jivan-utsav-7.jpg' with additional images ['jivan-utsav-8.jpg', 'jivan-utsav-plan-6.jpg'], Jivan Lakshya to primary image 'jivan-lakshya-1.jpg' with additional image 'jivan-lakshya-4.jpg', and Bima Laxmi to 'bima-laxmi-2.jpg'. Export a function that takes a plan ID or normalized plan name and returns the primary image path and an optional array of additional image paths."
+        },
+        {
+          "path": "frontend/src/components/plans/PlanCard.tsx",
+          "operation": "modify",
+          "description": "Integrate the planImageMapping utility to retrieve and display the primary marketing image for each plan in the card summary view. Use an <img> tag with the full path to the image in frontend/public/assets/generated. Apply object-fit: cover or contain to maintain aspect ratio within a fixed height container. Include error handling with an onError handler that displays a fallback default image (e.g., 'lic-plan-default.png') if the primary image fails to load. Ensure the image loads with a loading spinner or skeleton while fetching."
+        },
+        {
+          "path": "frontend/src/components/plans/PlanDetailsExpanded.tsx",
+          "operation": "modify",
+          "description": "When rendering the expanded details for plans with multiple images (Jivan Utsav with 3 images, Jivan Lakshya with 2 images), retrieve the additional image paths from planImageMapping utility and display them in a horizontal scrollable gallery or as tabbed images below the primary content. Each additional image should be clickable to view in full size or toggled as the main display image. Include the same error handling and loading states as the primary image in PlanCard."
+        }
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "summary": "Create a responsive grid layout for displaying all 6 plan cards that adapts to different screen sizes",
+      "acceptanceCriteria": [
+        "Grid displays 3 columns on desktop, 2 columns on tablet, 1 column on mobile",
+        "Cards have equal heights within each row",
+        "Spacing between cards is consistent and visually balanced",
+        "Layout maintains readability and usability across all device sizes"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LICPlans.tsx",
+          "operation": "modify",
+          "description": "Wrap the mapped PlanCard components in a responsive CSS Grid container using Tailwind classes: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'. Apply equal height to cards within each row using 'auto-rows-fr' or by setting a min-height on PlanCard. Ensure consistent horizontal and vertical spacing (gap-6 provides 1.5rem gap). Add padding around the grid container to prevent cards from touching screen edges on mobile devices. Test layout at breakpoints (mobile <768px, tablet 768-1024px, desktop >1024px) to ensure cards resize appropriately and maintain visual balance."
+        },
+        {
+          "path": "frontend/src/components/plans/PlanCard.tsx",
+          "operation": "modify",
+          "description": "Apply consistent card styling to ensure equal heights within grid rows. Use flex layout within the card (flex flex-col) to distribute space between header, image, summary content, and button footer. Set a minimum height (e.g., min-h-[400px]) to prevent short cards in rows with longer cards. Ensure the 'View Full Details' button remains at the bottom of the card using 'mt-auto'. Test card rendering with varying content lengths (some plans have longer descriptions or more benefits) to confirm height consistency across the grid."
         }
       ]
     }

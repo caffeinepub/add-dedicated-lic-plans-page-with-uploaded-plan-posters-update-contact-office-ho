@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Navbar from './components/marketing/Navbar';
 import Hero from './components/marketing/Hero';
 import About from './components/marketing/About';
@@ -8,26 +9,20 @@ import FAQ from './components/marketing/FAQ';
 import Contact from './components/marketing/Contact';
 import Footer from './components/marketing/Footer';
 import LICPlans from './pages/LICPlans';
-import { Toaster } from './components/ui/sonner';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 function App() {
   const [currentView, setCurrentView] = useState<'home' | 'lic-plans'>('home');
 
   useEffect(() => {
-    document.title = 'LIC Insurance Advisor | Secure Your Future with Expert Guidance';
-    
-    // Set meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Professional LIC insurance advisor offering comprehensive life insurance solutions, retirement planning, and financial security for you and your family.');
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = 'description';
-      meta.content = 'Professional LIC insurance advisor offering comprehensive life insurance solutions, retirement planning, and financial security for you and your family.';
-      document.head.appendChild(meta);
-    }
-
-    // Handle hash-based navigation
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1);
       if (hash === 'lic-plans') {
@@ -42,31 +37,25 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  if (currentView === 'lic-plans') {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <LICPlans />
-        <Footer />
-        <Toaster />
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Services />
-        <Plans />
-        <FAQ />
-        <Contact />
-      </main>
-      <Footer />
-      <Toaster />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="min-h-screen bg-background text-foreground">
+        <Navbar />
+        {currentView === 'home' ? (
+          <main>
+            <Hero />
+            <About />
+            <Services />
+            <Plans />
+            <FAQ />
+            <Contact />
+          </main>
+        ) : (
+          <LICPlans />
+        )}
+        <Footer />
+      </div>
+    </QueryClientProvider>
   );
 }
 

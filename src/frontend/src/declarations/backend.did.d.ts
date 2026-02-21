@@ -21,6 +21,15 @@ export interface Enquiry {
   'phone' : [] | [string],
 }
 export type ExternalBlob = Uint8Array;
+export interface LICPlan {
+  'id' : string,
+  'additionalInfo' : string,
+  'premiumDetails' : string,
+  'maturityDetails' : string,
+  'name' : string,
+  'description' : string,
+  'benefits' : string,
+}
 export interface PlanEntry {
   'id' : string,
   'content' : StructuredPlan,
@@ -37,6 +46,7 @@ export interface PlanMetadata {
 export type ProductInterest = { 'other' : null } |
   { 'unloadModifications' : null } |
   { 'moduleSelector' : null } |
+  { 'licPlan' : null } |
   { 'groundworks' : null } |
   { 'tailorMadeModules' : null };
 export interface StructuredPlan {
@@ -85,14 +95,15 @@ export interface _SERVICE {
     [string, PlanMetadata, ExternalBlob, StructuredPlan],
     undefined
   >,
+  'getAllLICPlans' : ActorMethod<[], Array<LICPlan>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
   'getEnquiries' : ActorMethod<[bigint], Array<Enquiry>>,
+  'getLICPlanById' : ActorMethod<[string], [] | [LICPlan]>,
   'getPlanById' : ActorMethod<[string], [] | [PlanEntry]>,
   'getPlans' : ActorMethod<[bigint], Array<PlanEntry>>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
-  'processJivanUtsavPoster' : ActorMethod<[ExternalBlob], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'submitEnquiry' : ActorMethod<
     [

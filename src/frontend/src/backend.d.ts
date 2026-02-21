@@ -20,6 +20,15 @@ export interface PlanEntry {
     metadata: PlanMetadata;
     poster: ExternalBlob;
 }
+export interface LICPlan {
+    id: string;
+    additionalInfo: string;
+    premiumDetails: string;
+    maturityDetails: string;
+    name: string;
+    description: string;
+    benefits: string;
+}
 export type Time = bigint;
 export interface StructuredPlan {
     result: string;
@@ -53,6 +62,7 @@ export enum ProductInterest {
     other = "other",
     unloadModifications = "unloadModifications",
     moduleSelector = "moduleSelector",
+    licPlan = "licPlan",
     groundworks = "groundworks",
     tailorMadeModules = "tailorMadeModules"
 }
@@ -64,14 +74,15 @@ export enum UserRole {
 export interface backendInterface {
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     createOrUpdatePlan(id: string, metadata: PlanMetadata, poster: ExternalBlob, structuredContent: StructuredPlan): Promise<void>;
+    getAllLICPlans(): Promise<Array<LICPlan>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getEnquiries(limit: bigint): Promise<Array<Enquiry>>;
+    getLICPlanById(id: string): Promise<LICPlan | null>;
     getPlanById(id: string): Promise<PlanEntry | null>;
     getPlans(limit: bigint): Promise<Array<PlanEntry>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
-    processJivanUtsavPoster(poster: ExternalBlob): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     submitEnquiry(name: string, phone: string | null, email: string, city: string | null, productInterest: ProductInterest | null, message: string): Promise<void>;
     updatePlan(id: string, metadata: PlanMetadata, poster: ExternalBlob, structuredContent: StructuredPlan): Promise<void>;

@@ -1,55 +1,87 @@
-import { useState } from 'react';
-import { FileImage, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { ExternalBlob } from '../../backend';
+import { ImageOff, Loader2 } from 'lucide-react';
 
 interface PlanPosterImageProps {
   poster: ExternalBlob;
   planTitle: string;
-  className?: string;
-  fallbackClassName?: string;
+  fallbackSrc?: string;
 }
 
-export function PlanPosterImage({ poster, planTitle, className = '', fallbackClassName = '' }: PlanPosterImageProps) {
+export function PlanPosterImage({ poster, planTitle, fallbackSrc }: PlanPosterImageProps) {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-  const imageUrl = poster.getDirectURL();
+  useEffect(() => {
+    // Reset states when poster changes
+    setIsLoading(true);
+    setHasError(false);
+    setImageUrl(null);
 
-  const handleLoad = () => {
+    try {
+      const url = poster.getDirectURL();
+      if (url && url.trim().length > 0) {
+        setImageUrl(url);
+      } else if (fallbackSrc) {
+        setImageUrl(fallbackSrc);
+      } else {
+        setHasError(true);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error('Error getting poster URL:', error);
+      if (fallbackSrc) {
+        setImageUrl(fallbackSrc);
+      } else {
+        setHasError(true);
+        setIsLoading(false);
+      }
+    }
+  }, [poster, fallbackSrc]);
+
+  const handleImageLoad = () => {
     setIsLoading(false);
     setHasError(false);
   };
 
-  const handleError = () => {
+  const handleImageError = () => {
     setIsLoading(false);
-    setHasError(true);
+    // If primary image fails and we have a fallback, try it
+    if (fallbackSrc && imageUrl !== fallbackSrc) {
+      setImageUrl(fallbackSrc);
+      setHasError(false);
+    } else {
+      setHasError(true);
+    }
   };
 
-  if (hasError) {
-    return (
-      <div className={`flex flex-col items-center justify-center bg-muted rounded-lg ${fallbackClassName}`}>
-        <FileImage className="h-12 w-12 text-muted-foreground/50 mb-2" />
-        <p className="text-xs text-muted-foreground text-center px-2">
-          Image unavailable
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className="relative">
+    <div className="relative w-full aspect-[3/4] bg-muted overflow-hidden">
       {isLoading && (
-        <div className={`absolute inset-0 flex items-center justify-center bg-muted rounded-lg ${fallbackClassName}`}>
-          <Loader2 className="h-8 w-8 text-muted-foreground animate-spin" />
+        <div className="absolute inset-0 flex items-center justify-center bg-muted">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       )}
-      <img
-        src={imageUrl}
-        alt={`${planTitle} poster`}
-        className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
-        onLoad={handleLoad}
-        onError={handleError}
-      />
+      
+      {hasError && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-muted text-muted-foreground p-4">
+          <ImageOff className="h-12 w-12 mb-2" />
+          <p className="text-sm text-center">Image unavailable</p>
+        </div>
+      )}
+      
+      {imageUrl && !hasError && (
+        <img
+          src={imageUrl}
+          alt={`${planTitle} poster`}
+          className={`w-full h-full object-cover transition-opacity duration-300 ${
+            isLoading ? 'opacity-0' : 'opacity-100'
+          }`}
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+        />
+      )}
     </div>
   );
 }
